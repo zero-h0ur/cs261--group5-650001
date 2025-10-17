@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUEvent</title>
+    <link rel="icon" type="image/x-icon" href="Resourse/TUEvent-Logo.png">
+    <link rel="stylesheet" href="css/searchpage.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+</head>
+
+<body>
+    <script src="search.js"></script>
+    <header></header>
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="logo"><a href="index.html">TU EVENT</a> </div>
+            <ul>
+                <li class="navbutton"><a href="index.html">หน้าหลัก</a></li>
+                <li class="navbutton">
+                    <a href="#">อีเว้นท์<i class="material-icons">keyboard_arrow_down</i></a>
+                    <ul class="dropdown">
+                        <a>ประเภทอีเว้นท์</a>
+                        <div class="dropdown_item">
+                            <li><a href="searchpage.html?scroll=Content">ทั้งหมด</a></li>
+                            <li><a href="#">ค่าย</a></li>
+                            <li><a href="#">กิจกรรม</a></li>
+                            <li><a href="#">ดนตรี</a></li>
+                            <li><a href="#">เทคโนโลยี</a></li>
+                            <li><a href="#">กีฬา</a></li>
+                            <li><a href="#">แข่งขัน</a></li>
+                            <li><a href="#">เวิร์คชอป</a></li>
+                            <li><a href="#">ศิลปะ</a></li>
+                            <li><a href="#">วิชาการ</a></li>
+                            <li><a href="#">การเงิน</a></li>
+                            <li><a href="#">ธุรกิจ</a></li>
+                        </div>
+                    </ul>
+                <li class="navbutton">
+                    <a href="#">สำหรับผู้จัด<i class="material-icons">keyboard_arrow_down</i></a>
+                    <ul class="dropdown">
+                        <a>สำหรับผู้จัด</a>
+                        <div class="dropdown_item">
+                            <li><a href="#">ยังไม่ต้องทำ</a></li>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+            <button><a href="#">เข้าสู่ระบบ/สมัครสมาชิก</a></button>
+        </div>
+    </nav>
+    <!-- Searchbar -->
+    <div class="Searchblock">
+        <img src="Resourse/Header.png" alt="TUEVENT" class="search-page-background-top" />
+        <div class="search-page-searchbar">
+            <div class="searchbar-rectangle"></div>
+            <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
+            <input type="text" class="search-input" placeholder="พิมพ์คำค้นหา..." />
+            <button class="search-button"><a href="searchpage.html?scroll=Content">ค้นหาเลย</a></button>
+        </div>
+        <img src="Resourse/png/Header-searchpage1.png" alt="Head" class="search-page-head" />
+        <img src="Resourse/png/Header-searchpage2.png" alt="Questionmark" class="search-page-questionmark" />
+    </div>
+
+    <!-- Container -->
+    <section>
+        <div class="Container_content" id="Content">
+            <div class="content-text">
+                <div class="search-page-text">
+                    <span class="search-page-text1">อีเว้นท์</span>
+                    <span class="search-page-text2">ทั้งหมด</span>
+                </div>
+            </div>
+            <div class="filterbar">
+                <!-- Catagories -->
+                <div class="Catagories">
+                    <div class="Catagories-item">
+                        <span class="Catagories-text1">ทุกหมวดหมู่</span>
+                    </div>
+                    <div class="Catagories-item">
+                        <span class="Catagories-text2">ดนตรี</span>
+                    </div>
+                    <div class="Catagories-item">
+                        <span class="Catagories-text3">แข่งขัน</span>
+                    </div>
+                    <div class="Catagories-item">
+                        <span class="Catagories-text4">วิชาการ</span>
+                    </div>
+                    <div class="Catagories-item">
+                        <span class="Catagories-text5">ค่าย</span>
+                    </div>
+
+                    <div class="catagories-dropdown-wrapper">
+                        <div class="catagories-dropdown-button" onclick="togglecatagoriesDropdown()">
+                            <i class="material-icons" id="Other-Catagories">keyboard_arrow_down</i>
+                            <div class="catagories-dropdown-list" id="catagoriesDropdownList">
+                                <ul class="catagories-dropdown-option">
+                                    <a>ประเภทอีเว้นท์</a>
+                                    <div class="dropdown_item">
+                                        <li><a href="searchpage.html?scroll=Content">ทั้งหมด</a></li>
+                                        <li><a href="#">ค่าย</a></li>
+                                        <li><a href="#">กิจกรรม</a></li>
+                                        <li><a href="#">ดนตรี</a></li>
+                                        <li><a href="#">เทคโนโลยี</a></li>
+                                        <li><a href="#">กีฬา</a></li>
+                                        <li><a href="#">แข่งขัน</a></li>
+                                        <li><a href="#">เวิร์คชอป</a></li>
+                                        <li><a href="#">ศิลปะ</a></li>
+                                        <li><a href="#">วิชาการ</a></li>
+                                        <li><a href="#">การเงิน</a></li>
+                                        <li><a href="#">ธุรกิจ</a></li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- filter -->
+                <div class="filter-dropdown-wrapper">
+                    <div class="Container_filter">
+                        <div class="filter-dropdown-button" onclick="toggleFilterDropdown()">
+                            <img src="Resourse/icon/filter.png" alt="filter" class="icon-filter" />
+                            <span class="filter-dropdown-text">ทั้งหมด</span>
+                            <i class="material-icons" alt="dropdown arrow">keyboard_arrow_down</i>
+                        </div>
+
+                        <div class="filter-dropdown-list" id="filterDropdownList">
+                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'ทั้งหมด')">
+                                <span>ทั้งหมด</span>
+                            </div>
+                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'วันนี้')">
+                                <span>วันนี้</span>
+                            </div>
+                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')">
+                                <span>สัปดาห์นี้</span>
+                            </div>
+                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'เดือนนี้')">
+                                <span>เดือนนี้</span>
+                            </div>
+                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'กำหนดเอง')">
+                                <span>กำหนดเอง</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- START: EW DATE PICKER -->
+            <div class="date-picker-container">
+                <form class="ew-date-search" onsubmit="event.preventDefault(); EWDate_onSubmit();">
+                    <div class="ew-date-group">
+                        <label for="ew-from" class="ew-label">ตั้งแต่วันที่</label>
+                        <div class="ew-input-wrap">
+                            <input id="ew-from" class="ew-input" name="fromDate" type="text" placeholder="03/10/2568" />
+                        </div>
+                    </div>
+
+                    <div class="ew-date-group">
+                        <label for="ew-to" class="ew-label">ถึงวันที่</label>
+                        <div class="ew-input-wrap">
+                            <input id="ew-to" class="ew-input" name="toDate" type="text" placeholder="10/10/2568" />
+                        </div>
+                    </div>
+
+                    <div class="ew-actions">
+                        <button type="submit" class="ew-btn" aria-label="ค้นหากิจกรรม">
+                            ค้นหาเลย
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- END: EW DATE PICKER -->
+        </div>
+        <div class="empty-state">
+            <img src="Resourse/icon/Icon_Search.png" alt="search icon" class="empty-icon"/>
+            <p class="empty-text">ไม่พบกิจกรรมที่ต้องการ</p>
+          </div>
+    </section>
+
+    <footer>
+        <img class="Footer-img" src="Resourse/Footer.png" alt="Footer">
+        <img class="Footer-tape" src="Resourse/png/Footer-tape.png" alt="Footertape">
+    </footer>
+
+</body>
+
+</html>
