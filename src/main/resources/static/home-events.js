@@ -80,30 +80,57 @@ console.log('[home-events] loaded');
     }));
   }
 
-  async function loadAll(){
+  async function loadAll() {
     const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
     if (!grid) return;
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#6b7280">กำลังโหลด…</div>`;
-    try{
+
+    // แสดงข้อความระหว่างโหลด
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;color:#6b7280">
+        กำลังโหลดกิจกรรม...
+      </div>`;
+    $('#homePagerAll').innerHTML = '';
+
+    try {
       const page = await fetchPage(ALL);
       const items = page?.content || [];
+
+      // 🔸 กรณีไม่พบข้อมูล
       if (!items.length) {
-        grid.innerHTML = ''; if (empty) empty.style.display = 'block'; $('#homePagerAll').innerHTML='';
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;color:#6b7280;
+                      font-size:20px;margin:40px 0;">
+            ไม่มีข้อมูลกิจกรรม
+          </div>`;
+        if (empty) empty.style.display = 'none';
+        $('#homePagerAll').innerHTML = '';
         return;
       }
+
+      // 🔸 กรณีปกติ
       if (empty) empty.style.display = 'none';
       grid.innerHTML = items.map(card).join('');
       renderPager(page);
-    } catch(e){
+
+    } catch (e) {
       console.error(e);
-      grid.innerHTML = `<div style="grid-column:1/-1;padding:12px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:8px;">โหลดอีเวนท์ทั้งหมดไม่สำเร็จ (${e.message})</div>`;
-      $('#homePagerAll').innerHTML='';
-      if (empty) empty.style.display='none';
+      // 🔸 แสดง Error State
+      grid.innerHTML = `
+        <div style="grid-column:1/-1;padding:16px;margin:40px auto;
+                    max-width:600px;text-align:center;
+                    border-radius:12px;background:#fee2e2;
+                    color:#991b1b;font-family:'Pridi';
+                    border:1px solid #fecaca;">
+          เกิดข้อผิดพลาดในการเชื่อมต่อ<br/>
+          กรุณาลองใหม่ภายหลัง
+        </div>`;
+      $('#homePagerAll').innerHTML = '';
+      if (empty) empty.style.display = 'none';
     }
   }
 
   // no-op helpers (กัน error จากปุ่มกรอง)
-  window.toggleFilterDropdown = function(){
+  /*window.toggleFilterDropdown = function(){
     const d = document.getElementById('filterDropdownList');
     const b = document.querySelector('.filter-dropdown-button');
     d?.classList.toggle('showFilter'); b?.classList.toggle('activeFilter');
@@ -120,7 +147,16 @@ console.log('[home-events] loaded');
     const b = document.querySelector('.catagories-dropdown-button');
     d?.classList.toggle('showCatagory'); b?.classList.toggle('activeCatagory');
   };
-  window.EWDate_onSubmit = function(){};
+  window.EWDate_onSubmit = function(){};*/
+  
+  if (!window.toggleFilterDropdown) {
+     window.toggleFilterDropdown = function(){
+       const d = document.getElementById('filterDropdownList');
+       const b = document.querySelector('.filter-dropdown-button');
+       d?.classList.toggle('showFilter');
+       b?.classList.toggle('activeFilter');
+     };
+   }
 
   document.addEventListener('DOMContentLoaded', ()=>{
     loadRecommend();
