@@ -16,7 +16,7 @@ public class Event {
 
     private String title;
     @Lob
-    @Column(name = "description", columnDefinition = "CLOB")
+    @Column(name = "description", length = 255)
     private String description;
 
     // เพิ่ม start_date และ end_date ตาม US4
@@ -37,7 +37,7 @@ public class Event {
     
     // เพิ่ม field ตาม US2
     @Lob
-    @Column(name = "detail", columnDefinition = "CLOB")
+    @Column(name = "detail", columnDefinition = "NVARCHAR(MAX)")
     private String detail;
     private String organizerContact;
     // US2 End
