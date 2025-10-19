@@ -1,19 +1,49 @@
 package com.example.tuevents.service;
 
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.time.LocalDate;
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record CreateEventRequest(
-        @NotBlank String title,
-        @NotBlank String description,
-        @NotNull  LocalDate startDate,
-        @NotNull  LocalDate endDate,
-        String time,                 // เช่น "09:00 - 16:00"
-        @NotBlank String location,
-        String organizer,            // ผู้จัด (optional)
-        String detail,               // รายละเอียดเชิงลึก (optional)
-        String organizerContact,     // ช่องทางติดต่อ (optional)
-        String imageUrl,             // URL รูป (optional)
-        @Min(1) Integer capacity,    // จำนวนที่นั่ง (optional)
-        @NotNull Long categoryId     // ผูกหมวดหมู่ด้วย id
+    @NotBlank 
+    String title,
+    
+    @NotBlank 
+    String description,
+    
+    String detail,
+
+    @NotNull 
+    @JsonAlias("categoryId")
+    Long categoryId,
+    
+    @Min(1) 
+    Integer capacity,
+
+    @NotNull 
+    @JsonFormat(pattern = "yyyy-MM-dd") 
+    @JsonAlias("startDate")
+    LocalDate startDate,
+    
+    @NotNull 
+    @JsonFormat(pattern = "yyyy-MM-dd") 
+    @JsonAlias("endDate")
+    LocalDate endDate,
+
+    @NotBlank 
+    String location,
+    
+    String organizer,
+    
+    @JsonAlias("organizerContact")
+    String organizerContact,
+    
+    @JsonAlias("imageUrl")
+    String imageUrl,
+    
+    String time
 ) {}

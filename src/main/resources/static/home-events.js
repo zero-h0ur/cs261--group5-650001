@@ -57,6 +57,7 @@ console.log('[home-events] loaded');
     }
   }
 
+/*
   // All + pager
   const ALL = { page:1, size:10, sort:'eventId', dir:'desc', totalPages:1 };
 
@@ -79,6 +80,7 @@ console.log('[home-events] loaded');
       const p = Number(el.dataset.page); if (p && p!==ALL.page) { ALL.page=p; loadAll(); }
     }));
   }
+*/
 
   async function loadAll() {
     const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
@@ -98,8 +100,7 @@ console.log('[home-events] loaded');
       // 🔸 กรณีไม่พบข้อมูล
       if (!items.length) {
         grid.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;color:#6b7280;
-                      font-size:20px;margin:40px 0;">
+          <div id="homenone-event">
             ไม่มีข้อมูลกิจกรรม
           </div>`;
         if (empty) empty.style.display = 'none';
