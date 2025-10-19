@@ -23,21 +23,6 @@ console.log('[home-events] loaded');
     if (!dt || isNaN(dt.getTime())) return '-';
     return dt.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
   }
-<<<<<<< HEAD
-
-  function card(ev) {
-    // รองรับทั้ง snake + camel
-    const id  = ev.event_id ?? ev.eventId ?? ev.id ?? '';
-    const img = ev.image_url ?? ev.imageUrl ?? ev.imageURL ?? 'Resourse/Poster/image 14.png';
-
-    // ดึงวันที่จาก snake ก่อน แล้วค่อย fallback มา camel
-    const s = ev.start_date ?? ev.startDate;
-    const e = ev.end_date   ?? ev.endDate;
-
-    const dateText = (s && e) ? `${fmtDate(s)} - ${fmtDate(e)}` : fmtDate(s || e);
-
- 
-=======
   function card(ev){
     const id   = ev.eventId ?? ev.id ?? '';
 	const img =
@@ -50,7 +35,6 @@ console.log('[home-events] loaded');
     const date = (ev.startDate && ev.endDate)
       ? `${fmtDate(ev.startDate)} - ${fmtDate(ev.endDate)}`
       : fmtDate(ev.startDate);
->>>>>>> 6d0ce80 (Fix bug)
     return `
       <div class="search-page-group">
         <a href="event-detail.html?id=${id}">
