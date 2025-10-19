@@ -35,7 +35,7 @@ console.log('[home-events] loaded');
 
     const dateText = (s && e) ? `${fmtDate(s)} - ${fmtDate(e)}` : fmtDate(s || e);
 
-    // ❌ ตัด category ออก: ไม่อ่าน/ไม่ render หมวดหมู่
+ 
     return `
       <div class="search-page-group">
         <a href="event-detail.html?id=${id}">
