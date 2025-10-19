@@ -84,34 +84,64 @@ console.log('[home-events] loaded');
     }
   }
 
+  // ไว้ด้านบนเหมือนเดิม
   const ALL = { page: 1, size: 10, sort: 'eventId', dir: 'desc', totalPages: 1 };
 
+  // ⬇️ แทนที่ฟังก์ชัน renderPager เดิมด้วยอันนี้
   function renderPager(page) {
     const wrap = $('#homePagerAll');
     if (!wrap) return;
 
+    // รองรับทั้ง camelCase และ snake_case
     const total = page.totalPages ?? page.total_pages ?? 1;
     ALL.totalPages = total;
 
     const cur = ALL.page, tot = ALL.totalPages;
+
+    // ใช้ template string และ flex จัดกลาง
     wrap.innerHTML = `
-      <i class="material-icons" id="HomePrev">keyboard_arrow_left</i>
-      ${[...Array(tot)].map((_, i) => `
-        <div class="page-dot" data-page="${i + 1}"
-             style="display:inline-flex;width:36px;height:36px;border-radius:50%;
-                    align-items:center;justify-content:center;
-                    ${i + 1 === cur ? 'background:#eda81f;color:#fff;' : 'border:1px solid #e5e7eb;'}">
-          ${i + 1}
-        </div>`).join('')}
-      <i class="material-icons" id="HomeNext">keyboard_arrow_right</i>
+      <div class="pagenumber"
+           style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+        <i class="material-icons" id="HomePrev" style="cursor:pointer">keyboard_arrow_left</i>
+        ${Array.from({ length: tot }, (_, i) => `
+          <div class="page-dot" data-page="${i + 1}"
+               style="
+                 display:flex;align-items:center;justify-content:center;
+                 width:${i + 1 === cur ? 35 : 30}px;height:${i + 1 === cur ? 35 : 30}px;
+                 border-radius:50%; margin:6px; transition:all .2s; cursor:pointer;
+                 font-family:Pridi, sans-serif; font-size:16px; font-weight:600;
+                 ${i + 1 === cur ? 'background:#F68121;color:#fff;' : 'background:#f8bb86;color:#000;'}
+               ">
+            ${i + 1}
+          </div>
+        `).join('')}
+        <i class="material-icons" id="HomeNext" style="cursor:pointer">keyboard_arrow_right</i>
+      </div>
+      <div class="page-info" id="pageInfo"
+           style="text-align:center;margin-top:10px;font-weight:500;
+                  font-family:Pridi, sans-serif;font-size:16px;color:#00000075;">
+      </div>
     `;
 
-    $('#HomePrev')?.addEventListener('click', () => {
+    // อัปเดตข้อความสถานะหน้า
+    const pageInfo = $('#pageInfo');
+    if (pageInfo) pageInfo.textContent = `หน้า ${ALL.page} จาก ${ALL.totalPages}`;
+
+    // ซ่อน/แสดงปุ่มซ้ายขวาตามขอบ
+    const prevBtn = $('#HomePrev');
+    const nextBtn = $('#HomeNext');
+    if (prevBtn) prevBtn.style.visibility = (ALL.page === 1) ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = (ALL.page === tot) ? 'hidden' : 'visible';
+
+    // คลิกเลื่อนหน้า
+    prevBtn?.addEventListener('click', () => {
       if (ALL.page > 1) { ALL.page--; loadAll(); }
     });
-    $('#HomeNext')?.addEventListener('click', () => {
+    nextBtn?.addEventListener('click', () => {
       if (ALL.page < tot) { ALL.page++; loadAll(); }
     });
+
+    // คลิกที่จุดเลขหน้า
     wrap.querySelectorAll('.page-dot').forEach(el =>
       el.addEventListener('click', () => {
         const p = Number(el.dataset.page);
@@ -119,6 +149,7 @@ console.log('[home-events] loaded');
       })
     );
   }
+
 
   async function loadAll() {
     const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
