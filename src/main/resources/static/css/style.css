@@ -803,10 +803,7 @@ section {
 /* Selectpage */
 .Selectpage {
     margin-top: 100px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
 }
 .Selectpage i {
   cursor: pointer;
@@ -852,24 +849,22 @@ section {
 }
 
 /* ลูกศร > */
-#Previous {
+#HomePrev {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     height: 25px;
     margin: 20px;
-    transform: rotate(90deg);
     cursor: pointer;
 }
-#Next {
+#HomeNext {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     height: 25px;
     margin: 20px;
-    transform: rotate(270deg);
     cursor: pointer;
 }
 .page-info {
@@ -880,7 +875,11 @@ section {
     font-size: 16px;
     color: #00000075;
 }
-
+.pagenumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /*Footer*/
 footer {
     position: relative;

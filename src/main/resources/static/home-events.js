@@ -2,11 +2,12 @@ console.log('[home-events] loaded');
 (function () {
   const $ = s => document.querySelector(s);
 
-  function fmtDate(d){
-    if(!d) return '-';
+  function fmtDate(d) {
+    if (!d) return '-';
     const dt = new Date(d);
-    return dt.toLocaleDateString('th-TH', { day:'2-digit', month:'short', year:'numeric' });
+    return dt.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
   }
+<<<<<<< HEAD
   function card(ev){
     const id   = ev.eventId ?? ev.id ?? '';
 	const img =
@@ -16,6 +17,11 @@ console.log('[home-events] loaded');
 	  || ev.image       // เผื่อกรณีชื่อฟิลด์อื่น
 	  || ev.imagePath
 	  || 'Resourse/Poster/image 14.png'; // fallback
+=======
+  function card(ev) {
+    const id = ev.eventId ?? ev.id ?? '';
+    const img = ev.imageUrl || ev.imageURL || 'Resourse/Poster/image 14.png';
+>>>>>>> 3515e4b (Updated Pagination on homepage)
     const date = (ev.startDate && ev.endDate)
       ? `${fmtDate(ev.startDate)} - ${fmtDate(ev.endDate)}`
       : fmtDate(ev.startDate);
@@ -38,114 +44,128 @@ console.log('[home-events] loaded');
       </div>`;
   }
 
-  async function fetchPage({page, size, sort, dir}) {
-    const p = new URLSearchParams({ page:String(page-1), limit:String(size), sort, dir });
-    const res = await fetch(`/api/events?${p}`, { headers:{Accept:'application/json'} });
+  async function fetchPage({ page, size, sort, dir }) {
+    const p = new URLSearchParams({ page: String(page - 1), limit: String(size), sort, dir });
+    const res = await fetch(`/api/events?${p}`, { headers: { Accept: 'application/json' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
 
   // Recommend
-  async function loadRecommend(){
+  async function loadRecommend() {
     const grid = $('#homeGridRec'), empty = $('#homeEmptyRec');
     if (!grid) return;
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#6b7280">กำลังโหลด…</div>`;
-    try{
-      const page = await fetchPage({ page:1, size:5, sort:'eventId', dir:'desc' });
+    try {
+      const page = await fetchPage({ page: 1, size: 5, sort: 'eventId', dir: 'desc' });
       const items = page?.content || [];
-      if (!items.length) { grid.innerHTML = ''; if (empty) empty.style.display='block'; return; }
-      if (empty) empty.style.display='none';
+      if (!items.length) { grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
+      if (empty) empty.style.display = 'none';
       grid.innerHTML = items.map(card).join('');
-    } catch(e){
+    } catch (e) {
       console.error(e);
       grid.innerHTML = `<div style="grid-column:1/-1;padding:12px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:8px;">โหลดส่วนแนะนำไม่สำเร็จ (${e.message})</div>`;
-      if (empty) empty.style.display='none';
+      if (empty) empty.style.display = 'none';
     }
   }
 
 
   // All + pager
-    const ALL = { page:1, size:10, sort:'eventId', dir:'desc', totalPages:1 };
+  const ALL = { page: 1, size: 10, sort: 'eventId', dir: 'desc', totalPages: 1 };
 
-    function renderPager(page){
-      const wrap = $('#homePagerAll'); 
-      if (!wrap) return;
+  function renderPager(page) {
+    const wrap = $('#homePagerAll');
 
-      // รองรับทั้ง camelCase และ snake_case
-      const total = page.totalPages ?? page.total_pages ?? 1;
-      ALL.totalPages = total;
+    if (!wrap) return;
 
-      const cur = ALL.page, tot = ALL.totalPages;
-      wrap.innerHTML = `
+    // รองรับทั้ง camelCase และ snake_case
+    const total = page.totalPages ?? page.total_pages ?? 1;
+    ALL.totalPages = total;
+
+    const cur = ALL.page, tot = ALL.totalPages;
+    wrap.innerHTML = `
+      <div class="pagenumber">
         <i class="material-icons" id="HomePrev">keyboard_arrow_left</i>
         ${[...Array(tot)].map((_, i) => `
-          <div class="page-dot" data-page="${i+1}"
-               style="display:inline-flex;width:36px;height:36px;border-radius:50%;
-                      align-items:center;justify-content:center;
-                      ${i+1===cur ? 'background:#eda81f;color:#fff;' : 'border:1px solid #e5e7eb;'}">
-            ${i+1}
+          
+          <div class="page-dot" data-page="${i + 1}"
+               style="display: flex;width:30px;height:30px;border-radius:50%;margin: 20px;transition: all 0.3s;cursor: pointer;
+                      align-items:center;justify-content:center;font-family: Pridi, sans-serif;font-size: 16px;font-weight: 600;
+                      ${i + 1 === cur ? 'background:#F68121;color:#fff;width:35px;height:35px;' : 'background:#f8bb86;color:#000000'}">
+            ${i + 1}
           </div>`).join('')}
-        <i class="material-icons" id="HomeNext">keyboard_arrow_right</i>
+          <i class="material-icons" id="HomeNext">keyboard_arrow_right</i>
+      </div>
+        <div class="page-info" id="pageInfo" style= "text-align: center;margin-top: 10px;font-weight: 500;font-family: Pridi, sans-serif;
+                                                     font-size: 16px;color: #00000075;">
+        </div>
       `;
+    const prevBtn = $('#HomePrev');
+    const nextBtn = $('#HomeNext');
 
-      $('#HomePrev')?.addEventListener('click', () => { 
-        if (ALL.page > 1){ ALL.page--; loadAll(); } 
-      });
-      $('#HomeNext')?.addEventListener('click', () => { 
-        if (ALL.page < tot){ ALL.page++; loadAll(); } 
-      });
-      wrap.querySelectorAll('.page-dot').forEach(el => 
-        el.addEventListener('click', () => {
-          const p = Number(el.dataset.page);
-          if (p && p !== ALL.page) { ALL.page = p; loadAll(); }
-        })
-      );
-    }
+    pageInfo.textContent = `หน้า ${ALL.page} จาก ${ALL.totalPages}`;
+
+    prevBtn.style.visibility = (ALL.page === 1) ? "hidden" : "visible";
+    nextBtn.style.visibility = (ALL.page === tot) ? "hidden" : "visible";
+    $('#HomePrev')?.addEventListener('click', () => {
+      if (ALL.page > 1) { ALL.page--; loadAll(); }
+    });
+    $('#HomeNext')?.addEventListener('click', () => {
+      if (ALL.page < tot) { ALL.page++; loadAll(); }
+    });
+    
+    wrap.querySelectorAll('.page-dot').forEach(el =>
+      el.addEventListener('click', () => {
+        const p = Number(el.dataset.page);
+        if (p && p !== ALL.page) { ALL.page = p; loadAll(); }
+      })
+    );
+  }
 
 
-    async function loadAll() {
-      const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
-      if (!grid) return;
+  async function loadAll() {
+    const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
+    if (!grid) return;
 
-      // แสดงข้อความระหว่างโหลด
-      grid.innerHTML = `
+    // แสดงข้อความระหว่างโหลด
+    grid.innerHTML = `
         <div style="grid-column:1/-1;text-align:center;color:#6b7280">
           กำลังโหลดกิจกรรม...
         </div>`;
-      $('#homePagerAll').innerHTML = '';
+    $('#homePagerAll').innerHTML = '';
 
-  	try {
-  	  const page = await fetchPage(ALL);
-  	  console.log('[pager]', {
-  	    currentPage: ALL.page,
-  	    returnedPageNum: page.number ?? page.pageable?.page_number,
-  	    totalPages: page.totalPages ?? page.total_pages,
-  	    size: ALL.size,
-  	    numberOfElements: page.numberOfElements ?? page.number_of_elements,
-  	    totalElements: page.totalElements ?? page.total_elements
-  	  });
-        const items = page?.content || [];
+    try {
+      const page = await fetchPage(ALL);
+      console.log('[pager]', {
+        currentPage: ALL.page,
+        returnedPageNum: page.number ?? page.pageable?.page_number,
+        totalPages: page.totalPages ?? page.total_pages,
+        size: ALL.size,
+        numberOfElements: page.numberOfElements ?? page.number_of_elements,
+        totalElements: page.totalElements ?? page.total_elements
+      });
+      const items = page?.content || [];
 
-        // 🔸 กรณีไม่พบข้อมูล
-        if (!items.length) {
-          grid.innerHTML = `
+      // 🔸 กรณีไม่พบข้อมูล
+      if (!items.length) {
+        grid.innerHTML = `
             <div id="homenone-event">
               ไม่มีข้อมูลกิจกรรม
             </div>`;
-          if (empty) empty.style.display = 'none';
-          $('#homePagerAll').innerHTML = '';
-          return;
-        }
-
-        // 🔸 กรณีปกติ
         if (empty) empty.style.display = 'none';
-        grid.innerHTML = items.map(card).join('');
-        renderPager(page);
+        $('#homePagerAll').innerHTML = '';
+        return;
+      }
 
-      } catch (e) {
-        console.error(e);
-        // 🔸 แสดง Error State
-        grid.innerHTML = `
+      // 🔸 กรณีปกติ
+      if (empty) empty.style.display = 'none';
+      grid.innerHTML = items.map(card).join('');
+      renderPager(page);
+
+    } catch (e) {
+      console.error(e);
+      // 🔸 แสดง Error State
+      grid.innerHTML = `
           <div style="grid-column:1/-1;padding:16px;margin:40px auto;
                       max-width:600px;text-align:center;
                       border-radius:12px;background:#fee2e2;
@@ -154,45 +174,45 @@ console.log('[home-events] loaded');
             เกิดข้อผิดพลาดในการเชื่อมต่อ<br/>
             กรุณาลองใหม่ภายหลัง
           </div>`;
-        $('#homePagerAll').innerHTML = '';
-        if (empty) empty.style.display = 'none';
-      }
+      $('#homePagerAll').innerHTML = '';
+      if (empty) empty.style.display = 'none';
     }
+  }
 
-    // no-op helpers (กัน error จากปุ่มกรอง)
-    /*window.toggleFilterDropdown = function(){
+  // no-op helpers (กัน error จากปุ่มกรอง)
+  /*window.toggleFilterDropdown = function(){
+    const d = document.getElementById('filterDropdownList');
+    const b = document.querySelector('.filter-dropdown-button');
+    d?.classList.toggle('showFilter'); b?.classList.toggle('activeFilter');
+  };
+  window.selectFilter = function(evt, option){
+    const t = document.querySelector('.filter-dropdown-text');
+    const d = document.getElementById('filterDropdownList');
+    const b = document.querySelector('.filter-dropdown-button');
+    if (t) t.textContent = option || 'ทั้งหมด';
+    d?.classList.remove('showFilter'); b?.classList.remove('activeFilter');
+  };
+  window.togglecatagoriesDropdown = function(){
+    const d = document.getElementById('catagoriesDropdownList');
+    const b = document.querySelector('.catagories-dropdown-button');
+    d?.classList.toggle('showCatagory'); b?.classList.toggle('activeCatagory');
+  };
+  window.EWDate_onSubmit = function(){};*/
+
+  if (!window.toggleFilterDropdown) {
+    window.toggleFilterDropdown = function () {
       const d = document.getElementById('filterDropdownList');
       const b = document.querySelector('.filter-dropdown-button');
-      d?.classList.toggle('showFilter'); b?.classList.toggle('activeFilter');
+      d?.classList.toggle('showFilter');
+      b?.classList.toggle('activeFilter');
     };
-    window.selectFilter = function(evt, option){
-      const t = document.querySelector('.filter-dropdown-text');
-      const d = document.getElementById('filterDropdownList');
-      const b = document.querySelector('.filter-dropdown-button');
-      if (t) t.textContent = option || 'ทั้งหมด';
-      d?.classList.remove('showFilter'); b?.classList.remove('activeFilter');
-    };
-    window.togglecatagoriesDropdown = function(){
-      const d = document.getElementById('catagoriesDropdownList');
-      const b = document.querySelector('.catagories-dropdown-button');
-      d?.classList.toggle('showCatagory'); b?.classList.toggle('activeCatagory');
-    };
-    window.EWDate_onSubmit = function(){};*/
-    
-    if (!window.toggleFilterDropdown) {
-       window.toggleFilterDropdown = function(){
-         const d = document.getElementById('filterDropdownList');
-         const b = document.querySelector('.filter-dropdown-button');
-         d?.classList.toggle('showFilter');
-         b?.classList.toggle('activeFilter');
-       };
-     }
+  }
 
-    document.addEventListener('DOMContentLoaded', ()=>{
-      loadRecommend();
-      loadAll();
-    });
-  })();
+  document.addEventListener('DOMContentLoaded', () => {
+    loadRecommend();
+    loadAll();
+  });
+})();
 
 
 // ---------- Pagination ----------
@@ -203,7 +223,7 @@ console.log('[home-events] loaded');
 - แสดงหน้า 10 หน้าต่อเลขหน้า
 - แสดงเลขหน้าเฉพาะ 3 ตัวแล้วเลื่อนโดยหน้าที่ปัจจุบันอยู่ตรงกลาง
 - เพิ่ม UI บอกข้อมูลว่าอยู่หน้าไหนมีทั้งหมดกี่หน้า
-*/
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const posters = document.querySelectorAll(".Poster .search-page-group");
@@ -270,3 +290,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   showPage(currentPage);
 });
+*/
