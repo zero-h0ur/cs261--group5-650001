@@ -1,36 +1,49 @@
 package com.example.tuevents.service;
 
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.time.LocalDate;
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record CreateEventRequest(
-        @NotBlank String title,
-        @NotBlank String description,
+    @NotBlank 
+    String title,
+    
+    @NotBlank 
+    String description,
+    
+    String detail,
 
-        @NotNull
-        @JsonFormat(pattern = "yyyy-MM-dd")
-        @JsonProperty("startDate")
-        LocalDate startDate,
+    @NotNull 
+    @JsonAlias("categoryId")
+    Long categoryId,
+    
+    @Min(1) 
+    Integer capacity,
 
-        @NotNull
-        @JsonFormat(pattern = "yyyy-MM-dd")
-        @JsonProperty("endDate")
-        LocalDate endDate,
+    @NotNull 
+    @JsonFormat(pattern = "yyyy-MM-dd") 
+    @JsonAlias("startDate")
+    LocalDate startDate,
+    
+    @NotNull 
+    @JsonFormat(pattern = "yyyy-MM-dd") 
+    @JsonAlias("endDate")
+    LocalDate endDate,
 
-        String time,
-
-        @NotBlank String location,
-
-        String organizer,
-        String detail,
-        String organizerContact,
-        String imageUrl,
-
-        @Min(1) Integer capacity,
-
-        @NotNull
-        @JsonProperty("categoryId")
-        Long categoryId
+    @NotBlank 
+    String location,
+    
+    String organizer,
+    
+    @JsonAlias("organizerContact")
+    String organizerContact,
+    
+    @JsonAlias("imageUrl")
+    String imageUrl,
+    
+    String time
 ) {}
