@@ -5,50 +5,55 @@ console.log('[home-events] loaded');
   // แปลง "YYYY-MM-DD" → Date แบบ local-safe (กัน Safari/บางเบราว์เซอร์พัง)
   function parseISODateLocal(s) {
     if (!s || typeof s !== 'string') return null;
-    // รูปแบบที่ API ส่งมา: "2025-12-15"
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
     if (!m) {
-      // ถ้าไม่ใช่รูปแบบนี้ ค่อย fallback ใช้ Date ปกติ
       const d = new Date(s);
       return isNaN(d.getTime()) ? null : d;
     }
-    const [, y, mo, d] = m.map(Number);
-    // สร้าง Date แบบ local timezone (ไม่ใช่ UTC)
-    return new Date(y, mo - 1, d);
+    const [, y, mo, d] = m.map(Number); // ข้าม index 0 (ทั้งสตริงที่แมตช์)
+    return new Date(y, mo - 1, d); // Local time
   }
 
   function fmtDate(d) {
     if (!d) return '-';
-    let dt = d instanceof Date ? d : parseISODateLocal(d);  // ใช้ parse แบบปลอดภัย
+    const dt = d instanceof Date ? d : parseISODateLocal(d);
     if (!dt || isNaN(dt.getTime())) return '-';
     return dt.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
   }
-  function card(ev){
-    const id   = ev.eventId ?? ev.id ?? '';
-	const img =
-	  ev.imageUrl       // camelCase
-	  || ev.imageURL    // Pascal-ish
-	  || ev.image_url   // <-- รองรับ snake_case จาก API
-	  || ev.image       // เผื่อกรณีชื่อฟิลด์อื่น
-	  || ev.imagePath
-	  || 'Resourse/Poster/image 14.png'; // fallback
-    const date = (ev.startDate && ev.endDate)
-      ? `${fmtDate(ev.startDate)} - ${fmtDate(ev.endDate)}`
-      : fmtDate(ev.startDate);
+
+  // ช่วยดึงค่าโดยรองรับหลายชื่อฟิลด์
+  const pick = (...xs) => xs.find(v => v !== undefined && v !== null && v !== '');
+
+  function card(ev) {
+    const id = pick(ev.eventId, ev.event_id, ev.id, '');
+    const img = pick(
+      ev.imageUrl, ev.imageURL, ev.image_url, ev.image, ev.imagePath,
+      'Resourse/Poster/image 14.png'
+    );
+
+    const start = pick(ev.startDate, ev.start_date, ev.start, ev.dateStart);
+    const end   = pick(ev.endDate, ev.end_date, ev.end, ev.dateEnd);
+
+    const date = (start && end) ? `${fmtDate(start)} - ${fmtDate(end)}` : fmtDate(start);
+
+    const timeText = pick(ev.time, ev.startTime, ev.start_time, '-');
+    const title = pick(ev.title, '(ไม่มีชื่อกิจกรรม)');
+    const location = pick(ev.location, '-');
+
     return `
       <div class="search-page-group">
-        <a href="event-detail.html?id=${id}">
+        <a href="event-detail.html?id=${encodeURIComponent(String(id))}">
           <img src="${img}" alt="Poster" class="search-page-Poster"
                onerror="this.src='Resourse/Poster/image 14.png'"/>
-          <span class="search-page-date">${dateText}</span>
+          <span class="search-page-date">${date}</span>
           <div class="search-page-time">
             <img src="Resourse/icon/clock.png" alt="clock" class="clock"/>
-            <span class="search-page-clock">${ev.time ?? '-'}</span>
+            <span class="search-page-clock">${timeText}</span>
           </div>
-          <span class="search-page-name">${ev.title ?? '(ไม่มีชื่อกิจกรรม)'}</span>
+          <span class="search-page-name">${title}</span>
           <div class="search-page-place">
             <img src="Resourse/icon/pin.png" alt="pin" class="pin"/>
-            <span class="search-page-pin">${ev.location ?? '-'}</span>
+            <span class="search-page-pin">${location}</span>
           </div>
           <button class="register-btn">ลงทะเบียน</button>
         </a>
