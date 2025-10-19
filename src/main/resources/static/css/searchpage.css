@@ -845,3 +845,10 @@ footer {
     bottom: 25%;
     width: 10%;
 }
+
+.highlight {
+  background-color: yellow;
+  font-weight: bold;
+  padding: 0 2px;
+  border-radius: 2px;
+}

@@ -373,3 +373,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
   showPage(currentPage);
 });
+
+function search() {
+  const keyword = document.getElementById('searchInput').value.trim();
+
+  // ✅ ถ้ายังไม่มี q ใน URL -> ให้ Redirect พร้อม keyword
+  if (!location.search.includes('q=')) {
+    window.location.href = 'searchpage.html?scroll=Content&q=' + encodeURIComponent(keyword);
+    return;
+  }
+  // ✅ ถ้ามี q แล้ว -> ให้ทำไฮไลท์
+  highlightKeyword(keyword);
+  goToContent();
+}
+
+function highlightKeyword(keyword) {
+  const results = document.querySelectorAll('#results .search-page-group');
+
+  results.forEach(item => {
+    const title = item.querySelector('.search-page-name');
+
+    // รีเซ็ตข้อความก่อนเน้นคำ
+    title.innerHTML = title.textContent;
+
+    if (keyword) {
+      const regex = new RegExp(`(${keyword})`, 'gi');
+      title.innerHTML = title.textContent.replace(regex, '<span class="highlight">$1</span>');
+    }
+  });
+}
+
+function goToContent() {
+  const content = document.getElementById('Content');
+  if (content) {
+    content.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+
+// ✅ ให้ทำงานเมื่อโหลดหน้า ถ้ามี ?q= อยู่ใน URL
+window.addEventListener('load', () => {
+  const urlQ = new URL(location.href).searchParams.get('q');
+  if (urlQ) {
+    document.getElementById('searchInput').value = urlQ;
+    highlightKeyword(urlQ);
+  }
+});

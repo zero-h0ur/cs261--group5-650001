@@ -11,7 +11,6 @@
 
 <body>
   <script src="search.js"></script>
-
   <header></header>
   <nav class="navbar">
     <div class="navdiv">
@@ -58,8 +57,10 @@
     <div class="search-page-searchbar">
       <div class="searchbar-rectangle"></div>
       <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
-      <input type="text" class="search-input" placeholder="พิมพ์คำค้นหา..." />
-      <button class="search-button"><a href="searchpage.html?scroll=Content">ค้นหาเลย</a></button>
+      <input type="text" class="search-input" id="searchInput" placeholder="พิมพ์คำค้นหา..." />
+            <button class="search-button" onclick="search()">
+                ค้นหาเลย
+            </button>
     </div>
     <img src="Resourse/png/Headmain.png" alt="Headwithhand" class="Headwithhand" />
     <img src="Resourse/png/Birdmain.png" alt="Bird" class="Birdmain" />

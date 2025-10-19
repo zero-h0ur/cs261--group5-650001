@@ -58,10 +58,11 @@
         <div class="search-page-searchbar">
             <div class="searchbar-rectangle"></div>
             <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
-            <input type="text" class="search-input" placeholder="พิมพ์คำค้นหา..." />
-            <button class="search-button">
-                <a href="searchpage.html?scroll=Content">ค้นหาเลย</a>
+            <input type="text" class="search-input" id="searchInput" placeholder="พิมพ์คำค้นหา..." />
+            <button class="search-button" onclick="search()">
+                ค้นหาเลย
             </button>
+
         </div>
         <img src="Resourse/png/Header-searchpage1.png" alt="Head" class="search-page-head" />
         <img src="Resourse/png/Header-searchpage2.png" alt="Questionmark" class="search-page-questionmark" />
@@ -180,7 +181,7 @@
         </div>
 
         <!-- Poster อีเว้นท์ -->
-        <div class="Poster_container">
+        <div id="results" class="Poster_container">
             <div class="Poster">
                 <div class="search-page-group">
                     <a href="event-detail.html">
