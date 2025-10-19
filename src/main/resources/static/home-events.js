@@ -57,6 +57,7 @@ console.log('[home-events] loaded');
     }
   }
 
+/*
   // All + pager
   const ALL = { page:1, size:10, sort:'eventId', dir:'desc', totalPages:1 };
 
@@ -79,6 +80,7 @@ console.log('[home-events] loaded');
       const p = Number(el.dataset.page); if (p && p!==ALL.page) { ALL.page=p; loadAll(); }
     }));
   }
+*/
 
   async function loadAll() {
     const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
