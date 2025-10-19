@@ -296,6 +296,11 @@ section {
 }
 
 /*Poster*/
+.homeRec {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 .PosterRecommend {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 คอลัมน์ */
@@ -305,9 +310,18 @@ section {
     place-items: center;
     margin-top: 350px;
     width: 100%;
+	overflow: hidden;
+}
+
+#homeEmptyRec {
+	font-size: 24px;
+	color: #00000075;
+	font-family: Pridi;
+	font-style: normal;
 }
 .Poster {
     display: grid;
+	place-content: center;
     grid-template-columns: repeat(5, 1fr); /* 5 คอลัมน์ */
     gap: 20px; /*ช่องว่างระหว่างคอลัมน์ */
     row-gap: 50px;
@@ -316,8 +330,16 @@ section {
     place-items: center;
     margin-top: 50px;
     width: 100%;
+	overflow: hidden;
 }
-
+#homenone-event {
+	font-size: 24px;
+	color: #00000075;
+	font-family: Pridi;
+	font-style: normal;
+	grid-column: 1 / -1;
+	margin-top: 150px;
+}
 /* พื้นหลังโปสเตอร์ด้านบน */
 .search-page-Poster {
     width: 247px;
@@ -427,6 +449,7 @@ section {
 /*Middle*/
 .Middle {
     position: relative;
+	overflow: hidden;
 }
 .Middle-img {
     width: 100%;
@@ -437,6 +460,7 @@ section {
 .Container_content2 {
     display: block;
     position: relative;
+	overflow: hidden;
 }
 .search-page-contenttext2 {
     font-family: "Pridi";

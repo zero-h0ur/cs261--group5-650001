@@ -98,8 +98,7 @@ console.log('[home-events] loaded');
       // 🔸 กรณีไม่พบข้อมูล
       if (!items.length) {
         grid.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;color:#6b7280;
-                      font-size:20px;margin:40px 0;">
+          <div id="homenone-event">
             ไม่มีข้อมูลกิจกรรม
           </div>`;
         if (empty) empty.style.display = 'none';
