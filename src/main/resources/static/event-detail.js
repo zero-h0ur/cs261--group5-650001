@@ -86,11 +86,17 @@
 			setText('#evt-detail', ev.detail || ev.description || '-');
 
 
-			const img = $('#evt-poster');
+			const img = document.querySelector('#evt-poster');
 			if (img) {
-				img.src = ev.imageUrl || ev.imageURL || 'Resourse/Poster/image 14.png';
-				img.alt = ev.title || 'poster';
-				img.onerror = () => { img.src = 'Resourse/Poster/image 14.png'; };
+			  const src =
+			    ev.imageUrl   ||  // camelCase
+			    ev.imageURL   ||  // เผื่อมีตัวสะกดนี้
+			    ev.image_url  ||  // snake_case ที่ API ส่งมา
+			    'Resourse/Poster/image 14.png'; // fallback
+
+			  img.src = src;
+			  img.alt = ev.title || 'poster';
+			  img.onerror = () => { img.src = 'Resourse/Poster/image 14.png'; };
 			}
 
 

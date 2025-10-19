@@ -9,7 +9,13 @@ console.log('[home-events] loaded');
   }
   function card(ev){
     const id   = ev.eventId ?? ev.id ?? '';
-    const img  = ev.imageUrl || ev.imageURL || 'Resourse/Poster/image 14.png';
+	const img =
+	  ev.imageUrl       // camelCase
+	  || ev.imageURL    // Pascal-ish
+	  || ev.image_url   // <-- รองรับ snake_case จาก API
+	  || ev.image       // เผื่อกรณีชื่อฟิลด์อื่น
+	  || ev.imagePath
+	  || 'Resourse/Poster/image 14.png'; // fallback
     const date = (ev.startDate && ev.endDate)
       ? `${fmtDate(ev.startDate)} - ${fmtDate(ev.endDate)}`
       : fmtDate(ev.startDate);
