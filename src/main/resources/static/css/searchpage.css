@@ -726,17 +726,38 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
-.search-page-group32 {
-    width: 35px;
-    height: 35px;
+.Selectpage i {
+  cursor: pointer;
+  font-size: 28px;
+  transition: color 0.3s;
+}
+.Selectpage i:hover {
+  color: #F68121;
+}
+#pageNumbers {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;   
 }
-
-.search-page-ellipse8 {
+.Selectpage .page-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f8bb86; /* ส้มอ่อน */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Pridi, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    margin: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.Selectpage .page-number.active {
     width: 35px;
     height: 35px;
     border-radius: 50%;
@@ -747,55 +768,7 @@ section {
     font-family: Pridi, sans-serif;
     font-size: 16px;
     font-weight: 600;
-    color: #000;
-}
-
-/* วงกลม 2 */
-.search-page-group33 {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-}
-
-.search-page-ellipse9 {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #f8bb86; /* ส้มอ่อน */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Pridi, sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #000;
-}
-
-/* วงกลม 3 */
-.search-page-group34 {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-}
-
-.search-page-ellipse10 {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #f8bb86; /* ส้มอ่อน */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Pridi, sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #000;
+    color: #ffffff;
 }
 
 /* ลูกศร > */
@@ -818,6 +791,14 @@ section {
     margin: 20px;
     transform: rotate(270deg);
     cursor: pointer;
+}
+.page-info {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    font-family: Pridi, sans-serif;
+    font-size: 16px;
+    color: #00000075;
 }
 
 /*404 page*/

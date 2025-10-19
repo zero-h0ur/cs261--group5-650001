@@ -163,3 +163,80 @@ console.log('[home-events] loaded');
     loadAll();
   });
 })();
+
+
+// ---------- Pagination ----------
+
+/* 
+การทำงานที่นี่เพิ่มมามี 
+- ตัวปุ่มหน้าแรกกับหน้าสุดท้าย visible 
+- แสดงหน้า 10 หน้าต่อเลขหน้า
+- แสดงเลขหน้าเฉพาะ 3 ตัวแล้วเลื่อนโดยหน้าที่ปัจจุบันอยู่ตรงกลาง
+- เพิ่ม UI บอกข้อมูลว่าอยู่หน้าไหนมีทั้งหมดกี่หน้า
+*/
+
+document.addEventListener("DOMContentLoaded", () => {
+  const posters = document.querySelectorAll(".Poster .search-page-group");
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(posters.length / itemsPerPage);
+  let currentPage = 1;
+
+  const prevBtn = document.getElementById("Previous");
+  const nextBtn = document.getElementById("Next");
+  const pageContainer = document.getElementById("pageNumbers");
+
+  function renderPageButtons() {
+    pageContainer.innerHTML = "";
+    let start = Math.max(1, currentPage - 1);
+    let end = Math.min(totalPages, start + 2);
+
+    // ถ้าอยู่ท้ายสุดให้เลื่อนช่วงเลขกลับ
+    if (end - start < 2) {
+      start = Math.max(1, end - 2);
+    }
+    for (let i = start; i <= end; i++) {
+      const num = document.createElement("div");
+      num.classList.add("page-number");
+      num.textContent = i;
+      if (i === currentPage) num.classList.add("active");
+      num.addEventListener("click", () => {
+        currentPage = i;
+        showPage(currentPage);
+      });
+      pageContainer.appendChild(num);
+    }
+  }
+
+  function showPage(page) {
+    posters.forEach((poster, i) => {
+      poster.style.display = (i >= (page - 1) * itemsPerPage && i < page * itemsPerPage)
+        ? "block"
+        : "none";
+    });
+    renderPageButtons();
+    pageInfo.textContent = `หน้า ${page} จาก ${totalPages}`;
+
+    prevBtn.style.visibility = (page === 1) ? "hidden" : "visible";
+    nextBtn.style.visibility = (page === totalPages) ? "hidden" : "visible";
+
+    pageNumbers.forEach((num, i) => {
+      num.classList.toggle("active", i + 1 === page);
+    });
+  }
+
+  prevBtn.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      showPage(currentPage);
+    }
+  });
+
+  nextBtn.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      showPage(currentPage);
+    }
+  });
+
+  showPage(currentPage);
+});
