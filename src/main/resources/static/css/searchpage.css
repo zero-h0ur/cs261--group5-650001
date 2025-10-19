@@ -640,6 +640,9 @@ section {
     z-index: 1;
     transition: .2s all;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 .search-page-group:hover {
     transform: scale(1.02);
@@ -652,6 +655,9 @@ section {
     font-weight: 500;
     color: #000;
     margin-left: 14px;
+    white-space: nowrap;       
+    overflow: hidden;          
+    
 }
 
 /* วันที่ */
@@ -696,6 +702,9 @@ section {
     font-size: 16px;
     color: rgba(0, 0, 0, 0.5);
     font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 
 /* ปุ่มลงทะเบียน */
