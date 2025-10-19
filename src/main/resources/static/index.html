@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TUEvent</title>
-  <link rel="icon" type="image/x-icon" th:href="images/TUevent-Logo.png" />
+  <link rel="icon" type="image/x-icon" href="Resourse/TUevent-Logo.png" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 </head>
@@ -75,11 +76,11 @@
         <span class="search-page-text2">สำหรับคุณ</span>
       </div>
 
- 	<div class="homeRec">
-		<div id="homeGridRec" class="PosterRecommend"></div>
-		<div id="homeEmptyRec">ยังไม่มีอีเวนท์แนะนำ</div>
-	</div>
-      
+      <div class="homeRec">
+        <div id="homeGridRec" class="PosterRecommend"></div>
+        <div id="homeEmptyRec">ยังไม่มีอีเวนท์แนะนำ</div>
+      </div>
+
     </div>
 
 
@@ -90,7 +91,7 @@
       <img class="Middle-img" src="Resourse/Middle.png" alt="Middle" />
     </div>
 
-   
+
     <div class="Container_content2" id="Content2">
       <div class="search-page-contenttext2">
         <span class="search-page-text1">อีเว้นท์</span>
@@ -98,7 +99,7 @@
       </div>
 
       <div class="filterbar">
-   
+
         <div class="Catagories">
           <div class="Catagories-item"><span class="Catagories-text1">ทุกหมวดหมู่</span></div>
           <div class="Catagories-item"><span class="Catagories-text2">ดนตรี</span></div>
@@ -144,7 +145,8 @@
             <div class="filter-dropdown-list" id="filterDropdownList">
               <div class="filter-dropdown-option" onclick="selectFilter(event, 'ทั้งหมด')"><span>ทั้งหมด</span></div>
               <div class="filter-dropdown-option" onclick="selectFilter(event, 'วันนี้')"><span>วันนี้</span></div>
-              <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')"><span>สัปดาห์นี้</span></div>
+              <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')"><span>สัปดาห์นี้</span>
+              </div>
               <div class="filter-dropdown-option" onclick="selectFilter(event, 'เดือนนี้')"><span>เดือนนี้</span></div>
               <div class="filter-dropdown-option" onclick="selectFilter(event, 'กำหนดเอง')"><span>กำหนดเอง</span></div>
             </div>
@@ -193,4 +195,5 @@
   <script src="/home-events.js?v=1" defer></script>
   <script src="/search.js" defer></script>
 </body>
+
 </html>

@@ -275,26 +275,32 @@ section {
     margin-top: 500px;
 }
 .Container_content1 {
-    display: flex;
-    justify-content: center;
+    display: block;
+    position: relative;
 }
 
 .search-page-contenttext1 {
     font-family: "Pridi";
     font-size: 40px;
     font-weight: 600;
-    position: absolute;
     display: flex;
-    margin-top: 150px;
+    justify-content: center;
     height: inherit;
 }
 .search-page-text1 {
+    margin-top: 150px;
     color: #000;
 }
 .search-page-text2 {
+    margin-top: 150px;
     color: #F68121;
 }
-
+.search-page-contenttext2 .search-page-text1 {
+    margin-top: 0;
+}
+.search-page-contenttext2 .search-page-text2 {
+    margin-top: 0;
+}
 /*Poster*/
 .homeRec {
 	display: flex;
@@ -308,9 +314,8 @@ section {
     padding: 0 100px;
     box-sizing: border-box; /* ป้องกัน padding กระทบ layout */
     place-items: center;
-    margin-top: 350px;
+    margin-top: 150px;
     width: 100%;
-	overflow: hidden;
 }
 
 #homeEmptyRec {
@@ -330,7 +335,6 @@ section {
     place-items: center;
     margin-top: 50px;
     width: 100%;
-	overflow: hidden;
 }
 #homenone-event {
 	font-size: 24px;
@@ -354,7 +358,6 @@ section {
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     font-family: "Pridi", sans-serif;
-    z-index: 1;
     transition: .2s all;
     cursor: pointer;
     overflow: hidden;
@@ -460,7 +463,6 @@ section {
 .Container_content2 {
     display: block;
     position: relative;
-	overflow: hidden;
 }
 .search-page-contenttext2 {
     font-family: "Pridi";

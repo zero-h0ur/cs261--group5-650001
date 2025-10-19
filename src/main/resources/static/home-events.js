@@ -57,30 +57,10 @@ console.log('[home-events] loaded');
     }
   }
 
-/*
+
   // All + pager
   const ALL = { page:1, size:10, sort:'eventId', dir:'desc', totalPages:1 };
 
-  function renderPager(page){
-    const wrap = $('#homePagerAll'); if (!wrap) return;
-    ALL.totalPages = page.totalPages ?? 1;
-    const cur = ALL.page, tot = ALL.totalPages;
-    wrap.innerHTML = `
-      <i class="material-icons" id="HomePrev">keyboard_arrow_left</i>
-      ${[...Array(tot)].map((_,i)=>`
-        <div class="page-dot" data-page="${i+1}" style="display:inline-flex;width:36px;height:36px;border-radius:50%;
-             align-items:center;justify-content:center;${i+1===cur?'background:#111827;color:#fff;':'border:1px solid #e5e7eb;'}">
-          ${i+1}
-        </div>`).join('')}
-      <i class="material-icons" id="HomeNext">keyboard_arrow_right</i>
-    `;
-    $('#HomePrev')?.addEventListener('click', () => { if (ALL.page>1){ ALL.page--; loadAll(); } });
-    $('#HomeNext')?.addEventListener('click', () => { if (ALL.page<tot){ ALL.page++; loadAll(); } });
-    wrap.querySelectorAll('.page-dot').forEach(el => el.addEventListener('click', () => {
-      const p = Number(el.dataset.page); if (p && p!==ALL.page) { ALL.page=p; loadAll(); }
-    }));
-  }
-*/
 
   async function loadAll() {
     const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
