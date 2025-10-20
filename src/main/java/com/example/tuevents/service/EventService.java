@@ -3,6 +3,7 @@ package com.example.tuevents.service;
 import com.example.tuevents.model.Event;
 import com.example.tuevents.model.Category;
 import com.example.tuevents.repo.EventRepository;
+import com.example.tuevents.web.BadIdFormatException;
 import com.example.tuevents.repo.CategoryRepository;
 
 import org.springframework.data.domain.*;
@@ -74,6 +75,19 @@ public class EventService {
     public EventDetailDTO getById(Long id) {
         Event e = repo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found"));
+        return EventDetailDTO.from(e);
+    }
+    
+    public EventDetailDTO getPublicById(String idStr) {
+        if (idStr == null || !idStr.matches("^\\d+$")) {
+            throw new BadIdFormatException("id ต้องเป็นเลขจำนวนเต็มบวก");
+        }
+        Long id = Long.parseLong(idStr);
+
+        Event e = repo.findByEventIdAndActiveTrue(id)
+                // รวมเคส "ไม่พบ" และ "พบแต่ inactive" เป็น 404 เดียว
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ไม่พบกิจกรรม"));
+
         return EventDetailDTO.from(e);
     }
 

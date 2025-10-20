@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 public interface EventRepository  extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
     Page<Event> findAllByCategory_CategoryId(Long categoryId, Pageable pageable);
@@ -43,5 +44,7 @@ public interface EventRepository  extends JpaRepository<Event, Long>, JpaSpecifi
       Page<Event> findByDateRangeWithin(@Param("start") Date start,
                                         @Param("end")   Date end,
                                         Pageable pageable);
+     
+     Optional<Event> findByEventIdAndActiveTrue(Long eventId);	
 
 }

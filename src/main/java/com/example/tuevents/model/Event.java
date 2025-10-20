@@ -47,6 +47,18 @@ public class Event {
     @JoinColumn(name = "category_id")
     private Category category;
     
+    @Column(name = "active", nullable = false)
+    private boolean active = true;  // ใหม่: ค่าเริ่มต้น true
+    
+    @PrePersist
+    public void prePersist() {
+        // set defaults เดิม...
+        if (organizerContact == null) organizerContact = "";
+        if (detail == null) detail = "";
+        if (imageUrl == null) imageUrl = "";
+        // active true โดยค่าเริ่มต้น
+    }
+    
     public Event() {}
     
     public Event(String title, String description, Date startDate, Date endDate, String time,
@@ -113,4 +125,7 @@ public class Event {
 
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
+    
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

@@ -38,10 +38,10 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public EventDetailDTO getOne(@PathVariable Long id) {
-        return service.getById(id);
+    public EventDetailDTO getOne(@PathVariable String id) {
+        return service.getPublicById(id);
     }
-
+    
     @GetMapping("/range")
     public Page<Event> findByRange(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
