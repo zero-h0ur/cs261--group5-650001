@@ -1,0 +1,1188 @@
+@import url('https://fonts.googleapis.com/css2?family=Pridi:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    background: #FAFAFA;
+}
+/*Header*/
+
+header {
+    max-width: 100%;
+    height: 39px;
+    background: #E64D4F;
+    border-bottom: 8px solid #F68121;
+}
+
+/*Navbar*/
+.navbar {
+    margin: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navdiv {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+    border-radius: 32px;
+    width: 1294px;
+    height: 76px;
+    background: #E64D4F;
+    border: 2px solid #F68121;
+    border-bottom: 8px solid #F68121;
+
+}
+
+.logo {
+    font-family: "Modak";
+    font-size: 40px;
+    font-weight: 200;
+    list-style: none;
+    margin-left: 15px;
+    margin-right: 50px;
+    text-shadow: 0px 4px 4px #00000025;
+}
+
+.logo a {
+    color: #FFFFFF;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-family: "Pridi";
+    font-size: 24px;
+    list-style: none;
+}
+
+.navbutton {
+    width: 160px;
+    height: 50px;
+    margin: 30px;
+    text-align: center;
+    align-content: center;
+    text-decoration: none;
+    border-radius: 24px;
+    cursor: pointer;
+    position: relative;
+    transition: .2s all;
+}
+
+.navbutton:hover {
+    background: #F68121;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.navbutton:hover .material-icons {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+} 
+
+.navbutton a {
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.material-icons {
+    margin-left: 5px;
+    transition: .2s all;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    transition: .2s all;
+}
+
+.dropdown a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.dropdown_item {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 10px;
+}
+
+.dropdown li a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+}
+
+.dropdown li a:hover {
+    background-color: #00000025;
+    color: #e94f46;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+}
+
+.navbutton:hover .dropdown {
+    display: block;
+}
+
+button {
+    width: 242px;
+    height: 50px;
+    margin-left: 50px;
+    border-radius: 20px;
+    border: none;
+    background-color: #2F2F2F;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+button a {
+    font-family: "Pridi";
+    font-size: 20px;
+    font-weight: 300;
+    color: #FFFFFF;
+}
+
+/*Search block*/
+.search-page-background-top {
+    top: 0px;
+    width: 100%;
+    height: 1014px;
+    position: absolute;
+    z-index: -2;
+}
+
+.search-page-searchbar {
+    position: absolute;
+    margin-top: 87px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 760px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 50px;
+    border-bottom: 8px solid #2F2F2F;
+
+}
+
+/* วงรีพื้นหลังสีขาว */
+.searchbar-rectangle {
+    position: absolute;
+    width: 760px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50px;
+
+}
+
+/* ไอคอนค้นหา */
+.icon-search {
+    position: absolute;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+
+}
+
+/* ช่องกรอกข้อความ */
+.search-input {
+    position: absolute;
+    left: 65px;
+    width: 520px;
+    height: 35px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    font-family: "Pridi", sans-serif;
+    font-weight: 300;
+    background: transparent;
+    color: #000;
+
+}
+
+/* ปุ่มค้นหาเลย*/
+.search-button {
+    position: absolute;
+    right: 10px;
+    width: 127px;
+    height: 45px;
+    background-color: #F68121;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    font-size: 18px;
+    font-family: "Pridi", serif;
+    font-weight: 500;
+    text-align: center;
+    line-height: 45px;
+    cursor: pointer;    
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: #e36f11;
+}
+
+.Headwithhand {
+    position: absolute;
+    height: auto;
+    width: 400px;
+    left: 0;
+    top: 35%;
+}
+.Birdmain {
+    position: absolute;
+    height: auto;
+    width: 350px;
+    right: 10%;
+    top: 50%;
+}
+/*Content*/
+section {
+    width: 100%;
+    margin-top: 500px;
+}
+.Container_content1 {
+    display: block;
+    position: relative;
+}
+
+.search-page-contenttext1 {
+    font-family: "Pridi";
+    font-size: 40px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    height: inherit;
+}
+.search-page-text1 {
+    margin-top: 150px;
+    color: #000;
+}
+.search-page-text2 {
+    margin-top: 150px;
+    color: #F68121;
+}
+.search-page-contenttext2 .search-page-text1 {
+    margin-top: 0;
+}
+.search-page-contenttext2 .search-page-text2 {
+    margin-top: 0;
+}
+/*Poster*/
+.homeRec {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.PosterRecommend {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 คอลัมน์ */
+    gap: 20px; /*ช่องว่างระหว่างคอลัมน์ */
+    padding: 0 100px;
+    box-sizing: border-box; /* ป้องกัน padding กระทบ layout */
+    place-items: center;
+    margin-top: 150px;
+    width: 100%;
+}
+
+#homeEmptyRec {
+  text-align: center;
+  color: #00000075; 
+  font-size: 24px;
+  font-weight: 400;
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+#homeEmptyAll {
+  text-align: center;
+  color: #00000075; 
+  font-size: 24px;
+  font-weight: 400;
+  margin: 40px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+.Poster {
+    display: grid;
+	place-content: center;
+    grid-template-columns: repeat(5, 1fr); /* 5 คอลัมน์ */
+    gap: 20px; /*ช่องว่างระหว่างคอลัมน์ */
+    row-gap: 50px;
+    padding: 0 100px;
+    box-sizing: border-box; /* ป้องกัน padding กระทบ layout */
+    place-items: center;
+    margin-top: 50px;
+    width: 100%;
+}
+#homenone-event {
+	font-size: 24px;
+	color: #00000075;
+	font-family: Pridi;
+	font-style: normal;
+	grid-column: 1 / -1;
+	margin-top: 150px;
+}
+/* พื้นหลังโปสเตอร์ด้านบน */
+.search-page-Poster {
+    width: 247px;
+    height: 303px;
+    object-fit: cover;
+    opacity: 0.95;
+}
+.search-page-group {
+    position: relative;
+    width: 247px;
+    height: 429px;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    font-family: "Pridi", sans-serif;
+    transition: .2s all;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+.search-page-group:hover {
+    transform: scale(1.02);
+    box-shadow: 0 1px 8px #dedede;
+}
+
+/* ข้อความชื่ออีเว้นท์ */
+.search-page-name {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000;
+    margin-left: 14px;
+    white-space: nowrap;       
+    overflow: hidden;          
+    
+}
+
+/* วันที่ */
+.search-page-date {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgb(230, 77, 79);
+    margin-left: 14px;
+}
+
+/* เวลา */
+.search-page-time {
+    margin-left: 14px;
+}
+
+.clock {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+}
+
+.search-page-clock {
+    font-size: 14px;
+    color: #000;
+    font-weight: 300;
+}
+
+/* สถานที่ */
+.search-page-place {
+    display: flex;
+    align-items: center;
+    margin-left: 14px;
+}
+
+.pin {
+    width: 15px;
+    height: 15px;
+    margin-right: 4px;
+}
+
+.search-page-pin {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+
+/* ปุ่มลงทะเบียน */
+.register-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(230, 77, 79);
+    color: white;
+    border: none; 
+    cursor: pointer;
+    top: 260px;
+    width: 94px;
+    height: 28px;
+    border-radius: 32px;
+    font-family: "Pridi", sans-serif;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    z-index: 1;
+}
+.register-btn:hover {
+    background-color: rgb(200, 60, 65);
+}
+
+/*Middle*/
+.Middle {
+    position: relative;
+	overflow: hidden;
+}
+.Middle-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.Container_content2 {
+    display: block;
+    position: relative;
+}
+.search-page-contenttext2 {
+    font-family: "Pridi";
+    font-size: 40px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+    height: inherit;
+}
+.search-page-megaphone {
+    position: absolute;
+    height: auto;
+    width: 400px;
+    left: -5%;
+    top: 15%;
+}
+.search-page-light {
+    position: absolute;
+    height: auto;
+    width: 350px;
+    right: 35%;
+    top: 50%;
+    transform: rotate(18deg);
+}
+.search-page-flower {
+    position: absolute;
+    height: auto;
+    width: 300px;
+    right: -3%;
+    top: 20%;
+    transform: rotate(-35deg);
+}
+
+.filterbar {
+    display: flex;
+    justify-content: space-around;
+}
+/*Catagories*/
+.Catagories {
+    display: flex;
+    margin-top: 148px;
+}
+.Catagories-text1 {
+    border: 2px solid #F68121;
+    color: #F68121;
+    border-radius: 32px;
+    width: 140px;
+    height: 40px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Catagories span {
+    font-size: 20px;
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    text-align: center;
+}
+.Catagories-item {
+    width: 135px;
+    height: 40px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    transition: .2s all;
+}
+.Catagories-item:hover {
+    border-radius: 32px;
+    cursor: pointer;
+    color: #F68121;
+    background-color: #fefefe;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+#Other-Catagories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.catagories-dropdown-button {
+    display: flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+.catagories-dropdown-button.activeCatagory .material-icons {
+    transform: rotate(180deg); 
+    transition: transform 0.3s ease;
+}
+#catagoriesDropdownList { 
+    display: none; 
+}
+#catagoriesDropdownList.showCatagory { 
+    display: block; 
+}
+.catagories-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.catagories-dropdown-list span {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.catagories-dropdown-option {
+    display: flex;
+    position: absolute;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+}
+.catagories-dropdown-option a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.catagories-dropdown-option li a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+}
+.catagories-dropdown-option li a:hover {
+    background-color: #00000025;
+    color: #e94f46;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    cursor: pointer;
+}
+
+/*Filter*/
+.filter-dropdown-wrapper {
+    display: flex;
+    margin-top: 148px;
+}
+.Container_filter {
+    position: relative;
+}
+.filter-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px;
+}
+.filter-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 50px;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    padding: 10px;
+    align-content: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+.filter-dropdown-list span {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.filter-dropdown-option {
+    display: flex;
+    justify-content: center;
+}
+.filter-dropdown-option span {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+}
+.filter-dropdown-option span:hover {
+    background-color: #00000025;
+    color: #e94f46;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    cursor: pointer;
+}
+.icon-filter {
+    width: 30px;
+    height: 30px;
+}
+.filter-dropdown-text {
+    font-size: 20px;
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    text-align: center;
+}
+.filter-dropdown-option span {
+    font-size: 20px;
+    font-family: "Pridi", serif;
+    font-weight: 300;
+    text-align: center;
+}
+#filterDropdownList { 
+    display: none; 
+}
+#filterDropdownList.showFilter { 
+    display: block; 
+}
+.filter-dropdown-button.activeFilter .material-icons { 
+    transform: rotate(180deg); 
+    transition: transform 0.3s ease;
+}
+
+/* ==== EW date picker (append) ==== */
+.date-picker-container {
+    display: none;
+    justify-content: center;
+}
+.date-picker-container.show {
+    display: flex;
+    justify-content: center;
+}
+.ew-date-search {
+    margin-top: 50px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    justify-content: center;
+}
+.ew-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.ew-label {
+    font-family: "Pridi";
+    font-size: 16px;
+    color: #2e2e2e;
+    margin-left: 10px;
+}
+.ew-input-wrap {
+    display: flex;
+    justify-content: center;
+    height: 45px;
+    width: 250px;
+    text-align: center;
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    background: #fff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+    transition: transform 0.08s ease, box-shadow 0.12s ease;
+}
+.ew-input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-family: "Pridi";
+    font-size: 16px;
+    width: 180px;
+    text-align: center;
+}
+.ew-input-wrap:focus-within {
+    box-shadow: 0 2px 2px 0 #E64D4F;
+}
+.ew-actions {
+    display: flex;
+    align-items: center;
+}
+.ew-btn {
+    height: 47px;
+    width: 130px;
+    border-radius: 28px;
+    border: 2px;
+    font-family: "Pridi";
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    background: linear-gradient(180deg, #F68121, #e36f11);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.06s ease, opacity 0.08s;
+}
+.ew-btn:active {
+    transform: translateY(1px) scale(0.995);
+}
+.ew-btn:hover {
+    opacity: 0.97;
+}
+.ew-date-mode {
+    border: 0px solid #F68121;
+    display: flex;
+    flex-direction: column;
+}
+.ew-datebox {
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    padding: 5px;
+}
+.ew-datebox input {
+    cursor: pointer;
+}
+#ew-start-time {
+    border-radius: 32px;
+    background: #00000025;
+    padding: 5px;
+}
+#ew-end-time {
+    border-radius: 32px;
+    background: #00000025;
+    padding: 5px;
+}
+#rangeMode {
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    background: #ffffff;
+}
+
+
+/* Selectpage */
+.Selectpage {
+    margin-top: 100px;
+    align-items: center;
+}
+.Selectpage i {
+  cursor: pointer;
+  font-size: 28px;
+  transition: color 0.3s;
+}
+.Selectpage i:hover {
+  color: #F68121;
+}
+#pageNumbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Selectpage .page-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #f8bb86; /* ส้มอ่อน */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Pridi, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    margin: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.Selectpage .page-number.active {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #F68121 ; /* ส้มเข้ม */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Pridi, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* ลูกศร > */
+#HomePrev {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    margin: 20px;
+    cursor: pointer;
+}
+#HomeNext {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    margin: 20px;
+    cursor: pointer;
+}
+.page-info {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    font-family: Pridi, sans-serif;
+    font-size: 16px;
+    color: #00000075;
+}
+.pagenumber {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*Footer*/
+footer {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.Footer-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    float: inline-end;
+    margin-top: -300px;
+}
+.Footer-tape {
+    position: absolute;
+    right: 15%;
+    bottom: 25%;
+    width: 10%;
+}
+.category-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* ปุ่มหลักสำหรับเปิด dropdown */
+.category-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background-color: #fff;
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.category-dropdown-button:hover {
+    background-color: #fff5f0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.category-selected-text {
+    font-family: "Pridi", serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2F2F2F;
+}
+
+.category-dropdown-button .material-icons {
+    transition: transform 0.3s ease;
+    color: #F68121;
+}
+
+.category-dropdown-button.activeCategory .material-icons {
+    transform: rotate(180deg);
+}
+
+/* Dropdown list container */
+.category-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background-color: #FFFFFF;
+    min-width: 450px;
+    max-width: 550px;
+    border-radius: 24px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+.category-dropdown-list.showCategory {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header ของ dropdown */
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 15px;
+}
+
+.category-header span {
+    font-family: "Pridi", serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2F2F2F;
+}
+
+/* ปุ่ม Clear */
+.category-clear-btn {
+    padding: 6px 16px;
+    background-color: #fff;
+    border: 2px solid #E64D4F;
+    border-radius: 20px;
+    color: #E64D4F;
+    font-family: "Pridi", serif;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-clear-btn:hover {
+    background-color: #E64D4F;
+    color: #fff;
+    box-shadow: 0px 2px 6px rgba(230, 77, 79, 0.3);
+}
+
+/* Grid สำหรับ checkbox options */
+.category-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+/* Custom scrollbar */
+.category-options::-webkit-scrollbar {
+    width: 6px;
+}
+
+.category-options::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.category-options::-webkit-scrollbar-thumb {
+    background: #F68121;
+    border-radius: 10px;
+}
+
+.category-options::-webkit-scrollbar-thumb:hover {
+    background: #e36f11;
+}
+
+/* Checkbox item container */
+.category-checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    position: relative;
+    user-select: none;
+}
+
+.category-checkbox-item:hover {
+    background-color: #fff5f0;
+}
+
+/* ซ่อน default checkbox */
+.category-checkbox-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Custom checkmark */
+.checkmark {
+    position: relative;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    margin-right: 10px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.category-checkbox-item:hover .checkmark {
+    border-color: #F68121;
+}
+
+/* เมื่อ checkbox ถูกเลือก */
+.category-checkbox-item input:checked ~ .checkmark {
+    background-color: #F68121;
+    border-color: #F68121;
+}
+
+/* สร้าง checkmark icon */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* แสดง checkmark เมื่อถูกเลือก */
+.category-checkbox-item input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Label text */
+.category-label {
+    font-family: "Pridi", serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #2F2F2F;
+    transition: color 0.2s ease;
+}
+
+.category-checkbox-item input:checked ~ .category-label {
+    color: #F68121;
+    font-weight: 500;
+}
+
+/* สถานะ Active/Inactive */
+.category-checkbox-item.active {
+    background-color: #fff5f0;
+    border: 1px solid #F68121;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .category-dropdown-list {
+        min-width: 320px;
+        max-width: 380px;
+    }
+    
+    .category-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .category-label {
+        font-size: 16px;
+    }
+}

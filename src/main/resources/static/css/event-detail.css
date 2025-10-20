@@ -1,0 +1,334 @@
+@import url('https://fonts.googleapis.com/css2?family=Pridi:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+body {
+    background: #FAFAFA;
+}
+/*Header*/
+header {
+    max-width: 100%;
+    height: 39px;
+    background:#E64D4F;
+    border-bottom:8px solid #F68121;
+}
+/*Navbar*/
+.navbar {
+    margin: 40px;
+    position: sticky;
+    top: 0;
+}
+.navdiv {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+    border-radius: 32px;
+    width: 1294px;
+    height: 76px;
+    background:#E64D4F;
+    border: 2px solid #F68121;
+    border-bottom:8px solid #F68121;
+
+}
+.logo {
+    font-family: "Modak";
+    font-size: 40px;
+    font-weight: 200;
+    list-style: none;
+    margin-left: 15px;
+    margin-right: 50px;
+    text-shadow: 0px 4px 4px #00000025;
+}
+.logo a {
+    color: #FFFFFF;
+}
+
+ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-family: "Pridi";
+    font-size: 24px;
+    list-style: none;
+}
+.navbutton {
+    width: 160px;
+    height: 50px;
+    margin: 30px;
+    text-align: center;
+    align-content: center;
+    text-decoration: none;
+    border-radius: 24px;
+    cursor: pointer;
+    position: relative;
+}
+.navbutton:hover {
+    background: #F68121;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.navbutton:hover .material-icons {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+} 
+.navbutton a {
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.material-icons {
+    margin-left: 5px;
+}
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.dropdown a {
+    color:black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.dropdown_item {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 10px;
+}
+.dropdown li a {
+    color:black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+}
+.dropdown li a:hover {
+    background-color: #00000025;
+    color: #e94f46;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+}
+.navbutton:hover .dropdown {
+    display: block;
+}
+button {
+    width: 242px;
+    height: 50px;
+    margin-left: 50px;
+    border-radius: 20px;
+    border: none;
+    background-color: #2F2F2F;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+button a {
+    font-family: "Pridi";
+    font-size: 20px;
+    font-weight: 300;
+    color: #FFFFFF;
+}
+/*Section*/
+section {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.container1 {
+    margin-top: 30px;
+    margin-left: 80px;
+    margin-right: 40px;
+}
+.container2 {
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-right: 80px;
+}
+.poster {
+    width: 600px;
+    height: 600px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+    border-radius: 32px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.poster img {
+    height: 600px;
+}
+.button_reg {
+    width: 290px;
+    height: 70px;
+    background-color: #F68121;
+    margin-top: 65px;
+    float: right;
+    align-content: center;
+    text-align: center;
+    border-radius: 32px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.button_reg a {
+    font-family: "Pridi", serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #FFFFFF;
+}
+.button_reg:hover {
+    background-color: #e36f11;
+}
+.detail {
+    font-family: "Pridi", serif;
+}
+.detail h1 {
+    font-size: 40px;
+    font-weight: 400;
+    font-style: normal;
+}
+.catagories {
+    width: 140px;
+    height: 40px;
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.catagories span {
+    font-size: 20px;
+    font-weight: 300;
+    font-style: normal;
+    color: #F68121;
+}
+.detail a {
+    color: #F68121;
+    font-size: 20px;
+    font-weight: 300;
+}
+.detail p {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 300;
+    margin: 20px;
+    margin-left: 0;
+}
+.detail p i {
+    margin-left: 0;
+    margin-right: 5px;
+}
+.box_members {
+    display: inline-block;
+    overflow: hidden;
+    font-family: "Pridi";
+    max-width: 660px;
+    height: 110px;
+    color: black;
+    border-radius: 32px;
+    margin-bottom: 20px;
+    align-content: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.box_members h2 {
+    font-size: 16px;
+    font-weight: 300;
+    text-align: center;
+    margin: 10px;
+}
+.box_members_num {
+    display: flex;
+    border-radius: 32px;
+    color: #E64D4F;
+    justify-content: center;
+    min-width: 95px;
+    border: 4px solid #E64D4F;
+    margin: 10px;
+}
+.box_members_num p {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 5px;
+}
+.box_members_num p i {
+    flex-shrink: 0; 
+}
+.box_organizes{
+    width: 600px;
+    color: black;
+    border-radius: 32px;
+    margin-bottom: 20px;
+    padding: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.box_organizes h1 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.box_organizes p {
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+}
+.box_details {
+    width: 600px;
+    color: black;
+    border-radius: 32px;
+    margin-bottom: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.box_details h1 {
+    font-size: 24px;
+    font-weight: 400;
+}
+.box_details p {
+    font-size: 20px;
+    font-weight: 300;
+}
+/*Footer*/
+footer {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.Footer-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    float: inline-end;
+    margin-top: -300px;
+}
+.Footer-tape {
+    position: absolute;
+    right: 15%;
+    bottom: 25%;
+    width: 10%;
+}
