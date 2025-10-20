@@ -1,6 +1,8 @@
 DELETE FROM event;
 SELECT * FROM event;
 -----------------------------------------------
+
+-- Not Use When Create Category Form Postman Already
 USE tueventsdb;
 GO
 
@@ -8,6 +10,8 @@ ALTER TABLE dbo.[event]
 ADD active BIT NOT NULL
     CONSTRAINT DF_event_active DEFAULT(1) WITH VALUES;
 GO
+
+-----------------------------------------------
 
 BEGIN TRANSACTION;
 
