@@ -59,24 +59,61 @@
 		      showAlert('ไม่พบรหัสกิจกรรมใน URL', 'error');
 		      return;
 		    }
+			
+		if (!/^\d+$/.test(id)) {
+			   hideContent();
+			   showAlert('รหัสกิจกรรมไม่ถูกต้อง', 'error');
+			   return;
+			}
 
 		// แสดงข้อความกำลังโหลด
 		showAlert('กำลังโหลดข้อมูลกิจกรรม...', 'info');
 
 		try {
-		  const res = await fetch(`/api/events/${encodeURIComponent(id)}`, { headers: { Accept: 'application/json' } });
+		   const res = await fetch(`/api/events/${encodeURIComponent(id)}`, {
+		     headers: { Accept: 'application/json' }
+		   });
 
-		  // ตรวจ HTTP Error ก่อน parse JSON
-		  if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
-		  const ev = await res.json();
+		   // --- แยกข้อความตามสถานะ ---
+		   if (!res.ok) {
+		     let body = null;
+		     try {
+		       if (res.headers.get('content-type')?.includes('application/json')) {
+		         body = await res.json();
+		       }
+		     } catch (_) { /* ignore parse error */ }
 
-		  // ตรวจ empty data
-		  if (!ev || Object.keys(ev).length === 0) {
-		    hideContent();
-			setPoster(ERROR_IMG);
-		    showAlert('ไม่พบข้อมูลกิจกรรม', 'error');
-		    return;
-		  }
+		     const code = body?.code;
+		     const srvMsg = body?.message;
+
+		     if (res.status === 404 || code === 'EVT_NOT_FOUND') {
+		       hideContent();
+			   setPoster(ERROR_IMG);
+		       showAlert('ไม่พบข้อมูลกิจกรรม', 'error');
+		       return;
+		     }
+		     if (res.status === 400 || code === 'BAD_ID_FORMAT') {
+		       hideContent();
+			   setPoster(ERROR_IMG);
+		       showAlert('รหัสกิจกรรมไม่ถูกต้อง', 'error');
+		       return;
+		     }
+
+		     // อื่น ๆ
+		     hideContent();
+			 setPoster(ERROR_IMG);
+		     showAlert(srvMsg || 'เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณาลองใหม่ภายหลัง', 'error');
+		     return;
+		   }
+
+		   // --- สำเร็จ ---
+		   const ev = await res.json();
+		   if (!ev || Object.keys(ev).length === 0) {
+		     hideContent();
+			 setPoster(ERROR_IMG);
+		     showAlert('ไม่พบข้อมูลกิจกรรม', 'error');
+		     return;
+		   }
 		  
 		  // --- อ่านค่าแบบ snake/camel + เผื่ออยู่ใน object ซ้อน ---
 		  const title            = ev.title ?? '';
