@@ -1,3 +1,14 @@
+DELETE FROM event;
+SELECT * FROM event;
+-----------------------------------------------
+USE tueventsdb;
+GO
+
+ALTER TABLE dbo.[event]
+ADD active BIT NOT NULL
+    CONSTRAINT DF_event_active DEFAULT(1) WITH VALUES;
+GO
+
 BEGIN TRANSACTION;
 
 -- (1)
