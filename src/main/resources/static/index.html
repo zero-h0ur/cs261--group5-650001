@@ -223,28 +223,41 @@
 </div>
 
       <!-- Date picker (ยังไม่ผูก API ในหน้าแรก) -->
-      <div class="date-picker-container">
-        <form class="ew-date-search" onsubmit="event.preventDefault(); EWDate_onSubmit();">
-          <div class="ew-date-group">
-            <label for="ew-from" class="ew-label">ตั้งแต่วันที่</label>
-            <div class="ew-input-wrap">
-              <input id="ew-from" class="ew-input" name="fromDate" type="text" placeholder="03/10/2568" />
-            </div>
-          </div>
+            <div class="date-picker-container" id="ew-date-range">
+                <form id="dateRangeForm" class="ew-date-search" onsubmit="event.preventDefault(); applyDateRange();">
+                    <div class="ew-date-mode">
+                        <label class="ew-label" id="Mode">โหมด</label>
+                        <select id="rangeMode" class="ew-input" style="width:150px;">
+                            <option value="single">วันเดียว</option>
+                            <option value="range">ช่วงวัน/เวลา</option>
+                        </select>
+                    </div>
 
-          <div class="ew-date-group">
-            <label for="ew-to" class="ew-label">ถึงวันที่</label>
-            <div class="ew-input-wrap">
-              <input id="ew-to" class="ew-input" name="toDate" type="text" placeholder="10/10/2568" />
-            </div>
-          </div>
+                    <div class="ew-date-group">
+                        <label class="ew-label">ตั้งแต่วันที่</label>
+                        <div class="ew-datebox">
+                            <input id="ew-start-date" type="date" class="ew-input" />
+                            <input id="ew-start-time" type="time" class="ew-input" style="width:120px;" />
+                        </div>
+                    </div>
 
-          <div class="ew-actions">
-            <button type="submit" class="ew-btn" aria-label="ค้นหากิจกรรม">ค้นหาเลย</button>
-          </div>
-        </form>
-      </div>
-    </div>
+                    <div class="ew-date-group">
+                        <label class="ew-label">ถึงวันที่</label>
+                        <div class="ew-datebox">
+                            <input id="ew-end-date" type="date" class="ew-input" />
+                            <input id="ew-end-time" type="time" class="ew-input" style="width:120px;" />
+                        </div>
+                    </div>
+
+                    <div class="ew-actions">
+                        <button type="submit" class="ew-btn">Apply</button>
+                        <button type="button" class="ew-btn" style="background:#ccc;color:#000;margin-left:8px;"
+                            onclick="clearDateRange()">Clear</button>
+                    </div>
+                </form>
+                <div id="dateStatus"
+                    style="text-align:center;margin-top:8px;font-family:'Pridi';font-size:15px;color:#555;"></div>
+            </div>
 
     <!-- กริด “อีเว้นท์ทั้งหมด” ให้ JS เติม -->
     <div id="homeGridAll" class="Poster"></div>

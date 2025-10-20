@@ -543,9 +543,8 @@ section {
     display: flex;
     gap: 12px;
     align-items: flex-end;
-    justify-content: center; /* จัดกึ่งกลางแนวนอนภายใน container */
+    justify-content: center;
 }
-
 .ew-date-group {
     display: flex;
     flex-direction: column;
@@ -605,7 +604,34 @@ section {
 .ew-btn:hover {
     opacity: 0.97;
 }
-
+.ew-date-mode {
+    border: 0px solid #F68121;
+    display: flex;
+    flex-direction: column;
+}
+.ew-datebox {
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    padding: 5px;
+}
+.ew-datebox input {
+    cursor: pointer;
+}
+#ew-start-time {
+    border-radius: 32px;
+    background: #00000025;
+    padding: 5px;
+}
+#ew-end-time {
+    border-radius: 32px;
+    background: #00000025;
+    padding: 5px;
+}
+#rangeMode {
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    background: #ffffff;
+}
 
 /*Poster*/
 .Poster_container {

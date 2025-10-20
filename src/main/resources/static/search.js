@@ -248,6 +248,60 @@ window.EWDate_onSubmit = function () {
   EW.pageUI = 1;
   load();
 };
+
+// ---------- Enhanced DateTime Picker ----------
+function formatDateTimeLocal(dateStr, timeStr) {
+  if (!dateStr) return null;
+  const date = new Date(`${dateStr}T${timeStr || '00:00'}`);
+  return date.toISOString().slice(0,16); // YYYY-MM-DDTHH:mm
+}
+
+function applyDateRange() {
+  const mode = document.getElementById('rangeMode').value;
+  const sDate = document.getElementById('ew-start-date').value;
+  const sTime = document.getElementById('ew-start-time').value;
+  const eDate = document.getElementById('ew-end-date').value;
+  const eTime = document.getElementById('ew-end-time').value;
+  const status = document.getElementById('dateStatus');
+
+  if (!sDate) {
+    status.textContent = '⚠ กรุณาเลือกวันที่เริ่มต้น';
+    status.style.color = '#E64D4F';
+    return;
+  }
+
+  let start = new Date(`${sDate}T${sTime || '00:00'}`);
+  let end   = mode === 'single' ? start : new Date(`${eDate}T${eTime || '23:59'}`);
+
+  if (mode === 'range' && (!eDate || start > end)) {
+    status.textContent = '⚠ ช่วงเวลาไม่ถูกต้อง (Start > End)';
+    status.style.color = '#E64D4F';
+    return;
+  }
+
+  // Update state
+  EW.startDate = start.toISOString().slice(0,10);
+  EW.endDate   = mode === 'range' ? end.toISOString().slice(0,10) : EW.startDate;
+  EW.pageUI = 1;
+  load();
+
+  status.textContent = `✔ ใช้ตัวกรอง: ${EW.startDate} ถึง ${EW.endDate}`;
+  status.style.color = '#1B5E20';
+}
+
+function clearDateRange() {
+  document.getElementById('ew-start-date').value = '';
+  document.getElementById('ew-start-time').value = '';
+  document.getElementById('ew-end-date').value = '';
+  document.getElementById('ew-end-time').value = '';
+  document.getElementById('dateStatus').textContent = 'ล้างข้อมูลเรียบร้อย';
+  document.getElementById('dateStatus').style.color = '#444';
+  EW.startDate = null;
+  EW.endDate = null;
+  load();
+}
+// ---------- Enhanced DateTime Picker ----------
+
 // Enter ในช่องวันที่ให้ trigger submit
 document.addEventListener('keydown', (e) => {
   const a = document.activeElement;
