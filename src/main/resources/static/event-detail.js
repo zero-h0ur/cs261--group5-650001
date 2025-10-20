@@ -1,5 +1,6 @@
 (function() {
 	const $ = s => document.querySelector(s);
+	const ERROR_IMG = 'Resourse/Poster/Error.png';
 
 	const fmtDate = d => {
 	  if (!d) return '-';
@@ -13,6 +14,14 @@
 		const el = $(sel);
 		if (el) el.textContent = txt;
 	}
+	
+	function setPoster(src) {
+	    const img = $('#evt-poster');
+	    if (!img) return;
+	    img.src = src;
+	    img.alt = 'poster';
+	    img.onerror = () => { img.src = ERROR_IMG; }; // ถ้ารูปเสีย ให้เด้งไป error เสมอ
+	  }
 	
 	function showAlert(msg, tone = 'info') {
 	    const box = $('#edAlert');
@@ -45,10 +54,11 @@
 
 		// ไม่มี event_id ใน URL
 		if (!id) {
-		  hideContent();
-		  showAlert('ไม่พบรหัสกิจกรรมใน URL', 'error');
-		  return;
-		}
+		      hideContent();
+		      setPoster(ERROR_IMG);
+		      showAlert('ไม่พบรหัสกิจกรรมใน URL', 'error');
+		      return;
+		    }
 
 		// แสดงข้อความกำลังโหลด
 		showAlert('กำลังโหลดข้อมูลกิจกรรม...', 'info');
@@ -63,6 +73,7 @@
 		  // ตรวจ empty data
 		  if (!ev || Object.keys(ev).length === 0) {
 		    hideContent();
+			setPoster(ERROR_IMG);
 		    showAlert('ไม่พบข้อมูลกิจกรรม', 'error');
 		    return;
 		  }
@@ -104,9 +115,9 @@
 		  // Poster
 		  const img = $('#evt-poster');
 		  if (img) {
-		    img.src = imageUrl || 'Resourse/Poster/image 14.png';
+		    img.src = imageUrl || 'Resourse/Poster/Error.png';
 		    img.alt = title || 'poster';
-		    img.onerror = () => { img.src = 'Resourse/Poster/image 14.png'; };
+		    img.onerror = () => { img.src = 'Resourse/Poster/Error.png'; };
 		  }
 
 			// แสดงข้อมูลปกติ
@@ -133,6 +144,7 @@
 		} catch (err) {
 		  console.error('Error loading event detail:', err);
 		  hideContent();
+		  setPoster(ERROR_IMG);
 		  showAlert('เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณาลองใหม่ภายหลัง', 'error');
 		}
 	}
