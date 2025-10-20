@@ -99,60 +99,128 @@
       </div>
 
       <div class="filterbar">
+  <!-- Category Filter with Checkboxes -->
+  <div class="Catagories">
+    <div class="category-dropdown-wrapper">
+      <div class="category-dropdown-button" onclick="toggleCategoryDropdown()">
+        <span class="category-selected-text">ทุกหมวดหมู่</span>
+        <i class="material-icons">keyboard_arrow_down</i>
+      </div>
 
-        <div class="Catagories">
-          <div class="Catagories-item"><span class="Catagories-text1">ทุกหมวดหมู่</span></div>
-          <div class="Catagories-item"><span class="Catagories-text2">ดนตรี</span></div>
-          <div class="Catagories-item"><span class="Catagories-text3">แข่งขัน</span></div>
-          <div class="Catagories-item"><span class="Catagories-text4">วิชาการ</span></div>
-          <div class="Catagories-item"><span class="Catagories-text5">ค่าย</span></div>
-
-          <div class="catagories-dropdown-wrapper">
-            <div class="catagories-dropdown-button" onclick="togglecatagoriesDropdown()">
-              <i class="material-icons" id="Other-Catagories">keyboard_arrow_down</i>
-              <div class="catagories-dropdown-list" id="catagoriesDropdownList">
-                <ul class="catagories-dropdown-option">
-                  <a>ประเภทอีเว้นท์</a>
-                  <div class="dropdown_item">
-                    <li><a href="searchpage.html?scroll=Content">ทั้งหมด</a></li>
-                    <li><a href="#">ค่าย</a></li>
-                    <li><a href="#">กิจกรรม</a></li>
-                    <li><a href="#">ดนตรี</a></li>
-                    <li><a href="#">เทคโนโลยี</a></li>
-                    <li><a href="#">กีฬา</a></li>
-                    <li><a href="#">แข่งขัน</a></li>
-                    <li><a href="#">เวิร์คชอป</a></li>
-                    <li><a href="#">ศิลปะ</a></li>
-                    <li><a href="#">วิชาการ</a></li>
-                    <li><a href="#">การเงิน</a></li>
-                    <li><a href="#">ธุรกิจ</a></li>
-                  </div>
-                </ul>
-              </div>
-            </div>
-          </div>
+      <div class="category-dropdown-list" id="categoryDropdownList">
+        <div class="category-header">
+          <span>ประเภทอีเว้นท์</span>
+          <button class="category-clear-btn" onclick="clearAllCategories()">ล้างทั้งหมด</button>
         </div>
+        
+        <div class="category-options">
+          <!-- ทั้งหมด -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="all" onchange="handleCategoryChange(this)" checked>
+            <span class="checkmark"></span>
+            <span class="category-label">ทั้งหมด</span>
+          </label>
 
-        <!-- filter dropdown -->
-        <div class="filter-dropdown-wrapper">
-          <div class="Container_filter">
-            <div class="filter-dropdown-button" onclick="toggleFilterDropdown()">
-              <img src="Resourse/icon/filter.png" alt="filter" class="icon-filter" />
-              <span class="filter-dropdown-text">ทั้งหมด</span>
-              <i class="material-icons" alt="dropdown arrow">keyboard_arrow_down</i>
-            </div>
+          <!-- ค่าย -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="camp" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">ค่าย</span>
+          </label>
 
-            <div class="filter-dropdown-list" id="filterDropdownList">
-              <div class="filter-dropdown-option" onclick="selectFilter(event, 'ทั้งหมด')"><span>ทั้งหมด</span></div>
-              <div class="filter-dropdown-option" onclick="selectFilter(event, 'วันนี้')"><span>วันนี้</span></div>
-              <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')"><span>สัปดาห์นี้</span>
-              </div>
-              <div class="filter-dropdown-option" onclick="selectFilter(event, 'เดือนนี้')"><span>เดือนนี้</span></div>
-              <div class="filter-dropdown-option" onclick="selectFilter(event, 'กำหนดเอง')"><span>กำหนดเอง</span></div>
-            </div>
-          </div>
+          <!-- กิจกรรม -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="activity" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">กิจกรรม</span>
+          </label>
+
+          <!-- ดนตรี -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="music" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">ดนตรี</span>
+          </label>
+
+          <!-- เทคโนโลยี -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="technology" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">เทคโนโลยี</span>
+          </label>
+
+          <!-- กีฬา -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="sports" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">กีฬา</span>
+          </label>
+
+          <!-- แข่งขัน -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="competition" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">แข่งขัน</span>
+          </label>
+
+          <!-- เวิร์คชอป -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="workshop" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">เวิร์คชอป</span>
+          </label>
+
+          <!-- ศิลปะ -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="art" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">ศิลปะ</span>
+          </label>
+
+          <!-- วิชาการ -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="academic" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">วิชาการ</span>
+          </label>
+
+          <!-- การเงิน -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="finance" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">การเงิน</span>
+          </label>
+
+          <!-- ธุรกิจ -->
+          <label class="category-checkbox-item">
+            <input type="checkbox" value="business" onchange="handleCategoryChange(this)">
+            <span class="checkmark"></span>
+            <span class="category-label">ธุรกิจ</span>
+          </label>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Filter dropdown (เก็บไว้เหมือนเดิม) -->
+  <div class="filter-dropdown-wrapper">
+    <div class="Container_filter">
+      <div class="filter-dropdown-button" onclick="toggleFilterDropdown()">
+        <img src="Resourse/icon/filter.png" alt="filter" class="icon-filter" />
+        <span class="filter-dropdown-text">ทั้งหมด</span>
+        <i class="material-icons" alt="dropdown arrow">keyboard_arrow_down</i>
+      </div>
+
+      <div class="filter-dropdown-list" id="filterDropdownList">
+        <div class="filter-dropdown-option" onclick="selectFilter(event, 'ทั้งหมด')"><span>ทั้งหมด</span></div>
+        <div class="filter-dropdown-option" onclick="selectFilter(event, 'วันนี้')"><span>วันนี้</span></div>
+        <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')"><span>สัปดาห์นี้</span></div>
+        <div class="filter-dropdown-option" onclick="selectFilter(event, 'เดือนนี้')"><span>เดือนนี้</span></div>
+        <div class="filter-dropdown-option" onclick="selectFilter(event, 'กำหนดเอง')"><span>กำหนดเอง</span></div>
+      </div>
+    </div>
+  </div>
+</div>
 
       <!-- Date picker (ยังไม่ผูก API ในหน้าแรก) -->
       <div class="date-picker-container">
@@ -194,6 +262,7 @@
   <!-- โหลดสคริปต์ที่เติมการ์ด/เพจจิเนชันให้ -->
   <script src="/home-events.js?v=1" defer></script>
   <script src="/search.js" defer></script>
+  <script src="category-filter.js"></script>
 </body>
 
 </html>
