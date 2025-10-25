@@ -56,13 +56,12 @@
     <div class="Searchblock">
         <img src="Resourse/Header.png" alt="TUEVENT" class="search-page-background-top" />
         <div class="search-page-searchbar">
-            <div class="searchbar-rectangle"></div>
-            <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
-            <input type="text" class="search-input" id="searchInput" placeholder="พิมพ์คำค้นหา..." />
-            <button class="search-button" onclick="search()">
-                ค้นหาเลย
-            </button>
-
+			<form class="search-page-searchbar" action="searchpage.html" method="get">
+			  <div class="searchbar-rectangle"></div>
+			  <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
+			  <input type="text" class="search-input" name="q" placeholder="พิมพ์คำค้นหา..." />
+			  <button class="search-button" type="submit">ค้นหาเลย</button>
+			</form>
         </div>
         <img src="Resourse/png/Header-searchpage1.png" alt="Head" class="search-page-head" />
         <img src="Resourse/png/Header-searchpage2.png" alt="Questionmark" class="search-page-questionmark" />
@@ -194,101 +193,15 @@
 
         <!-- Poster อีเว้นท์ -->
         <div id="results" class="Poster_container">
-            <div class="Poster">
-                <div class="search-page-group">
-                    <a href="event-detail.html">
-                        <img src="Resourse/Poster/image 10.png" alt="Poster"
-                            class="search-page-Poster" />
-
-                        <span class="search-page-date">ศ, 03 ต.ค. - 10 ต.ค. 2568</span>
-                        <div class="search-page-time">
-                            <img src="Resourse/icon/clock.png" alt="clock" class="clock" />
-                            <span class="search-page-clock">09:30 - 16:30</span>
-                        </div>
-                        <span class="search-page-name">ชื่ออีเว้นท์ฟหกฟหกฟหกหฟกฟหกฟหกฟหกหฟก</span>
-                        <div class="search-page-place">
-                            <img src="Resourse/icon/pin.png" alt="pin" class="pin" />
-                            <span class="search-page-pin">อาคารบรรยายรวม 2ฟหกฟหกฟหกหฟก</span>
-                        </div>
-
-                        <button class="register-btn">ลงทะเบียน</button>
-                    </a>
-                </div>
-                <div class="search-page-group">
-                    <img src="Resourse/Poster/image 1.png" alt="Poster"
-                        class="search-page-Poster" />
-
-                    <span class="search-page-date">ศ, 03 ต.ค. - 10 ต.ค. 2568</span>
-                    <div class="search-page-time">
-                        <img src="Resourse/icon/clock.png" alt="clock" class="clock" />
-                        <span class="search-page-clock">09:30 - 16:30</span>
-                    </div>
-                    <span class="search-page-name">ชื่ออีเว้นท์</span>
-                    <div class="search-page-place">
-                        <img src="Resourse/icon/pin.png" alt="pin" class="pin" />
-                        <span class="search-page-pin">อาคารบรรยายรวม 2</span>
-                    </div>
-
-                    <button class="register-btn">ลงทะเบียน</button>
-                </div>
-                <div class="search-page-group">
-                    <img src="Resourse/Poster/image 2.png" alt="Poster"
-                        class="search-page-Poster" />
-
-                    <span class="search-page-date">ศ, 03 ต.ค. - 10 ต.ค. 2568</span>
-                    <div class="search-page-time">
-                        <img src="Resourse/icon/clock.png" alt="clock" class="clock" />
-                        <span class="search-page-clock">09:30 - 16:30</span>
-                    </div>
-                    <span class="search-page-name">ชื่ออีเว้นท์ฟหกฟหกฟหกฟหกฟหกฟหกฟหก</span>
-                    <div class="search-page-place">
-                        <img src="Resourse/icon/pin.png" alt="pin" class="pin" />
-                        <span class="search-page-pin">อาคารบรรยายรวม 2ฟหกฟหกฟหกหฟก</span>
-                    </div>
-
-                    <button class="register-btn">ลงทะเบียน</button>
-                </div>
-                <div class="search-page-group">
-                    <img src="Resourse/Poster/image 3.png" alt="Poster"
-                        class="search-page-Poster" />
-
-                    <span class="search-page-date">ศ, 03 ต.ค. - 10 ต.ค. 2568</span>
-                    <div class="search-page-time">
-                        <img src="Resourse/icon/clock.png" alt="clock" class="clock" />
-                        <span class="search-page-clock">09:30 - 16:30</span>
-                    </div>
-                    <span class="search-page-name">ชื่ออีเว้นท์</span>
-                    <div class="search-page-place">
-                        <img src="Resourse/icon/pin.png" alt="pin" class="pin" />
-                        <span class="search-page-pin">อาคารบรรยายรวม 2</span>
-                    </div>
-
-                    <button class="register-btn">ลงทะเบียน</button>
-                </div>
-                <div class="search-page-group">
-                    <img src="Resourse/Poster/image 4.png" alt="Poster"
-                        class="search-page-Poster" />
-                    <span class="search-page-date">ศ, 03 ต.ค. - 10 ต.ค. 2568</span>
-                    <div class="search-page-time">
-                        <img src="Resourse/icon/clock.png" alt="clock" class="clock" />
-                        <span class="search-page-clock">09:30 - 16:30</span>
-                    </div>
-                    <span class="search-page-name">ชื่ออีเว้นท์</span>
-                    <div class="search-page-place">
-                        <img src="Resourse/icon/pin.png" alt="pin" class="pin" />
-                        <span class="search-page-pin">อาคารบรรยายรวม 2</span>
-                    </div>
-
-                    <button class="register-btn">ลงทะเบียน</button>
-                </div>
-            </div>
+			 <p id="emptyState" style="display:none; text-align:center; color:#999; margin:40px 0;">
+			    ไม่พบกิจกรรมที่ตรงกับคำค้นหา
+			  </p>
+			  <div id="resultList" class="Poster"></div>
+			</div>
+         
             <!-- Selectpage -->
-            <div class="Selectpage">
-                <i class="material-icons" id="Previous">keyboard_arrow_down</i>
-                <div id="pageNumbers"></div>
-                <i class="material-icons" id="Next">keyboard_arrow_down</i>
-            </div>
-            <div class="page-info" id="pageInfo"></div>
+			<div id="searchPager" class="Selectpage"></div>
+			<div id="searchPageInfo" class="page-info"></div>
         </div>
     </section>
 
@@ -296,6 +209,7 @@
         <img class="Footer-img" src="Resourse/Footer.png" alt="Footer" />
         <img class="Footer-tape" src="Resourse/png/Footer-tape.png" alt="Footertape" />
     </footer>
+	<script src="searchpage.js" defer></script>
 </body>
 
 </html>

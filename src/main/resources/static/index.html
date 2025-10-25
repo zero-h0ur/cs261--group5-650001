@@ -56,12 +56,12 @@
   <div class="Searchblock">
     <img src="Resourse/Header.png" alt="TUEVENT" class="search-page-background-top" />
     <div class="search-page-searchbar">
-      <div class="searchbar-rectangle"></div>
-      <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
-      <input type="text" class="search-input" id="searchInput" placeholder="พิมพ์คำค้นหา..." />
-            <button class="search-button" onclick="search()">
-                ค้นหาเลย
-            </button>
+		<form id="globalSearch" action="searchpage.html" method="get" class="search-page-searchbar">
+		  <div class="searchbar-rectangle"></div>
+		  <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
+		  <input type="text" name="q" class="search-input" placeholder="พิมพ์คำค้นหา..." required />
+		  <button type="submit" class="search-button">ค้นหาเลย</button>
+		</form>
     </div>
     <img src="Resourse/png/Headmain.png" alt="Headwithhand" class="Headwithhand" />
     <img src="Resourse/png/Birdmain.png" alt="Bird" class="Birdmain" />

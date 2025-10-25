@@ -51,14 +51,14 @@ public class EventService {
         return repo.findAll(spec, pageable);
     }
 
-    // ---------- SEARCH ----------
+    // ---------- แก้ไข SEARCH ----------
     public Page<Event> search(String keyword, Pageable pageable) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return repo.findAll(pageable);
         }
-        String k = keyword.trim();
-        return repo.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(k, k, pageable);
+        return repo.findByTitleContainingIgnoreCase(keyword.trim(), pageable);
     }
+
 
     // ---------- DATE RANGE ----------
     public Page<Event> findByDateRange(LocalDate start, LocalDate end, Pageable pageable) {

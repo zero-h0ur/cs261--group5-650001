@@ -310,32 +310,36 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ---------- Search Bar ----------
+// ---------- Search Bar ที่แก้ไข ----------
 document.addEventListener('DOMContentLoaded', () => {
-  const input = $('#eventSearchInput') || $('.search-input') || $('input[type="search"]');
-  const btn   = $('#eventSearchBtn')   || $('.search-btn');
+  // หา form ค้นหาที่มีอยู่ (อย่างน้อยอันใดอันหนึ่ง)
+  const form =
+    document.getElementById('globalSearch') ||                // ถ้าตั้ง id ให้ฟอร์มบน navbar
+    document.querySelector('.search-page-searchbar');          // ฟอร์มบนหน้า search
 
-  const doSearch = () => {
-    if (!input) return;
-    EW.keyword = (input.value || '').trim();
-    EW.pageUI = 1;
-    load();
+  if (!form) return;
 
-    // อัปเดต URL ?q= (optional)
-    const url = new URL(location.href);
-    if (EW.keyword) url.searchParams.set('q', EW.keyword); else url.searchParams.delete('q');
-    history.replaceState(null, '', url);
-  };
+  form.addEventListener('submit', (e) => {
+    const ipt = form.querySelector('input[name="q"]') || form.querySelector('.search-input');
+    const q = (ipt?.value || '').trim();
 
-  // preload จาก URL ถ้ามี ?q=
-  const urlQ = new URL(location.href).searchParams.get('q');
-  if (urlQ && input) { input.value = urlQ; EW.keyword = urlQ.trim(); }
+    // กันค่าว่าง
+    if (!q) {
+      e.preventDefault();
+      ipt?.focus();
+      return;
+    }
 
-  btn?.addEventListener('click', (e) => { e.preventDefault(); doSearch(); });
-  input?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); doSearch(); } });
-
-  // โหลดรอบแรก
-  load();
+    // ถ้าเป็นฟอร์มบน navbar ที่ไม่ได้ตั้ง action ให้ redirect ไปหน้า search พร้อม q
+    if (!form.getAttribute('action')) {
+      e.preventDefault();
+      const url = new URL('/searchpage.html', location.origin);
+      url.searchParams.set('q', q);
+      location.href = url.toString();
+	  return;
+    }
+    // ถ้าฟอร์มมี action อยู่แล้ว (เช่น หน้า search ตั้ง action="searchpage.html") ปล่อยให้ submit ตามปกติ
+  });
 });
 
 const ids = EW.categoryIds;               // [1,3]
