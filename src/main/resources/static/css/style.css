@@ -533,12 +533,6 @@ section {
     align-items: center;
     justify-content: center;
 }
-.Catagories span {
-    font-size: 20px;
-    font-family: "Pridi", serif;
-    font-weight: 400;
-    text-align: center;
-}
 .Catagories-item {
     width: 135px;
     height: 40px; 
@@ -973,8 +967,8 @@ footer {
 .category-selected-text {
     font-family: "Pridi", serif;
     font-size: 20px;
-    font-weight: 400;
-    color: #2F2F2F;
+    font-weight: 300;
+    color: #F68121;
 }
 
 .category-dropdown-button .material-icons {
@@ -1039,7 +1033,7 @@ footer {
     padding: 6px 16px;
     background-color: #fff;
     border: 2px solid #E64D4F;
-    border-radius: 20px;
+    border-radius: 32px;
     color: #E64D4F;
     font-family: "Pridi", serif;
     font-size: 16px;
@@ -1089,7 +1083,7 @@ footer {
     align-items: center;
     padding: 10px 12px;
     cursor: pointer;
-    border-radius: 16px;
+    border-radius: 32px;
     transition: all 0.2s ease;
     position: relative;
     user-select: none;
