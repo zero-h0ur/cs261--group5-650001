@@ -146,6 +146,9 @@
 
       list.innerHTML = items.map(card).join('');
       renderPager();
+	  if (typeof highlightKeyword === 'function' && STATE.keyword) {
+	    highlightKeyword(STATE.keyword);
+	  }
     } catch (e) {
       console.error(e);
       showEmpty('เกิดข้อผิดพลาดในการเชื่อมต่อ');

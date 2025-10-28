@@ -446,20 +446,21 @@ function search() {
 }
 
 function highlightKeyword(keyword) {
-  const results = document.querySelectorAll('#results .search-page-group');
+  if (!keyword) return;
 
+  const results = document.querySelectorAll('#resultList .search-page-group');
   results.forEach(item => {
     const title = item.querySelector('.search-page-name');
-
-    // รีเซ็ตข้อความก่อนเน้นคำ
-    title.innerHTML = title.textContent;
-
-    if (keyword) {
-      const regex = new RegExp(`(${keyword})`, 'gi');
-      title.innerHTML = title.textContent.replace(regex, '<span class="highlight">$1</span>');
-    }
+    if (!title) return;
+    
+    // รีเซ็ตข้อความก่อน highlight
+    const originalText = title.textContent;
+    const regex = new RegExp(`(${keyword})`, 'gi');
+    const highlighted = originalText.replace(regex, '<span class="highlight">$1</span>');
+    title.innerHTML = highlighted;
   });
 }
+
 
 function goToContent() {
   const content = document.getElementById('Content');
