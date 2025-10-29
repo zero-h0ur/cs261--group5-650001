@@ -101,17 +101,25 @@
     wrap.innerHTML = `
 	<div class="pagenumber"
 	           style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
-      <i class="material-icons" data-act="prev">keyboard_arrow_left</i>
+      <i class="material-icons" id="SearchPrev" data-act="prev" style="cursor:pointer">keyboard_arrow_left</i>
       ${Array.from({length: tot}).map((_,i)=>`
         <div class="page-dot ${i+1===cur?'active':''}" data-p="${i+1}"
-             style="display:inline-flex;width:36px;height:36px;border-radius:50%;
-             align-items:center;justify-content:center;${i+1===cur?'background:#111827;color:#fff;':'border:1px solid #e5e7eb;'}">
+             style="
+                 display:flex;align-items:center;justify-content:center;
+                 width:${i + 1 === cur ? 35 : 30}px;height:${i + 1 === cur ? 35 : 30}px;
+                 border-radius:50%; margin:6px; transition:all .2s; cursor:pointer;
+                 font-family:Pridi, sans-serif; font-size:16px; font-weight:600;
+                 ${i + 1 === cur ? 'background:#F68121;color:#fff;' : 'background:#f8bb86;color:#000;'}
+               ">
           ${i+1}
         </div>
       `).join('')}
-      <i class="material-icons" data-act="next">keyboard_arrow_right</i>
+      <i class="material-icons" id="SearchNext" data-act="next" style="cursor:pointer">keyboard_arrow_right</i>
     `;
-
+    const prevBtn = $('#SearchPrev');
+    const nextBtn = $('#SearchNext');
+    if (prevBtn)  prevBtn.style.visibility = (STATE.page === 1) ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = (STATE.page === tot) ? 'hidden' : 'visible';
     wrap.querySelector('[data-act="prev"]')?.addEventListener('click', () => {
       if (STATE.page > 1) { STATE.page--; load(); }
     });
