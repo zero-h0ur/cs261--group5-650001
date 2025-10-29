@@ -797,15 +797,39 @@ section {
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    background: linear-gradient(180deg, #F68121, #e36f11);
+    background: #F68121;
     color: #fff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.06s ease, opacity 0.08s;
+    transition: all 0.3s ease;
 }
 .ew-btn:active {
     transform: translateY(1px) scale(0.995);
 }
 .ew-btn:hover {
+    opacity: 0.97;
+    background: #e36f11;
+}
+.ew-btn-clear {
+    height: 47px;
+    width: 130px;
+    border-radius: 28px;
+    border: 2px solid #E64D4F;
+    font-family: "Pridi";
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #fff;
+    color: #E64D4F;
+    margin-left:10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+.ew-btn-clear:active {
+    transform: translateY(1px) scale(0.995);
+}
+.ew-btn-clear:hover {
+    background: #E64D4F;
+    color:#fff;
     opacity: 0.97;
 }
 .ew-date-mode {
