@@ -60,7 +60,8 @@
                 <img src="Resourse/icon/Icon_Search.png" alt="search" class="icon-search" />
                 <input type="text" class="search-input" name="q" placeholder="พิมพ์คำค้นหา..." />
                 <button class="search-button" type="submit" onclick="search()">ค้นหาเลย</button>
-				<button type="button" class="reset-button" onclick="resetSearch()">ล้าง</button>
+                <button type="button" class="reset-button" onclick="resetSearch()"><img src="Resourse/icon/close.png"
+                alt="x-icon"></button>
             </form>
         </div>
         <img src="Resourse/png/Header-searchpage1.png" alt="Head" class="search-page-head" />
@@ -88,7 +89,7 @@
                         <div class="category-dropdown-list" id="categoryDropdownList">
                             <div class="category-header">
                                 <span>ประเภทอีเว้นท์</span>
-                                <button class="category-clear-btn" onclick="clearAllCategories()">ล้างทั้งหมด</button>
+                                <button class="category-clear-btn" onclick="clearAllCategories()">ล้าง</button>
                             </div>
 
                             <div class="category-options">
@@ -191,16 +192,20 @@
 
                         <div class="filter-dropdown-list" id="filterDropdownList">
                             <div class="filter-dropdown-option" onclick="selectFilter(event, 'ทั้งหมด')">
-                                <span>ทั้งหมด</span></div>
+                                <span>ทั้งหมด</span>
+                            </div>
                             <div class="filter-dropdown-option" onclick="selectFilter(event, 'วันนี้')">
-                                <span>วันนี้</span></div>
+                                <span>วันนี้</span>
+                            </div>
                             <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')">
                                 <span>สัปดาห์นี้</span>
                             </div>
                             <div class="filter-dropdown-option" onclick="selectFilter(event, 'เดือนนี้')">
-                                <span>เดือนนี้</span></div>
+                                <span>เดือนนี้</span>
+                            </div>
                             <div class="filter-dropdown-option" onclick="selectFilter(event, 'กำหนดเอง')">
-                                <span>กำหนดเอง</span></div>
+                                <span>กำหนดเอง</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -246,7 +251,6 @@
             <!-- Poster อีเว้นท์ -->
             <div id="results" class="Poster_container">
                 <p id="emptyState" style="display:none; text-align:center; color:#999; margin:40px 0;">
-                    ไม่พบกิจกรรมที่ตรงกับคำค้นหา
                 </p>
                 <div id="resultList" class="Poster"></div>
             </div>

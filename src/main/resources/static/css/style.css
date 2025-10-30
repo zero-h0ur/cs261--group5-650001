@@ -1054,13 +1054,15 @@ footer {
 
 /* ปุ่ม Clear */
 .category-clear-btn {
-    padding: 6px 16px;
+    padding: 6px 10px;
+    height: 47px;
+    width: 130px;
     background-color: #fff;
     border: 2px solid #E64D4F;
     border-radius: 32px;
     color: #E64D4F;
     font-family: "Pridi", serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1071,6 +1073,7 @@ footer {
     color: #fff;
     box-shadow: 0px 2px 6px rgba(230, 77, 79, 0.3);
 }
+
 
 /* Grid สำหรับ checkbox options */
 .category-options {

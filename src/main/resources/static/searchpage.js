@@ -73,11 +73,19 @@
   }
 
   // ---------- render ----------
-  function showEmpty(msg = 'ไม่พบกิจกรรมที่ตรงกับคำค้นหา') {
+  function showEmpty(msg = 'ไม่พบกิจกรรมที่ต้องการ ') {
     const list  = $('#resultList');
     const empty = $('#emptyState');
     if (list)  list.innerHTML = '';
-    if (empty) { empty.textContent = msg; empty.style.display = 'block'; }
+    if (empty) {
+    empty.innerHTML = `
+      <div style="text-align:center; padding:40px 0;">
+        <img src="Resourse/icon/Icon_Search.png" alt="empty" style="width:80px; opacity:0.5;">
+        <p style="margin-top:10px; font-family:Pridi; font-size:24px; color:#000000; opacity:0.5;">${msg}</p>
+      </div>
+    `;
+    empty.style.display = 'block';
+  }
     if ($('#searchPager'))    $('#searchPager').innerHTML = '';
     if ($('#searchPageInfo')) $('#searchPageInfo').textContent = '';
   }
