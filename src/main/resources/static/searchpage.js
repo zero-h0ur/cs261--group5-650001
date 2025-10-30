@@ -59,7 +59,7 @@
   // ---------- API ----------
   async function fetchPage() {
     const u = new URL('/api/events', location.origin);
-    if (STATE.keyword) u.searchParams.set('search', STATE.keyword);
+    if (STATE.keyword) u.searchParams.set('search', STATE.keyword.trim().toLowerCase());
     u.searchParams.set('page', String(STATE.page - 1)); // Spring 0-based
     // รองรับทั้ง size (Spring default) และ limit (ถ้าทีมใช้)
     u.searchParams.set('size',  String(STATE.size));
@@ -138,9 +138,23 @@
   async function load() {
     const list = $('#resultList');
     if (!list) return;
-    if (!STATE.keyword) { showEmpty('พิมพ์คำค้นหาในช่องด้านบน'); return; }
-
-    hideEmpty();
+	  // ถ้าไม่มี keyword ให้แสดง "ทั้งหมด" (เหมือน index)
+	  if (!STATE.keyword) {
+	    const title2 = document.querySelector('.search-page-text2');
+	    if (title2) title2.textContent = 'ทั้งหมด';
+	  }	
+	  hideEmpty();
+	  // Loading spinner
+	  list.innerHTML = `
+	    <div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:8px;color:#6b7280">
+	      <div class="ew-spin" style="width:36px;height:36px;border-radius:50%;
+	           border:4px solid #e5e7eb;border-top-color:#111827;animation:ew-rot 0.9s linear infinite"></div>
+	      <div>กำลังโหลด…</div>
+	    </div>
+	    <style>
+	      @keyframes ew-rot { to { transform: rotate(360deg); } }
+	    </style>
+	  `;
     list.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#6b7280">กำลังโหลด…</div>`;
     $('#searchPager') && ($('#searchPager').innerHTML = '');
     $('#searchPageInfo') && ($('#searchPageInfo').textContent = '');
@@ -162,6 +176,27 @@
       showEmpty('เกิดข้อผิดพลาดในการเชื่อมต่อ');
     }
   }
+  
+  // ให้ปุ่ม Clear ใช้รีเซ็ตทุกอย่างกลับไป "ทั้งหมด"
+  window.resetSearch = function () {
+    // ล้างช่องค้นหา (ถ้ามี)
+    const ipt = document.querySelector('#eventSearchInput,.search-input,input[type="search"]');
+    if (ipt) ipt.value = '';
+
+    // ล้างช่วงวันที่ (ถ้าใช้ชุดของ search.js อยู่)
+    try {
+      document.getElementById('ew-start-date').value = '';
+      document.getElementById('ew-start-time').value = '';
+      document.getElementById('ew-end-date').value = '';
+      document.getElementById('ew-end-time').value = '';
+      const st = document.getElementById('dateStatus');
+      if (st) { st.textContent = ''; st.removeAttribute('style'); }
+    } catch {}
+
+    // กลับหน้าค้นหาแบบไม่มี q → backend คืน "ทั้งหมด"
+    const url = new URL(location.origin + '/searchpage.html');
+    location.href = url.toString();
+  };
 
   // ---------- boot ----------
   document.addEventListener('DOMContentLoaded', () => {

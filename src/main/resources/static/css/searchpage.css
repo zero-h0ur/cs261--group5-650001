@@ -1121,3 +1121,23 @@ footer {
         font-size: 16px;
     }
 }
+
+/* ปุ่มล้างใน searchbar */
+.reset-button{
+  position: absolute;
+  right: 147px;     
+  width: 127px;
+  height: 45px;
+  background-color: #e5e7eb;
+  color: #111827;
+  border: none;
+  border-radius: 24px;
+  font-size: 18px;
+  font-family: "Pridi", serif;
+  font-weight: 500;
+  line-height: 45px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,.25);
+  transition: background-color .2s;
+}
+.reset-button:hover{ background-color:#d1d5db; }
