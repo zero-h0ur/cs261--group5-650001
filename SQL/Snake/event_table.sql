@@ -2,7 +2,7 @@ DELETE FROM event;
 SELECT * FROM event;
 -----------------------------------------------
 
--- Not Use When Create Category Form Postman Already
+-- Only if database is empty
 USE tueventsdb;
 GO
 

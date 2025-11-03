@@ -1,11 +1,14 @@
 package com.example.tuevents.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Table(name = "category")
-@NoArgsConstructor  
+@Data
+@NoArgsConstructor
+@AllArgsConstructor 
 public class Category {
 
     @Id
@@ -13,7 +16,8 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
-    @Column(name = "category_name")
+    @Column(name="category_name")
+    @JsonAlias("category_name")
     private String categoryName;
 
     public Category() {}

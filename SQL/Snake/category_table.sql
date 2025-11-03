@@ -1,7 +1,6 @@
 DELETE FROM dbo.[event];
 GO
 
-
 DELETE FROM dbo.[category];
 GO
 

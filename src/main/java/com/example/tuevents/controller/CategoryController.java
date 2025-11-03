@@ -17,28 +17,28 @@ public class CategoryController {
     public CategoryController(CategoryRepository repo) {
         this.repo = repo;
     }
+    
+    //Method To Select Camel Or Snake (Commit #)
+    private String getName(Map<?, ?> map) {
+        Object v = map.get("categoryName");
+        if (v == null) v = map.get("category_name");
+        return (v instanceof String s && !s.isBlank()) ? s : null;
+    }
 
     @PostMapping
     public Object create(@RequestBody Object body) {
-        if (body instanceof List<?>) {
-            // กรณีเป็น array
-            List<?> items = (List<?>) body;
+        if (body instanceof List<?> items) {
             List<Category> saved = new ArrayList<>();
             for (Object obj : items) {
                 if (obj instanceof Map<?, ?> map) {
-                    Object nameObj = map.get("category_name");
-                    if (nameObj instanceof String name && !name.isBlank()) {
-                        saved.add(repo.save(new Category(name)));
-                    }
+                    String name = getName(map);
+                    if (name != null) saved.add(repo.save(new Category(name)));
                 }
             }
             return saved;
         } else if (body instanceof Map<?, ?> map) {
-            // กรณีเป็น object เดียว
-            Object nameObj = map.get("category_name");
-            if (nameObj instanceof String name && !name.isBlank()) {
-                return repo.save(new Category(name));
-            }
+            String name = getName(map);
+            if (name != null) return repo.save(new Category(name));
         }
         return null;
     }

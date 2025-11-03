@@ -5,16 +5,23 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.Date;
 import lombok.*;
 
-
 @Entity
-@Table(name = "event")
+@Table(
+    name = "event",
+    indexes = {
+        @Index(name = "IX_event_title", columnList = "title")
+    }
+)
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long eventId;
 
+    @NotBlank
+    @Column(name = "title", nullable = false, length = 200)
     private String title;
+    
     @Lob
     @Column(name = "description", length = 255)
     private String description;

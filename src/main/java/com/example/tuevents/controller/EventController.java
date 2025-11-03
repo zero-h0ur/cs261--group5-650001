@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -148,5 +149,41 @@ public class EventController {
             END
             """;
         jdbc.execute(sql);
+    }
+    
+    @PostConstruct
+    public void ensureEventTitleIndex() {
+        final String sql = """
+            -- กันค่าว่างก่อน
+            UPDATE dbo.[event]
+            SET title='(untitled)'
+            WHERE title IS NULL OR LTRIM(RTRIM(title))='';
+
+            -- บังคับให้ title NOT NULL
+            ALTER TABLE dbo.[event]
+            ALTER COLUMN title NVARCHAR(200) NOT NULL;
+
+            -- ถ้ายังไม่มี index ให้สร้าง IX_event_title
+            IF NOT EXISTS (
+               SELECT 1 FROM sys.indexes 
+               WHERE name='IX_event_title' AND object_id=OBJECT_ID('dbo.[event]')
+            )
+            BEGIN
+               CREATE NONCLUSTERED INDEX IX_event_title
+               ON dbo.[event] (title);
+               SELECT '✅ Created index IX_event_title on event.title';
+            END
+            ELSE
+            BEGIN
+               SELECT 'ℹ️ Index IX_event_title already exists';
+            END
+        """;
+
+        try {
+            jdbc.execute(sql);
+            System.out.println("✅ Checked/Created index IX_event_title successfully");
+        } catch (Exception e) {
+            System.err.println("⚠️ Failed to ensure IX_event_title index: " + e.getMessage());
+        }
     }
 }
