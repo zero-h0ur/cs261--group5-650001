@@ -1,0 +1,13 @@
+[
+  { "categoryName": "Camp" },
+  { "categoryName": "Activity" },
+  { "categoryName": "Music" },
+  { "categoryName": "Technology" },
+  { "categoryName": "Sport" },
+  { "categoryName": "Competition" },
+  { "categoryName": "Workshop" },
+  { "categoryName": "Art" },
+  { "categoryName": "Academic" },
+  { "categoryName": "Finance" },
+  { "categoryName": "Business" }
+]
