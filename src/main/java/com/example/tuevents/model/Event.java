@@ -2,6 +2,9 @@ package com.example.tuevents.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import lombok.*;
 
@@ -9,7 +12,8 @@ import lombok.*;
 @Table(
     name = "event",
     indexes = {
-        @Index(name = "IX_event_title", columnList = "title")
+        @Index(name = "idx_event_starts_at_ends_at", columnList = "starts_at, ends_at"),
+        @Index(name = "idx_event_title", columnList = "title")
     }
 )
 public class Event {
@@ -30,10 +34,17 @@ public class Event {
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
     private Date startDate;
+    
+ // คอลัมน์ใหม่จาก US4
+    @Column(name = "starts_at", nullable = false)
+    private LocalDateTime startsAt;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "end_date")
     private Date endDate;
+    
+    @Column(name = "ends_at")
+    private LocalDateTime endsAt;
     //End US4
 
     private String time;
@@ -64,6 +75,13 @@ public class Event {
         if (detail == null) detail = "";
         if (imageUrl == null) imageUrl = "";
         // active true โดยค่าเริ่มต้น
+        calculateDatetimeFields();
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        // เวลาอัปเดตก็ให้คำนวณอีกครั้ง
+        calculateDatetimeFields();
     }
     
     public Event() {}
@@ -87,8 +105,32 @@ public class Event {
     // เพิ่ม field ตาม US5   
        this.category = category;
     }
-
     
+    public void calculateDatetimeFields() {
+        // ตรวจสอบว่ามีข้อมูลวัตถุดิบครบ
+        if (startDate != null && time != null && !time.isEmpty()) {
+            
+            java.time.LocalDate datePart = startDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            
+            java.time.LocalTime timePart = java.time.LocalTime.parse(time);
+            
+            // 3. เอามารวมกันเป็น LocalDateTime
+            this.startsAt = LocalDateTime.of(datePart, timePart);
+            
+            // 4. ทำ ends_at (ตามตรรกะ "ถ้า end_date ว่าง ให้ใช้ค่าเดียวกับ starts_at")
+            if (endDate == null) {
+                this.endsAt = this.startsAt; // จบวันเดียว
+            } else {
+                java.time.LocalDate endDatePart = endDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+                this.endsAt = LocalDateTime.of(endDatePart, timePart);
+            }
+        }
+    }
+
     // --- getters/setters ---
     public Long getEventId() { return eventId; }
     public void setEventId(Long eventId) { this.eventId = eventId; }

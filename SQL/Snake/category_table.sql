@@ -11,10 +11,25 @@ GO
 
 ----------------------------------------------------
 
-INSERT INTO dbo.[category](category_name)
-VALUES (N'Camp'), (N'Activity'), (N'Music'), (N'Technology'), (N'Sport'),
-       (N'Competition'), (N'Workshop'), (N'Art'), (N'Academic'),
-       (N'Finance'), (N'Business');
+PRINT 'Writing dbo.category...';
+BEGIN TRANSACTION;
+
+-- สังเกตว่าเราเอาคอลัมน์ category_id ออกไปเลย
+INSERT INTO dbo.category (category_name) VALUES
+(N'Freshy Camp'),
+(N'Market/Fair'),
+(N'Music/Contest'),
+(N'Tech/Workshop'),
+(N'Sports'),
+(N'Competition'),
+(N'Workshop'),
+(N'Art/Show'),
+(N'Academic/Career'),
+(N'Finance'),
+(N'Business');
+
+COMMIT;
 GO
 
-SELECT * FROM dbo.[category] ORDER BY category_id;
+PRINT '======== Finish Create Category ========';
+GO
