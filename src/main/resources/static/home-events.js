@@ -62,6 +62,12 @@ console.log('[home-events] loaded');
 
   async function fetchPage({ page, size, sort, dir }) {
     const p = new URLSearchParams({ page: String(page - 1), limit: String(size), sort, dir });
+	if (Array.isArray(ALL.categoryIds) && ALL.categoryIds.length > 0) {
+	  const csv = ALL.categoryIds.join(',');
+	  ['categories', 'categoryIds', 'category', 'category_id'].forEach(k => {
+	    p.set(k, csv);
+	  });
+	}
     const res = await fetch(`/api/events?${p}`, { headers: { Accept: 'application/json' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
@@ -202,4 +208,7 @@ console.log('[home-events] loaded');
     loadRecommend();
     loadAll();
   });
-})();
+   // ---- export ให้ไฟล์อื่นเรียกได้ (ต้องอยู่ใน IIFE เดียวกันกับที่ประกาศ ALL) ----
+   window.ALL = ALL;
+   window.loadAll = loadAll;
+  })();

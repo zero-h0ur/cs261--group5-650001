@@ -1,5 +1,18 @@
 // searchpage.js
 // ค้นหาอีเวนต์ผ่าน /api/events?search=... + เพจจิเนชัน
+
+const STATE = {
+  keyword: '',
+  page: 1,
+  size: 10,
+  sort: 'eventId',
+  dir: 'desc',
+  totalPages: 1,
+  categoryIds: [],
+  startDate: null,
+  endDate: null
+};
+
 (() => {
   'use strict';
 
@@ -53,13 +66,21 @@
     size: 10,          // จำนวนการ์ดต่อหน้า
     sort: 'eventId',
     dir:  'desc',
-    totalPages: 1
+	totalPages: 1,
+	categoryIds: []
   };
 
   // ---------- API ----------
   async function fetchPage() {
     const u = new URL('/api/events', location.origin);
     if (STATE.keyword) u.searchParams.set('search', STATE.keyword.trim().toLowerCase());
+	
+	if (Array.isArray(STATE.categoryIds) && STATE.categoryIds.length > 0) {
+	  const csv = STATE.categoryIds.join(',');
+	  ['categories', 'categoryIds', 'category', 'category_id'].forEach(k => {
+	    u.searchParams.set(k, csv);
+	  });
+	}
     u.searchParams.set('page', String(STATE.page - 1)); // Spring 0-based
     // รองรับทั้ง size (Spring default) และ limit (ถ้าทีมใช้)
     u.searchParams.set('size',  String(STATE.size));
@@ -222,7 +243,9 @@
       const v = (form.querySelector('.search-input,input[type="search"]')?.value || '').trim();
       if (!v) { e.preventDefault(); form.querySelector('.search-input,input[type="search"]')?.focus(); }
     });
-
+	window.SEARCH_STATE = STATE;
+	window.searchLoad = load;
+	
     load();
   });
 })();
