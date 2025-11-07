@@ -16,7 +16,7 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
-    @Column(name="category_name")
+    @Column(name = "category_name", nullable = false, unique = true)
     @JsonAlias("category_name")
     private String categoryName;
 

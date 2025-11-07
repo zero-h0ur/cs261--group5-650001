@@ -12,6 +12,7 @@ import lombok.*;
 @Table(
     name = "event",
     indexes = {
+    	@Index(name = "idx_event_category_id", columnList = "category_id"),
         @Index(name = "idx_event_starts_at_ends_at", columnList = "starts_at, ends_at"),
         @Index(name = "idx_event_title", columnList = "title")
     }
@@ -62,7 +63,7 @@ public class Event {
     
     // เพิ่ม field ตาม US5
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
     
     @Column(name = "active", nullable = false)
