@@ -5,7 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import lombok.*;
 
 @Entity
@@ -131,6 +134,11 @@ public class Event {
             }
         }
     }
+    
+	//Start Task4 : US6
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+    private List<UserFavorite> favorites = new ArrayList<>();
+    //End Task4 : US6
 
     // --- getters/setters ---
     public Long getEventId() { return eventId; }
