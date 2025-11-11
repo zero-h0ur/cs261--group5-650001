@@ -161,12 +161,26 @@ ul {
 }
 
 button {
-    width: 242px;
+    width: 170px;
     height: 50px;
+    margin-left: 50px;
     border-radius: 20px;
     border: none;
     background-color: #2F2F2F;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.Login_button {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    color: #FFFFFF;
+    margin-left: 0px;
+}
+.Login_button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
 }
 
 button a {
@@ -175,7 +189,11 @@ button a {
     font-weight: 300;
     color: #FFFFFF;
 }
-
+#organizer_button {
+    margin-right: 0px;
+    margin-left: 200px;
+    width: 90px;
+}
 /*Search block*/
 .search-page-background-top {
     top: 0px;

@@ -38,8 +38,9 @@
                     </ul>
                 </li>
 
-                <li class="navbutton">
-                    <a href="#">สำหรับผู้จัด<i class="material-icons">keyboard_arrow_down</i></a>
+                <li class="navbutton" id="organizer_button">
+                    <a href="#"><img src="Resourse/icon/organize-button.png"><i
+                            class="material-icons">keyboard_arrow_down</i></a>
                     <ul class="dropdown">
                         <a>สำหรับผู้จัด</a>
                         <div class="dropdown_item">
@@ -48,7 +49,8 @@
                     </ul>
                 </li>
             </ul>
-            <button><a href="#">เข้าสู่ระบบ/สมัครสมาชิก</a></button>
+            <button class="Login_button"><img src="Resourse/icon/person.png"><a href="#">เข้าสู่ระบบ</a><i
+                    class="material-icons">keyboard_arrow_down</i></button>
         </div>
     </nav>
     <!-- Searchbar -->
@@ -61,7 +63,7 @@
                 <input type="text" class="search-input" name="q" placeholder="พิมพ์คำค้นหา..." />
                 <button class="search-button" type="submit" onclick="search()">ค้นหาเลย</button>
                 <button type="button" class="reset-button" onclick="resetSearch()"><img src="Resourse/icon/close.png"
-                alt="x-icon"></button>
+                        alt="x-icon"></button>
             </form>
         </div>
         <img src="Resourse/png/Header-searchpage1.png" alt="Head" class="search-page-head" />
@@ -267,7 +269,7 @@
     </footer>
     <script src="searchpage.js" defer></script>
     <script src="category-filter.js"></script>
-	<script src="search.js"></script>
+    <script src="search.js"></script>
 </body>
 
 </html>
