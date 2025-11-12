@@ -3,7 +3,10 @@ package com.example.tuevents.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,27 +115,33 @@ public class Event {
     
     public void calculateDatetimeFields() {
         // ตรวจสอบว่ามีข้อมูลวัตถุดิบครบ
-        if (startDate != null && time != null && !time.isEmpty()) {
-            
-            java.time.LocalDate datePart = startDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-            
-            java.time.LocalTime timePart = java.time.LocalTime.parse(time);
-            
-            // 3. เอามารวมกันเป็น LocalDateTime
-            this.startsAt = LocalDateTime.of(datePart, timePart);
-            
-            // 4. ทำ ends_at (ตามตรรกะ "ถ้า end_date ว่าง ให้ใช้ค่าเดียวกับ starts_at")
-            if (endDate == null) {
-                this.endsAt = this.startsAt; // จบวันเดียว
-            } else {
-                java.time.LocalDate endDatePart = endDate.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-                this.endsAt = LocalDateTime.of(endDatePart, timePart);
-            }
+        LocalDate start;
+        LocalDate end;
+
+        if (startDate instanceof java.sql.Date) {
+            start = ((java.sql.Date) startDate).toLocalDate();
+        } else if (startDate instanceof java.util.Date) {
+            start = Instant.ofEpochMilli(startDate.getTime())
+                           .atZone(ZoneId.systemDefault())
+                           .toLocalDate();
+        } else {
+            throw new IllegalArgumentException("Unsupported startDate type: " + startDate.getClass());
         }
+
+        if (endDate instanceof java.sql.Date) {
+            end = ((java.sql.Date) endDate).toLocalDate();
+        } else if (endDate instanceof java.util.Date) {
+            end = Instant.ofEpochMilli(endDate.getTime())
+                         .atZone(ZoneId.systemDefault())
+                         .toLocalDate();
+        } else {
+            throw new IllegalArgumentException("Unsupported endDate type: " + endDate.getClass());
+        }
+
+        LocalTime localTime = LocalTime.parse(time);
+
+        this.startsAt = LocalDateTime.of(start, localTime);
+        this.endsAt = LocalDateTime.of(end, localTime);
     }
     
 	//Start Task4 : US6
