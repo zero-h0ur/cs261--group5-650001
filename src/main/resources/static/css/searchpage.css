@@ -771,6 +771,7 @@ section {
 .search-page-group:hover {
     transform: scale(1.02);
     box-shadow: 0 1px 8px #dedede;
+    color:#fa0000;
 }
 
 /* ข้อความชื่ออีเว้นท์ */
