@@ -155,42 +155,91 @@ window.toggleFilterDropdown = function () {
   dropdown?.classList.toggle('showFilter');
   button?.classList.toggle('activeFilter');
 };
-
+// เพิ่ม function ให้ กรอง date
 window.selectFilter = (event, option) => {
   const dropdown   = $('#filterDropdownList');
   const button     = $('.filter-dropdown-button');
   const textEl     = $('.filter-dropdown-text');
   const datePicker = $('.date-picker-container');
+  const status     = document.getElementById('dateStatus');
 
   if (textEl) textEl.textContent = option;
   dropdown?.classList.remove('showFilter');
   button?.classList.remove('activeFilter');
 
+  const isIndex  = !!document.getElementById('homeGridAll');
+  const useIndex = isIndex && window.ALL && typeof window.loadAll === 'function';
+
+  // ถ้าเลือก "กำหนดเอง" → แค่เปิด date picker รอ user กด "ตกลง"
   if (option === 'กำหนดเอง') {
     datePicker?.classList.add('show');
-    datePicker?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    // ยังไม่ยิง API จนกว่าจะกดตกลงใน date picker
+    status && (status.textContent = '');
+    return;
+  }
+
+  // ปิด date picker ถ้าไม่ใช่ "กำหนดเอง"
+  datePicker?.classList.remove('show');
+
+  const today = new Date();
+  const toIso = d => d.toISOString().slice(0, 10);
+
+  let start = null;
+  let end   = null;
+
+  if (option === 'วันนี้') {
+    start = end = toIso(today);
+  } else if (option === 'สัปดาห์นี้') {
+    // นับ "สัปดาห์นี้" แบบ จันทร์-อาทิตย์
+    const day = today.getDay();          // 0 = Sun, 1 = Mon, ...
+    const monday = new Date(today);
+    const diff = (day === 0 ? -6 : 1 - day);
+    monday.setDate(today.getDate() + diff);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    start = toIso(monday);
+    end   = toIso(sunday);
+  } else if (option === 'เดือนนี้') {
+    const first = new Date(today.getFullYear(), today.getMonth(), 1);
+    const last  = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    start = toIso(first);
+    end   = toIso(last);
   } else {
-    datePicker?.classList.remove('show');
-    // ตัวอย่าง preset (วันนี้/สัปดาห์นี้/เดือนนี้) — ปรับตามที่ต้องการ
-    const today = new Date();
-    if (option === 'วันนี้') {
-      const s = today.toISOString().slice(0,10);
-      EW.startDate = s; EW.endDate = s;
-    } else if (option === 'สัปดาห์นี้') {
-      const first = new Date(today); first.setDate(today.getDate()-today.getDay()+1);
-      const last  = new Date(first); last.setDate(first.getDate()+6);
-      EW.startDate = first.toISOString().slice(0,10);
-      EW.endDate   = last.toISOString().slice(0,10);
-    } else if (option === 'เดือนนี้') {
-      const a = new Date(today.getFullYear(), today.getMonth(), 1);
-      const b = new Date(today.getFullYear(), today.getMonth()+1, 0);
-      EW.startDate = a.toISOString().slice(0,10);
-      EW.endDate   = b.toISOString().slice(0,10);
+    // "ทั้งหมด" → เคลียร์ filter
+    start = null;
+    end   = null;
+  }
+
+  // sync ลง input date (เพื่อให้ UI ตรงกับตัวกรอง)
+  const sInput = document.getElementById('ew-start-date');
+  const eInput = document.getElementById('ew-end-date');
+  const mode   = document.getElementById('rangeMode');
+  if (sInput) sInput.value = start || '';
+  if (eInput) eInput.value = end   || '';
+  if (mode) {
+    if (option === 'วันนี้') mode.value = 'single';
+    else if (option === 'สัปดาห์นี้' || option === 'เดือนนี้') mode.value = 'range';
+  }
+
+  // อัปเดต state,โหลดข้อมูลใหม่
+  if (useIndex) {
+    ALL.startDate = start;
+    ALL.endDate   = end;
+    ALL.page = 1;
+    window.loadAll();
+  } else {
+    EW.startDate = start;
+    EW.endDate   = end;
+    EW.pageUI = 1;
+    load();
+  }
+
+  if (status) {
+    if (start && end) {
+      status.textContent = `✔ ใช้ตัวกรอง: ${start} ถึง ${end}`;
+      status.style.color = '#1B5E20';
     } else {
-      EW.startDate = null; EW.endDate = null;
+      status.textContent = '';
     }
-    EW.pageUI = 1; load();
   }
 };
 
@@ -249,56 +298,99 @@ window.EWDate_onSubmit = function () {
   load();
 };
 
-// ---------- Enhanced DateTime Picker ----------
-function formatDateTimeLocal(dateStr, timeStr) {
-  if (!dateStr) return null;
-  const date = new Date(`${dateStr}T${timeStr || '00:00'}`);
-  return date.toISOString().slice(0,16); // YYYY-MM-DDTHH:mm
-}
-
+// ---------- Enhanced DateTime Picker ฉบับแก้แล้วเอาแต่ Date ----------
 function applyDateRange() {
-  const mode = document.getElementById('rangeMode').value;
-  const sDate = document.getElementById('ew-start-date').value;
-  const sTime = document.getElementById('ew-start-time').value;
-  const eDate = document.getElementById('ew-end-date').value;
-  const eTime = document.getElementById('ew-end-time').value;
-  const status = document.getElementById('dateStatus');
+  const modeSel = document.getElementById('rangeMode');
+  const mode    = modeSel ? modeSel.value : 'single';
+
+  const sDateInput = document.getElementById('ew-start-date');
+  const eDateInput = document.getElementById('ew-end-date');
+  const status     = document.getElementById('dateStatus');
+
+  const sDate = (sDateInput?.value || '').trim();
+  const eDate = (eDateInput?.value || '').trim();
 
   if (!sDate) {
-    status.textContent = '⚠ กรุณาเลือกวันที่เริ่มต้น';
-    status.style.color = '#E64D4F';
+    if (status) {
+      status.textContent = '⚠ กรุณาเลือกวันที่เริ่มต้น';
+      status.style.color = '#E64D4F';
+    }
     return;
   }
 
-  let start = new Date(`${sDate}T${sTime || '00:00'}`);
-  let end   = mode === 'single' ? start : new Date(`${eDate}T${eTime || '23:59'}`);
+  let start = sDate;
+  let end   = sDate;
 
-  if (mode === 'range' && (!eDate || start > end)) {
-    status.textContent = '⚠ ช่วงเวลาไม่ถูกต้อง (Start > End)';
-    status.style.color = '#E64D4F';
-    return;
+  if (mode === 'range') {
+    if (!eDate) {
+      if (status) {
+        status.textContent = '⚠ กรุณาเลือกวันที่สิ้นสุด';
+        status.style.color = '#E64D4F';
+      }
+      return;
+    }
+    if (eDate < sDate) {
+      if (status) {
+        status.textContent = '⚠ ช่วงวันที่ไม่ถูกต้อง (Start > End)';
+        status.style.color = '#E64D4F';
+      }
+      return;
+    }
+    end = eDate;
   }
 
-  // Update state
-  EW.startDate = start.toISOString().slice(0,10);
-  EW.endDate   = mode === 'range' ? end.toISOString().slice(0,10) : EW.startDate;
-  EW.pageUI = 1;
-  load();
+  const isIndex  = !!document.getElementById('homeGridAll');
+  const useIndex = isIndex && window.ALL && typeof window.loadAll === 'function';
 
-  status.textContent = `✔ ใช้ตัวกรอง: ${EW.startDate} ถึง ${EW.endDate}`;
-  status.style.color = '#1B5E20';
+  if (useIndex) {
+    ALL.startDate = start;
+    ALL.endDate   = end;
+    ALL.page = 1;
+    window.loadAll();
+  } else {
+    EW.startDate = start;
+    EW.endDate   = end;
+    EW.pageUI = 1;
+    load();
+  }
+
+  if (status) {
+    status.textContent = `✔ ใช้ตัวกรอง: ${start} ถึง ${end}`;
+    status.style.color = '#1B5E20';
+  }
 }
 
 function clearDateRange() {
-  document.getElementById('ew-start-date').value = '';
-  document.getElementById('ew-start-time').value = '';
-  document.getElementById('ew-end-date').value = '';
-  document.getElementById('ew-end-time').value = '';
-  document.getElementById('dateStatus').textContent = 'ล้างข้อมูลเรียบร้อย';
-  document.getElementById('dateStatus').style.color = '#444';
-  EW.startDate = null;
-  EW.endDate = null;
-  load();
+  const sDateInput = document.getElementById('ew-start-date');
+  const eDateInput = document.getElementById('ew-end-date');
+  const sTimeInput = document.getElementById('ew-start-time');
+  const eTimeInput = document.getElementById('ew-end-time');
+  const status     = document.getElementById('dateStatus');
+
+  if (sDateInput) sDateInput.value = '';
+  if (eDateInput) eDateInput.value = '';
+  if (sTimeInput) sTimeInput.value = '';
+  if (eTimeInput) eTimeInput.value = '';
+
+  const isIndex  = !!document.getElementById('homeGridAll');
+  const useIndex = isIndex && window.ALL && typeof window.loadAll === 'function';
+
+  if (useIndex) {
+    ALL.startDate = null;
+    ALL.endDate   = null;
+    ALL.page = 1;
+    window.loadAll();
+  } else {
+    EW.startDate = null;
+    EW.endDate   = null;
+    EW.pageUI = 1;
+    load();
+  }
+
+  if (status) {
+    status.textContent = 'ล้างข้อมูลเรียบร้อย';
+    status.style.color = '#444';
+  }
 }
 // ---------- Enhanced DateTime Picker ----------
 

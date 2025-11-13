@@ -60,25 +60,67 @@ console.log('[home-events] loaded');
       </div>`;
   }
 
-  async function fetchPage({ page, size, sort, dir }) {
-    const p = new URLSearchParams({ page: String(page - 1), limit: String(size), sort, dir });
-	if (Array.isArray(ALL.categoryIds) && ALL.categoryIds.length > 0) {
-	  const csv = ALL.categoryIds.join(',');
-	  ['categories', 'categoryIds', 'category', 'category_id'].forEach(k => {
-	    p.set(k, csv);
-	  });
-	}
-    const res = await fetch(`/api/events?${p}`, { headers: { Accept: 'application/json' } });
+  // page/size/sort/dir มาจาก ALL หรือจาก loadRecommend
+  // useFilter = false สำหรับส่วน "อีเว้นท์สำหรับคุณ" ให้ไม่ติดตัวกรองวันที่
+  async function fetchPage({ page, size, sort, dir, useFilter }) {
+    const hasCategory = Array.isArray(ALL.categoryIds) && ALL.categoryIds.length > 0;
+    const hasDate = !!(ALL.startDate || ALL.endDate);
+    const applyFilter = useFilter !== false && (hasCategory || hasDate);
+
+    let endpoint;
+    let p;
+
+    if (applyFilter) {
+      endpoint = '/api/events/filter';
+      p = new URLSearchParams({
+        page: String(page - 1),
+        size: String(size),
+        sort: `${sort},${dir}`,
+      });
+
+      if (hasCategory) p.set('categories', ALL.categoryIds.join(','));
+      if (ALL.startDate) p.set('start', ALL.startDate);
+      if (ALL.endDate)   p.set('end',   ALL.endDate);
+    } else {
+      endpoint = '/api/events';
+      p = new URLSearchParams({
+        page: String(page - 1),
+        limit: String(size),
+        sort,
+        dir,
+      });
+      if (hasCategory && useFilter !== false) {
+        p.set('category', ALL.categoryIds.join(','));
+      }
+    }
+
+    // 🔍 log ดูว่าไป endpoint ไหน พร้อมพารามิเตอร์อะไร
+    console.log('[home-events] fetchPage', {
+      endpoint,
+      params: p.toString(),
+      ALL_snapshot: { startDate: ALL.startDate, endDate: ALL.endDate, categoryIds: ALL.categoryIds }
+    });
+
+    const res = await fetch(`${endpoint}?${p.toString()}`, {
+      headers: { Accept: 'application/json' }
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
+	
 
   async function loadRecommend() {
     const grid = $('#homeGridRec'), empty = $('#homeEmptyRec');
     if (!grid) return;
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#6b7280">กำลังโหลด…</div>`;
     try {
-      const page = await fetchPage({ page: 1, size: 5, sort: 'eventId', dir: 'desc' });
+		const page = await fetchPage({
+		  page: 1,
+		  size: 5,
+		  sort: 'eventId',
+		  dir: 'desc',
+		  useFilter: false   // 🔸 ไม่เอา start/end filter มาใช้กับแถบ "สำหรับคุณ"
+		});
       const items = page?.content ?? [];
       if (!items.length) { grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
       if (empty) empty.style.display = 'none';
@@ -91,7 +133,17 @@ console.log('[home-events] loaded');
   }
 
   // ไว้ด้านบนเหมือนเดิม
-  const ALL = { page: 1, size: 10, sort: 'eventId', dir: 'desc', totalPages: 1 };
+  // เพิ่ม startDate / endDate / categoryIds ไว้เก็บตัวกรอง
+  const ALL = {
+    page: 1,
+    size: 10,
+    sort: 'eventId',
+    dir: 'desc',
+    totalPages: 1,
+    startDate: null,   // 'YYYY-MM-DD' หรือ null
+    endDate: null,     // 'YYYY-MM-DD' หรือ null
+    categoryIds: []    // ให้ category-filter.js มาเติมค่าให้
+  };
 
   // ⬇️ แทนที่ฟังก์ชัน renderPager เดิมด้วยอันนี้
   function renderPager(page) {
