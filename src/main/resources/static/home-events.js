@@ -45,6 +45,7 @@ console.log('[home-events] loaded');
         <a href="event-detail.html?id=${encodeURIComponent(String(id))}">
           <img src="${img}" alt="Poster" class="search-page-Poster"
                onerror="this.src='Resourse/Poster/image 14.png'"/>
+          <div class="bookmark-btn"><img src="Resourse/icon/fav-button.png" class="bookmark-icon"></div>
           <span class="search-page-date">${date}</span>
           <div class="search-page-time">
             <img src="Resourse/icon/clock.png" alt="clock" class="clock"/>
@@ -259,6 +260,19 @@ console.log('[home-events] loaded');
   document.addEventListener('DOMContentLoaded', () => {
     loadRecommend();
     loadAll();
+  });
+  document.addEventListener('click', e => {
+  const btn = e.target.closest('.bookmark-btn');
+  if (!btn) return;
+
+  e.preventDefault();
+  const icon = btn.querySelector('.bookmark-icon');
+  const isActive = btn.classList.toggle('active');
+
+  // เปลี่ยนรูปภาพตอนคลิก
+  icon.src = isActive
+    ? 'Resourse/icon/fav-button-active.png'
+    : 'Resourse/icon/fav-button.png';
   });
    // ---- export ให้ไฟล์อื่นเรียกได้ (ต้องอยู่ใน IIFE เดียวกันกับที่ประกาศ ALL) ----
    window.ALL = ALL;

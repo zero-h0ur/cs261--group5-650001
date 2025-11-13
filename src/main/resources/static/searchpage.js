@@ -97,7 +97,7 @@
           <img src="${img}" alt="${escapeHtml(title)}"
                class="search-page-Poster"
                onerror="this.src='Resourse/Poster/image 14.png'"/>
-
+          <div class="bookmark-btn"><img src="Resourse/icon/fav-button.png" class="bookmark-icon"></div>
           <span class="search-page-date">${dateText}</span>
 
           <div class="search-page-time">
@@ -320,5 +320,18 @@
 
     // โหลดครั้งแรก
     load();
+  });
+    document.addEventListener('click', e => {
+  const btn = e.target.closest('.bookmark-btn');
+  if (!btn) return;
+
+  e.preventDefault();
+  const icon = btn.querySelector('.bookmark-icon');
+  const isActive = btn.classList.toggle('active');
+
+  // เปลี่ยนรูปภาพตอนคลิก
+  icon.src = isActive
+    ? 'Resourse/icon/fav-button-active.png'
+    : 'Resourse/icon/fav-button.png';
   });
 })();
