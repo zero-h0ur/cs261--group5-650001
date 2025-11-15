@@ -486,6 +486,7 @@ section {
 .register-btn:hover {
     background-color: rgb(200, 60, 65);
 }
+
 .bookmark-btn {
     position: absolute;
     top: 10px;
@@ -494,16 +495,27 @@ section {
     height: 35px;
     background: none;
     cursor: pointer;
-    opacity: 0;
     border: 2px solid #FFFFFF;
     border-radius: 30px;
-    transition: opacity 0.3s ease;
     z-index: 3;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.3s ease;
+    opacity: 0; /*ซ่อนบนการ์ด */
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
+/* แสดงปุ่มเวลาเอาเมาส์ไปวางบนการ์ด (หน้า index / searchpage) */
+.search-page-group:hover .bookmark-btn {
+    opacity: 1;
+}
+
+/* ตอนกำลังยิง API (ใช้จาก JS: btn.classList.add('loading')) */
+.bookmark-btn.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 .bookmark-btn img {
     width: 25px;
     height: 25px;

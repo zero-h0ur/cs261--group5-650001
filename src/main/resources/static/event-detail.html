@@ -40,11 +40,13 @@
   <section>
     <div class="container1">
       <div class="poster">
-
+		
         <img id="evt-poster" src="Resourse/Poster/image 14.png" alt="Poster" />
       </div>
       <button class="button_reg"><a href="#" id="evt-register-link">ลงทะเบียน</a></button>
-      <div class="bookmark-btn"><img src="Resourse/icon/fav-button-red.png" class="bookmark-icon"></div>
+	  <div class="bookmark-btn">
+	    <img src="Resourse/icon/fav-button-red.png" class="bookmark-icon" alt="favorite">
+		</div>
     </div>
 
     <div class="container2">
@@ -92,8 +94,17 @@
     <img class="Footer-img" src="Resourse/Footer.png" alt="Footer" />
     <img class="Footer-tape" src="Resourse/png/Footer-tape.png" alt="Footertape" />
   </footer>
-
+  
+  <script>
+  	window.addEventListener("pageshow", function (event) {
+  	  if (event.persisted) {
+  	    window.location.reload();
+  	  }
+  	});
+  </script>
+  <script src="favorites.js" defer></script>
   <script src="event-detail.js"></script>
+  
 </body>
 
 </html>

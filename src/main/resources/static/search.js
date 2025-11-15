@@ -17,6 +17,14 @@ const EW = {
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+
+// ใช้ปุ่ม bookmark กลางจาก FAV
+const renderBookmark = (id) =>
+  (window.FAV && typeof window.FAV.renderBookmarkButton === 'function')
+    ? window.FAV.renderBookmarkButton(id)
+    : '';
+
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, ch => ({
     '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
@@ -72,7 +80,8 @@ function buildCard(ev) {
   const id = ev.eventId ?? ev.id ?? '';
 
   return `
-    <div class="search-page-group">
+    <div class="search-page-group" data-event-id="${id}">
+      ${renderBookmark(id)}
       <a href="event-detail.html?id=${id}">
         <img src="${img}" alt="Poster" class="search-page-Poster" />
         <span class="search-page-date">${start} - ${end}</span>
@@ -420,14 +429,13 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ---------- Global Search Bar ----------
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const form =
-    document.getElementById('globalSearch') ||          // navbar
-    document.querySelector('.search-page-searchbar');    // form บน searchpage
+    document.getElementById('globalSearch') ||
+    document.querySelector('.search-page-searchbar');
 
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
+  if (form) {
+    form.addEventListener('submit', (e) => {
     const ipt =
       form.querySelector('input[name="q"]') ||
       form.querySelector('.search-input') ||
@@ -450,9 +458,15 @@ document.addEventListener('DOMContentLoaded', () => {
       url.searchParams.set('scroll', 'Content');
       location.href = url.toString();
       return;
-    }
-    // ถ้ามี action (เช่น searchpage.html) → ปล่อยให้ส่ง GET ตามปกติ
-  });
+    		}
+ 		});
+	}
+	 if (window.FAV && typeof window.FAV.loadFavorites === 'function') {
+	    await window.FAV.loadFavorites();
+	 }
+	 if (window.FAV && typeof window.FAV.attachFavoriteClickHandler === 'function') {
+	    window.FAV.attachFavoriteClickHandler(document);
+	 }
 });
 
 // ปุ่มค้นหาที่หน้า searchpage (onclick="search()")

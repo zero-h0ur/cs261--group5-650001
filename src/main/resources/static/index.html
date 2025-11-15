@@ -256,9 +256,18 @@
   </footer>
 
   <!-- โหลดสคริปต์ที่เติมการ์ด/เพจจิเนชันให้ -->
+  <script>
+  	window.addEventListener("pageshow", function (event) {
+  	  if (event.persisted) {
+  	    window.location.reload();
+  	  }
+  	});
+  	</script>
+  <script src="favorites.js" defer></script>
   <script src="/home-events.js?v=1" defer></script>
   <script src="category-filter.js"></script>
   <script src="search.js"></script>
+  
 </body>
 
 </html>

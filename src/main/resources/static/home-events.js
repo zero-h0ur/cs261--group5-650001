@@ -1,8 +1,9 @@
+// home-events.js
 console.log('[home-events] loaded');
 (function () {
   const $ = s => document.querySelector(s);
+  const API_BASE = '/api';
 
-  // แปลง "YYYY-MM-DD" → Date แบบ local-safe (กัน Safari/บางเบราว์เซอร์พัง)
   function parseISODateLocal(s) {
     if (!s || typeof s !== 'string') return null;
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
@@ -10,8 +11,8 @@ console.log('[home-events] loaded');
       const d = new Date(s);
       return isNaN(d.getTime()) ? null : d;
     }
-    const [, y, mo, d] = m.map(Number); // ข้าม index 0 (ทั้งสตริงที่แมตช์)
-    return new Date(y, mo - 1, d); // Local time
+    const [, y, mo, d] = m.map(Number);
+    return new Date(y, mo - 1, d);
   }
 
   function fmtDate(d) {
@@ -21,8 +22,13 @@ console.log('[home-events] loaded');
     return dt.toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
-  // ช่วยดึงค่าโดยรองรับหลายชื่อฟิลด์
   const pick = (...xs) => xs.find(v => v !== undefined && v !== null && v !== '');
+
+  // helper ใช้ปุ่ม bookmark จาก FAV ถ้ามี
+  const renderBookmark = (id) =>
+    (window.FAV && typeof window.FAV.renderBookmarkButton === 'function')
+      ? window.FAV.renderBookmarkButton(id)
+      : '';
 
   function card(ev) {
     const id = pick(ev.eventId, ev.event_id, ev.id, '');
@@ -32,8 +38,7 @@ console.log('[home-events] loaded');
     );
 
     const start = pick(ev.startDate, ev.start_date, ev.start, ev.dateStart);
-    const end   = pick(ev.endDate, ev.end_date, ev.end, ev.dateEnd);
-
+    const end = pick(ev.endDate, ev.end_date, ev.end, ev.dateEnd);
     const date = (start && end) ? `${fmtDate(start)} - ${fmtDate(end)}` : fmtDate(start);
 
     const timeText = pick(ev.time, ev.startTime, ev.start_time, '-');
@@ -41,19 +46,19 @@ console.log('[home-events] loaded');
     const location = pick(ev.location, '-');
 
     return `
-      <div class="search-page-group">
+      <div class="search-page-group" data-event-id="${id}">
+        ${renderBookmark(id)}
         <a href="event-detail.html?id=${encodeURIComponent(String(id))}">
           <img src="${img}" alt="Poster" class="search-page-Poster"
                onerror="this.src='Resourse/Poster/image 14.png'"/>
-          <div class="bookmark-btn"><img src="Resourse/icon/fav-button.png" class="bookmark-icon"></div>
           <span class="search-page-date">${date}</span>
           <div class="search-page-time">
-            <img src="Resourse/icon/clock.png" alt="clock" class="clock"/>
+            <img src="Resourse/icon/clock.png" class="clock"/>
             <span class="search-page-clock">${timeText}</span>
           </div>
           <span class="search-page-name">${title}</span>
           <div class="search-page-place">
-            <img src="Resourse/icon/pin.png" alt="pin" class="pin"/>
+            <img src="Resourse/icon/pin" class="pin"/>
             <span class="search-page-pin">${location}</span>
           </div>
           <button class="register-btn">ลงทะเบียน</button>
@@ -61,8 +66,6 @@ console.log('[home-events] loaded');
       </div>`;
   }
 
-  // page/size/sort/dir มาจาก ALL หรือจาก loadRecommend
-  // useFilter = false สำหรับส่วน "อีเว้นท์สำหรับคุณ" ให้ไม่ติดตัวกรองวันที่
   async function fetchPage({ page, size, sort, dir, useFilter }) {
     const hasCategory = Array.isArray(ALL.categoryIds) && ALL.categoryIds.length > 0;
     const hasDate = !!(ALL.startDate || ALL.endDate);
@@ -72,7 +75,7 @@ console.log('[home-events] loaded');
     let p;
 
     if (applyFilter) {
-      endpoint = '/api/events/filter';
+      endpoint = `${API_BASE}/events/filter`;
       p = new URLSearchParams({
         page: String(page - 1),
         size: String(size),
@@ -81,9 +84,9 @@ console.log('[home-events] loaded');
 
       if (hasCategory) p.set('categories', ALL.categoryIds.join(','));
       if (ALL.startDate) p.set('start', ALL.startDate);
-      if (ALL.endDate)   p.set('end',   ALL.endDate);
+      if (ALL.endDate) p.set('end', ALL.endDate);
     } else {
-      endpoint = '/api/events';
+      endpoint = `${API_BASE}/events`;
       p = new URLSearchParams({
         page: String(page - 1),
         limit: String(size),
@@ -95,7 +98,6 @@ console.log('[home-events] loaded');
       }
     }
 
-    // 🔍 log ดูว่าไป endpoint ไหน พร้อมพารามิเตอร์อะไร
     console.log('[home-events] fetchPage', {
       endpoint,
       params: p.toString(),
@@ -108,21 +110,20 @@ console.log('[home-events] loaded');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
-	
 
   async function loadRecommend() {
     const grid = $('#homeGridRec'), empty = $('#homeEmptyRec');
     if (!grid) return;
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#6b7280">กำลังโหลด…</div>`;
     try {
-		const page = await fetchPage({
-		  page: 1,
-		  size: 5,
-		  sort: 'eventId',
-		  dir: 'desc',
-		  useFilter: false   // 🔸 ไม่เอา start/end filter มาใช้กับแถบ "สำหรับคุณ"
-		});
-      const items = page?.content ?? [];
+      const page = await fetchPage({
+        page: 1,
+        size: 5,
+        sort: 'eventId',
+        dir: 'desc',
+        useFilter: false
+      });
+      const items = Array.isArray(page) ? page : (page?.content ?? []);
       if (!items.length) { grid.innerHTML = ''; if (empty) empty.style.display = 'block'; return; }
       if (empty) empty.style.display = 'none';
       grid.innerHTML = items.map(card).join('');
@@ -133,31 +134,26 @@ console.log('[home-events] loaded');
     }
   }
 
-  // ไว้ด้านบนเหมือนเดิม
-  // เพิ่ม startDate / endDate / categoryIds ไว้เก็บตัวกรอง
   const ALL = {
     page: 1,
     size: 10,
     sort: 'eventId',
     dir: 'desc',
     totalPages: 1,
-    startDate: null,   // 'YYYY-MM-DD' หรือ null
-    endDate: null,     // 'YYYY-MM-DD' หรือ null
-    categoryIds: []    // ให้ category-filter.js มาเติมค่าให้
+    startDate: null,
+    endDate: null,
+    categoryIds: []
   };
 
-  // ⬇️ แทนที่ฟังก์ชัน renderPager เดิมด้วยอันนี้
   function renderPager(page) {
     const wrap = $('#homePagerAll');
     if (!wrap) return;
 
-    // รองรับทั้ง camelCase และ snake_case
     const total = page.totalPages ?? page.total_pages ?? 1;
     ALL.totalPages = total;
 
     const cur = ALL.page, tot = ALL.totalPages;
 
-    // ใช้ template string และ flex จัดกลาง
     wrap.innerHTML = `
       <div class="pagenumber"
            style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
@@ -169,8 +165,7 @@ console.log('[home-events] loaded');
                  width:${i + 1 === cur ? 35 : 30}px;height:${i + 1 === cur ? 35 : 30}px;
                  border-radius:50%; margin:6px; transition:all .2s; cursor:pointer;
                  font-family:Pridi, sans-serif; font-size:16px; font-weight:600;
-                 ${i + 1 === cur ? 'background:#F68121;color:#fff;' : 'background:#f8bb86;color:#000;'}
-               ">
+                 ${i + 1 === cur ? 'background:#F68121;color:#fff;' : 'background:#f8bb86;color:#000;'}>
             ${i + 1}
           </div>
         `).join('')}
@@ -182,17 +177,14 @@ console.log('[home-events] loaded');
       </div>
     `;
 
-    // อัปเดตข้อความสถานะหน้า
     const pageInfo = $('#pageInfo');
     if (pageInfo) pageInfo.textContent = `หน้า ${ALL.page} จาก ${ALL.totalPages}`;
 
-    // ซ่อน/แสดงปุ่มซ้ายขวาตามขอบ
     const prevBtn = $('#HomePrev');
     const nextBtn = $('#HomeNext');
     if (prevBtn) prevBtn.style.visibility = (ALL.page === 1) ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = (ALL.page === tot) ? 'hidden' : 'visible';
 
-    // คลิกเลื่อนหน้า
     prevBtn?.addEventListener('click', () => {
       if (ALL.page > 1) { ALL.page--; loadAll(); }
     });
@@ -200,7 +192,6 @@ console.log('[home-events] loaded');
       if (ALL.page < tot) { ALL.page++; loadAll(); }
     });
 
-    // คลิกที่จุดเลขหน้า
     wrap.querySelectorAll('.page-dot').forEach(el =>
       el.addEventListener('click', () => {
         const p = Number(el.dataset.page);
@@ -208,7 +199,6 @@ console.log('[home-events] loaded');
       })
     );
   }
-
 
   async function loadAll() {
     const grid = $('#homeGridAll'), empty = $('#homeEmptyAll');
@@ -219,7 +209,7 @@ console.log('[home-events] loaded');
 
     try {
       const page = await fetchPage(ALL);
-      const items = page?.content ?? [];
+      const items = Array.isArray(page) ? page : (page?.content ?? []);
 
       if (!items.length) {
         grid.innerHTML = `<div id="homenone-event">ไม่มีข้อมูลกิจกรรม</div>`;
@@ -243,38 +233,23 @@ console.log('[home-events] loaded');
           เกิดข้อผิดพลาดในการเชื่อมต่อ<br/>
           กรุณาลองใหม่ภายหลัง
         </div>`;
+      const pager = $('#homePagerAll');
       if (pager) pager.innerHTML = '';
       if (empty) empty.style.display = 'none';
     }
   }
 
-  if (!window.toggleFilterDropdown) {
-    window.toggleFilterDropdown = function () {
-      const d = document.getElementById('filterDropdownList');
-      const b = document.querySelector('.filter-dropdown-button');
-      d?.classList.toggle('showFilter');
-      b?.classList.toggle('activeFilter');
-    };
-  }
-
+  // DOM READY
   document.addEventListener('DOMContentLoaded', () => {
-    loadRecommend();
-    loadAll();
+    (async () => {
+      if (window.FAV && typeof window.FAV.loadFavorites === 'function') {
+        await window.FAV.loadFavorites();
+      }
+      if (window.FAV && typeof window.FAV.attachFavoriteClickHandler === 'function') {
+        window.FAV.attachFavoriteClickHandler(document);
+      }
+      loadRecommend();
+      loadAll();
+    })();
   });
-  document.addEventListener('click', e => {
-  const btn = e.target.closest('.bookmark-btn');
-  if (!btn) return;
-
-  e.preventDefault();
-  const icon = btn.querySelector('.bookmark-icon');
-  const isActive = btn.classList.toggle('active');
-
-  // เปลี่ยนรูปภาพตอนคลิก
-  icon.src = isActive
-    ? 'Resourse/icon/fav-button-active.png'
-    : 'Resourse/icon/fav-button.png';
-  });
-   // ---- export ให้ไฟล์อื่นเรียกได้ (ต้องอยู่ใน IIFE เดียวกันกับที่ประกาศ ALL) ----
-   window.ALL = ALL;
-   window.loadAll = loadAll;
-  })();
+})();
