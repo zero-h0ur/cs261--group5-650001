@@ -200,5 +200,130 @@
       loadDetail();
       initFavoriteButton();
     });
+	
+	// เพิ่มโค้ดนี้ใน event-detail.js หรือไฟล์ favorites.js
+
+	// ฟังก์ชันสร้าง modal popup
+	function showFavoriteModal(isAdded) {
+	  // ลบ modal เก่าถ้ามี
+	  const existingModal = document.querySelector('.favorite-modal-overlay');
+	  if (existingModal) {
+	    existingModal.remove();
+	  }
+
+	  // สร้าง modal overlay
+	  const modalOverlay = document.createElement('div');
+	  modalOverlay.className = 'favorite-modal-overlay';
+	  
+	  // สร้าง modal content
+	  const modalContent = document.createElement('div');
+	  modalContent.className = 'favorite-modal-content';
+	  
+	  // สร้างไอคอน
+	  const icon = document.createElement('div');
+	  icon.className = 'favorite-modal-icon';
+	  
+	  if (isAdded) {
+	    // ไอคอน checkmark สีเขียว
+	    icon.innerHTML = `
+	      <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+	        <circle cx="30" cy="30" r="28" fill="#4CAF50" stroke="#fff" stroke-width="2"/>
+	        <path d="M17 30L26 39L43 22" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+	      </svg>
+	    `;
+	  } else {
+	    // ไอคอน X สีแดง
+	    icon.innerHTML = `
+	      <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+	        <circle cx="30" cy="30" r="28" fill="#E64D4F" stroke="#fff" stroke-width="2"/>
+	        <path d="M20 20L40 40M40 20L20 40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+	      </svg>
+	    `;
+	  }
+	  
+	  // สร้างข้อความ
+	  const message = document.createElement('div');
+	  message.className = 'favorite-modal-message';
+	  message.textContent = isAdded ? 'เพิ่มรายการที่สนใจแล้ว' : 'นำรายการที่สนใจออก';
+	  
+	  // สร้างปุ่มปิด
+	  const closeBtn = document.createElement('button');
+	  closeBtn.className = 'favorite-modal-close';
+	  closeBtn.textContent = '×';
+	  closeBtn.onclick = () => {
+	    modalOverlay.classList.add('fade-out');
+	    setTimeout(() => modalOverlay.remove(), 300);
+	  };
+	  
+	  // ประกอบ modal
+	  modalContent.appendChild(closeBtn);
+	  modalContent.appendChild(icon);
+	  modalContent.appendChild(message);
+	  modalOverlay.appendChild(modalContent);
+	  
+	  // เพิ่ม modal เข้า body
+	  document.body.appendChild(modalOverlay);
+	  
+	  // เพิ่ม animation เข้า
+	  setTimeout(() => modalOverlay.classList.add('show'), 10);
+	  
+	  // ปิดอัตโนมัติหลัง 2 วินาที
+	  setTimeout(() => {
+	    modalOverlay.classList.add('fade-out');
+	    setTimeout(() => modalOverlay.remove(), 300);
+	  }, 1000);
+	  
+	  // คลิกที่ overlay ก็ปิดได้
+	  modalOverlay.onclick = (e) => {
+	    if (e.target === modalOverlay) {
+	      modalOverlay.classList.add('fade-out');
+	      setTimeout(() => modalOverlay.remove(), 300);
+	    }
+	  };
+	}
+
+	// แก้ไขฟังก์ชัน toggle favorite ใน favorites.js
+	// เพิ่มการเรียก showFavoriteModal เมื่อมีการเปลี่ยนแปลง
+
+	// ตัวอย่างการใช้งาน (เพิ่มในส่วนที่จัดการ click ของปุ่ม favorite)
+	document.addEventListener('DOMContentLoaded', function() {
+	  const favoriteBtn = document.querySelector('.bookmark-btn');
+	  
+	  if (favoriteBtn) {
+	    favoriteBtn.addEventListener('click', function(e) {
+	      e.preventDefault();
+	      e.stopPropagation();
+	      
+	      const eventId = this.dataset.eventId;
+	      if (!eventId) return;
+	      
+	      // ตรวจสอบสถานะปัจจุบัน
+	      const isCurrentlyFavorite = this.classList.contains('active');
+	      
+	      // Toggle สถานะ
+	      this.classList.toggle('active');
+	      
+	      // เปลี่ยนรูปภาพ
+	      const icon = this.querySelector('.bookmark-icon');
+	      if (icon) {
+	        icon.src = this.classList.contains('active') 
+	          ? 'Resourse/icon/fav-button-active.png'
+	          : 'Resourse/icon/fav-button-red.png';
+	      }
+	      
+	      // แสดง modal
+	      showFavoriteModal(!isCurrentlyFavorite);
+	      
+	      // บันทึกลง favorites (ถ้ามี function จาก favorites.js)
+	      if (window.FAV) {
+	        if (!isCurrentlyFavorite) {
+	          window.FAV.addFavorite(Number(eventId));
+	        } else {
+	          window.FAV.removeFavorite(Number(eventId));
+	        }
+	      }
+	    });
+	  }
+	});
 
   })();
