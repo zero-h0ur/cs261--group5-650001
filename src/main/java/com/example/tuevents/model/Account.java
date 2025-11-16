@@ -35,6 +35,7 @@ public class Account {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    //Start Task4 : US6
     @PrePersist
     protected void onCreate() {
         if (anonId == null || anonId.isBlank()) {

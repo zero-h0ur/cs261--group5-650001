@@ -335,27 +335,27 @@ section {
 }
 
 #homeEmptyRec {
-  text-align: center;
-  color: #00000075; 
-  font-size: 24px;
-  font-weight: 400;
-  margin: 40px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
+    text-align: center;
+    color: #00000075; 
+    font-size: 24px;
+    font-weight: 400;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
 }
 
 #homeEmptyAll {
-  text-align: center;
-  color: #00000075; 
-  font-size: 24px;
-  font-weight: 400;
-  margin: 40px auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
+    text-align: center;
+    color: #00000075; 
+    font-size: 24px;
+    font-weight: 400;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
 }
 .Poster {
     display: grid;
@@ -400,6 +400,11 @@ section {
 .search-page-group:hover {
     transform: scale(1.02);
     box-shadow: 0 1px 8px #dedede;
+    transition: transform 0.3s ease;
+}
+.search-page-group:hover .bookmark-btn {
+    opacity: 1;
+    transition: transform 0.3s ease;
 }
 
 /* ข้อความชื่ออีเว้นท์ */
@@ -480,6 +485,46 @@ section {
 }
 .register-btn:hover {
     background-color: rgb(200, 60, 65);
+}
+
+.bookmark-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    background: none;
+    cursor: pointer;
+    border: 2px solid #FFFFFF;
+    border-radius: 30px;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /*ซ่อนบนการ์ด */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* แสดงปุ่มเวลาเอาเมาส์ไปวางบนการ์ด (หน้า index / searchpage) */
+.search-page-group:hover .bookmark-btn {
+    opacity: 1;
+}
+
+/* ตอนกำลังยิง API (ใช้จาก JS: btn.classList.add('loading')) */
+.bookmark-btn.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.bookmark-btn img {
+    width: 25px;
+    height: 25px;
+    transition: transform 0.3s ease;
+}
+.bookmark-btn.active {
+    background-color: #E64D4F;
+    border: 2px solid #E64D4F;
+    opacity: 80%;
 }
 
 /*Middle*/
@@ -795,6 +840,7 @@ section {
     font-family: "Pridi";
     font-size: 16px;
     width: 180px;
+    height: 50px;
     text-align: center;
 }
 .ew-input-wrap:focus-within {
@@ -805,7 +851,6 @@ section {
     align-items: center;
 }
 .ew-btn {
-    height: 47px;
     width: 130px;
     border-radius: 28px;
     border: 2px;
@@ -826,7 +871,6 @@ section {
     background: #e36f11;
 }
 .ew-btn-clear {
-    height: 47px;
     width: 130px;
     border-radius: 28px;
     border: 2px solid #E64D4F;
@@ -856,7 +900,7 @@ section {
 .ew-datebox {
     border: 2px solid #F68121;
     border-radius: 32px;
-    padding: 5px;
+    padding-right: 10px;
 }
 .ew-datebox input {
     cursor: pointer;

@@ -96,15 +96,18 @@ public class EventController {
         }
     }
 
-    // (ออปชัน) endpoint ผสม filter
+    // (ออปชัน) endpoint ผสม filter แก้ล่าสุด
     @GetMapping("/filter")
     public Page<Event> filter(
             @RequestParam(required = false) String categories,
-            @RequestParam(required = false) String search,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
+            @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end,
             @PageableDefault(size = 12, sort = "eventId") Pageable pageable) {
-        return service.filter(categories, search, start, end, pageable);
+
+        return service.filter(categories, keyword, start, end, pageable);
     }
 
     // ------------------ helper: จัดการคอลัมน์ active แบบ idempotent ------------------
