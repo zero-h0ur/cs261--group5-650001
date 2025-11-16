@@ -70,9 +70,9 @@ ul {
 }
 
 .navbutton {
-    width: 160px;
+    width: 175px;
     height: 50px;
-    margin: 30px;
+    margin: 20px;
     text-align: center;
     align-content: center;
     text-decoration: none;
@@ -81,7 +81,11 @@ ul {
     position: relative;
     transition: .2s all;
 }
-
+.navbutton img {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+}
 .navbutton:hover {
     background: #F68121;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -191,7 +195,6 @@ button a {
 }
 #organizer_button {
     margin-right: 0px;
-    margin-left: 200px;
     width: 90px;
 }
 /*Search block*/
@@ -1272,4 +1275,50 @@ footer {
 .reset-button:hover {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+}
+
+/* กล่องว่างเปล่า */
+.favorite-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    text-align: center;
+    color: #000;
+}
+
+/* กล่องรูปดาว */
+.star-wrapper {
+    position: relative;
+    width: 160px;   /* ปรับได้ */
+    height: 160px;  /* ปรับได้ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* รูปดาว */
+.star-img {
+    width: 100%;
+    height: auto;
+}
+
+/* เครื่องหมาย ? บนดาว */
+.star-question {
+    position: absolute;
+    top: 32%;
+    right: 32%;
+    transform: translate(50%, -50%);
+    font-size: 55px;
+    font-weight: bold;
+    color: #ff0066;
+    text-shadow: 2px 2px #fff;
+}
+
+/* ข้อความไม่พบรายการที่สนใจ */
+.favorite-empty-text {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 600;
 }

@@ -6,53 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TUEvent</title>
     <link rel="icon" type="image/x-icon" href="Resourse/TUevent-Logo.png" />
-    <link rel="stylesheet" href="css/favorite-page.css" />
+    <link rel="stylesheet" href="css/favorite-page.css">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 </head>
 
 <body>
     <header></header>
     <nav class="navbar">
-        <div class="navdiv">
-            <div class="logo"><a href="index.html">TU EVENT</a></div>
-            <ul>
-                <li class="navbutton"><a href="index.html">หน้าหลัก</a></li>
-                <li class="navbutton">
-                    <a href="#">อีเว้นท์<i class="material-icons">keyboard_arrow_down</i></a>
-                    <ul class="dropdown">
-                        <a>ประเภทอีเว้นท์</a>
-                        <div class="dropdown_item">
-                            <li><a href="searchpage.html?scroll=Content">ทั้งหมด</a></li>
-                            <li><a href="#">ค่าย</a></li>
-                            <li><a href="#">กิจกรรม</a></li>
-                            <li><a href="#">ดนตรี</a></li>
-                            <li><a href="#">เทคโนโลยี</a></li>
-                            <li><a href="#">กีฬา</a></li>
-                            <li><a href="#">แข่งขัน</a></li>
-                            <li><a href="#">เวิร์คชอป</a></li>
-                            <li><a href="#">ศิลปะ</a></li>
-                            <li><a href="#">วิชาการ</a></li>
-                            <li><a href="#">การเงิน</a></li>
-                            <li><a href="#">ธุรกิจ</a></li>
-                        </div>
-                    </ul>
-                </li>
-
-                <li class="navbutton" id="organizer_button">
-                    <a href="#"><img src="Resourse/icon/organize-button.png"><i
-                            class="material-icons">keyboard_arrow_down</i></a>
-                    <ul class="dropdown">
-                        <a>สำหรับผู้จัด</a>
-                        <div class="dropdown_item">
-                            <li><a href="#">ยังไม่ต้องทำ</a></li>
-                        </div>
-                    </ul>
-                </li>
-            </ul>
-            <button class="Login_button"><img src="Resourse/icon/person.png"><a href="#">เข้าสู่ระบบ</a><i
-                    class="material-icons">keyboard_arrow_down</i></button>
-        </div>
-    </nav>
+    <div class="navdiv">
+      <div class="logo"><a href="index.html">TU EVENT</a></div>
+      <ul>
+        <li class="navbutton"><a href="index.html"><img src="Resourse/icon/home.png">หน้าหลัก</a></li>
+        <li class="navbutton">
+          <a href="searchpage.html?scroll=Content"><img src="Resourse/icon/event.png">อีเว้นท์</a>
+        </li>
+        <li class="navbutton">
+          <a href="favorite-page.html"><img src="Resourse/icon/fav-button-active.png">รายการที่สนใจ</a>
+        </li>
+        <li class="navbutton" id="organizer_button">
+          <a href="#"><img src="Resourse/icon/organize-button.png"><i class="material-icons">keyboard_arrow_down</i></a>
+          <ul class="dropdown">
+            <a>สำหรับผู้จัด</a>
+            <div class="dropdown_item">
+              <li><a href="#">สร้างกิจกรรม</a></li>
+            </div>
+          </ul>
+        </li>
+      </ul>
+      <button class="Login_button"><img src="Resourse/icon/person.png"><a href="#">เข้าสู่ระบบ</a><i
+          class="material-icons">keyboard_arrow_down</i></button>
+    </div>
+  </nav>
     <!-- Searchbar -->
     <div class="Searchblock">
         <img src="Resourse/Header.png" alt="TUEVENT" class="search-page-background-top" />
