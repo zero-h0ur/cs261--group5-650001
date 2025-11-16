@@ -318,7 +318,6 @@ section {
     font-family: "Pridi";
     font-size: 40px;
     font-weight: 600;
-    position: absolute;
     display: flex;
     margin: 200px;
     height: inherit;
@@ -488,7 +487,8 @@ section {
 /*Filter*/
 .filter-dropdown-wrapper {
     display: flex;
-    margin-top: 400px;
+    margin-right: 350px;
+    justify-content: right;
 }
 
 .Container_filter {
@@ -781,7 +781,10 @@ section {
     transform: scale(1.02);
     box-shadow: 0 1px 8px #dedede;
 }
-
+.search-page-group:hover .bookmark-btn {
+    opacity: 1;
+    transition: transform 0.3s ease;
+}
 /* ข้อความชื่ออีเว้นท์ */
 .search-page-name {
     font-size: 20px;
@@ -862,7 +865,34 @@ section {
 .register-btn:hover {
     background-color: rgb(200, 60, 65);
 }
-
+.bookmark-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+    border: 2px solid #E64D4F;
+    border-radius: 30px;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+.bookmark-btn img {
+    width: 25px;
+    height: 25px;
+    transition: transform 0.3s ease;
+}
+.bookmark-btn.active {
+    background-color: #E64D4F;
+    border: 2px solid #E64D4F;
+    opacity: 80%;
+}
 /* Selectpage */
 .Selectpage {
     margin-top: 100px;
@@ -1291,8 +1321,8 @@ footer {
 /* กล่องรูปดาว */
 .star-wrapper {
     position: relative;
-    width: 160px;   /* ปรับได้ */
-    height: 160px;  /* ปรับได้ */
+    width: 250px;
+    height: 250px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1307,8 +1337,6 @@ footer {
 /* เครื่องหมาย ? บนดาว */
 .star-question {
     position: absolute;
-    top: 32%;
-    right: 32%;
     transform: translate(50%, -50%);
     font-size: 55px;
     font-weight: bold;
@@ -1318,7 +1346,8 @@ footer {
 
 /* ข้อความไม่พบรายการที่สนใจ */
 .favorite-empty-text {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: 600;
+    margin-top: 50px;
+    font-size: 32px;
+    font-weight: 400;
+    font-family: "Pridi";
 }

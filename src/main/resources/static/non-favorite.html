@@ -7,7 +7,6 @@
     <title>TUEvent</title>
     <link rel="icon" type="image/x-icon" href="Resourse/TUevent-Logo.png" />
     <link rel="stylesheet" href="css/favorite-page.css">
-    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 </head>
 
@@ -54,85 +53,18 @@
                 <div class="search-page-text">
                     <img src="Resourse/icon/favorite (2).png" alt="favorite" class="favorite" />
                     <span class="search-page-text1">รายการ</span>
-                    <span class="search-page-text2">โปรด</span>
+                    <span class="search-page-text2">สนใจ</span>
                 </div>
             </div>
-                <!-- Filter dropdown (เก็บไว้เหมือนเดิม) -->
-                <div class="filter-dropdown-wrapper">
-                    <div class="Container_filter">
-                        <div class="filter-dropdown-button" onclick="toggleFilterDropdown()">
-                            <img src="Resourse/icon/filter.png" alt="filter" class="icon-filter" />
-                            <span class="filter-dropdown-text">ทั้งหมด</span>
-                            <i class="material-icons" alt="dropdown arrow">keyboard_arrow_down</i>
-                        </div>
+        </div>
 
-                        <div class="filter-dropdown-list" id="filterDropdownList">
-                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'ทั้งหมด')">
-                                <span>ทั้งหมด</span>
-                            </div>
-                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'วันนี้')">
-                                <span>วันนี้</span>
-                            </div>
-                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'สัปดาห์นี้')">
-                                <span>สัปดาห์นี้</span>
-                            </div>
-                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'เดือนนี้')">
-                                <span>เดือนนี้</span>
-                            </div>
-                            <div class="filter-dropdown-option" onclick="selectFilter(event, 'กำหนดเอง')">
-                                <span>กำหนดเอง</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Date picker (ยังไม่ผูก API) -->
-            <div class="date-picker-container" id="ew-date-range">
-                <form id="dateRangeForm" class="ew-date-search" onsubmit="event.preventDefault(); applyDateRange();">
-                    <div class="ew-date-mode">
-                        <label class="ew-label" id="Mode">โหมด</label>
-                        <select id="rangeMode" class="ew-input" style="width:150px;">
-                            <option value="single">วันเดียว</option>
-                            <option value="range">ช่วงวัน/เวลา</option>
-                        </select>
-                    </div>
-
-                    <div class="ew-date-group">
-                        <label class="ew-label">ตั้งแต่วันที่</label>
-                        <div class="ew-datebox">
-                            <input id="ew-start-date" type="date" class="ew-input" />
-                            <input id="ew-start-time" type="time" class="ew-input" style="width:120px;" />
-                        </div>
-                    </div>
-
-                    <div class="ew-date-group">
-                        <label class="ew-label">ถึงวันที่</label>
-                        <div class="ew-datebox">
-                            <input id="ew-end-date" type="date" class="ew-input" />
-                            <input id="ew-end-time" type="time" class="ew-input" style="width:120px;" />
-                        </div>
-                    </div>
-
-                    <div class="ew-actions">
-                        <button type="submit" class="ew-btn">ตกลง</button>
-                        <button type="button" class="ew-btn-clear" onclick="clearDateRange()">ล้าง</button>
-                    </div>
-                </form>
-                <div id="dateStatus"
-                    style="text-align:center;margin-top:8px;font-family:'Pridi';font-size:15px;color:#555;">
-                </div>
-            </div>
+            
             <div class="favorite-empty">
                 <div class="star-wrapper">
                     <img src="Resourse/png/TU EVENT (2) 1.png" alt="star" class="star-img">
-                    <span class="star-question">?</span>
                 </div>
                 <p class="favorite-empty-text">ไม่พบรายการที่สนใจ</p>
             </div>
-            <!-- Selectpage -->
-            <div id="searchPager" class="Selectpage"></div>
-            <div id="searchPageInfo" class="page-info"></div>
         </div>
     </section>
 

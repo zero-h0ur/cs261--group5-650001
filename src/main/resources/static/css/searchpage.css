@@ -869,7 +869,7 @@ section {
     background: none;
     cursor: pointer;
     opacity: 0;
-    border: 2px solid #FFFFFF;
+    border: 2px solid #E64D4F;
     border-radius: 30px;
     transition: opacity 0.3s ease;
     z-index: 3;

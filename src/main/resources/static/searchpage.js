@@ -92,12 +92,12 @@
     const loc = pick(ev.location, ev.place, ev.venue, '-');
 
     return `
-      <div class="search-page-group">
+      <div class="search-page-group" data-event-id="${id}">
+        ${renderBookmark(id)}
         <a href="event-detail.html?id=${encodeURIComponent(String(id))}">
           <img src="${img}" alt="${escapeHtml(title)}"
                class="search-page-Poster"
                onerror="this.src='Resourse/Poster/image 14.png'"/>
-          <div class="bookmark-btn"><img src="Resourse/icon/fav-button.png" class="bookmark-icon"></div>
           <span class="search-page-date">${dateText}</span>
 
           <div class="search-page-time">
