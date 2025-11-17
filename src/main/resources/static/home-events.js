@@ -58,7 +58,7 @@ console.log('[home-events] loaded');
           </div>
           <span class="search-page-name">${title}</span>
           <div class="search-page-place">
-            <img src="Resourse/icon/pin" class="pin"/>
+            <img src="Resourse/icon/pin.png" class="pin"/>
             <span class="search-page-pin">${location}</span>
           </div>
           <button class="register-btn">ลงทะเบียน</button>
@@ -165,7 +165,7 @@ console.log('[home-events] loaded');
                  width:${i + 1 === cur ? 35 : 30}px;height:${i + 1 === cur ? 35 : 30}px;
                  border-radius:50%; margin:6px; transition:all .2s; cursor:pointer;
                  font-family:Pridi, sans-serif; font-size:16px; font-weight:600;
-                 ${i + 1 === cur ? 'background:#F68121;color:#fff;' : 'background:#f8bb86;color:#000;'}>
+                 ${i + 1 === cur ? 'background:#F68121;color:#fff;' : 'background:#f8bb86;color:#000;'}">
             ${i + 1}
           </div>
         `).join('')}
