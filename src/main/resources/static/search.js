@@ -1,5 +1,6 @@
-//search.js (updated)
+// ========== search.js (shared utilities) ==========
 
+// state เดิมของ EW (เผื่อหน้าอื่นใช้ในอนาคต)
 const EW = {
   pageUI: 1,          // UI page (1-based)
   totalPages: 1,
@@ -11,50 +12,64 @@ const EW = {
   endDate: null,      // 'YYYY-MM-DD' (optional)
   keyword: ''         // search keyword
 };
- 
+
 // ---------- Helpers ----------
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+
+// ใช้ปุ่ม bookmark กลางจาก FAV
+const renderBookmark = (id) =>
+  (window.FAV && typeof window.FAV.renderBookmarkButton === 'function')
+    ? window.FAV.renderBookmarkButton(id)
+    : '';
+
+
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  return String(s).replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
 }
+
 function fmtDate(d) {
   if (!d) return '-';
   const dt = new Date(d);
   return dt.toLocaleDateString('th-TH', { day:'2-digit', month:'short', year:'numeric' });
 }
 
-// ---------- Build Query & Fetch ----------
+// ---------- Build Query & Fetch (ใช้ได้ถ้าหน้าไหนอยากใช้ EW) ----------
 function buildEndpointAndParams() {
   const haveCats   = EW.categoryIds && EW.categoryIds.length > 0;
   const haveSearch = EW.keyword && EW.keyword.trim();
   const haveRange  = EW.startDate || EW.endDate;
 
   const p = new URLSearchParams();
-  // ใช้ Pageable มาตรฐาน
-  p.set('page', String(EW.pageUI - 1));
+  p.set('page', String(EW.pageUI - 1));        // Spring 0-based
   p.set('size', String(EW.limit));
-  p.set('sort', `${EW.sort},${EW.dir}`);
+  p.set('sort', `${EW.sort},${EW.dir}`);       // eventId,desc
 
   if (haveCats)   p.set('categories', EW.categoryIds.join(','));
-  if (haveSearch) p.set('search', EW.keyword.trim());
-  if (EW.startDate) p.set('start', EW.startDate); // ถ้า backend ใช้ชื่ออื่น ปรับให้ตรง
+  if (haveSearch) p.set('keyword', EW.keyword.trim());   // <-- ชื่อ param ที่ backend ใช้
+  if (EW.startDate) p.set('start', EW.startDate);
   if (EW.endDate)   p.set('end',   EW.endDate);
 
-  // ถ้ามีตัวกรองใด ๆ → ใช้ /filter (รองรับ compose)
-  const endpoint = (haveCats || haveSearch || haveRange) ? '/api/events/filter' : '/api/events';
+  const endpoint = (haveCats || haveSearch || haveRange)
+    ? '/api/events/filter'
+    : '/api/events';
+
   return { endpoint, params: p.toString() };
 }
 
 async function fetchEvents() {
   const { endpoint, params } = buildEndpointAndParams();
-  const res = await fetch(`${endpoint}?${params}`, { headers: { 'Accept':'application/json' } });
+  const res = await fetch(`${endpoint}?${params}`, {
+    headers: { 'Accept':'application/json' }
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json(); // Page<Event>
 }
 
-// ---------- Rendering ----------
+// ---------- Rendering (ถ้าหน้าไหนใช้ EW grid) ----------
 function buildCard(ev) {
   const start = fmtDate(ev.startDate), end = fmtDate(ev.endDate);
   const img = ev.imageUrl || ev.imageURL || ev.image || 'Resourse/Poster/image 14.png';
@@ -65,7 +80,8 @@ function buildCard(ev) {
   const id = ev.eventId ?? ev.id ?? '';
 
   return `
-    <div class="search-page-group">
+    <div class="search-page-group" data-event-id="${id}">
+      ${renderBookmark(id)}
       <a href="event-detail.html?id=${id}">
         <img src="${img}" alt="Poster" class="search-page-Poster" />
         <span class="search-page-date">${start} - ${end}</span>
@@ -121,11 +137,17 @@ function renderPager(page) {
     <i class="material-icons" id="EWNext" role="button">keyboard_arrow_right</i>
   `;
 
-  $('#EWPrev').onclick = () => { if (EW.pageUI > 1) { EW.pageUI--; load(); } };
-  $('#EWNext').onclick = () => { if (EW.pageUI < EW.totalPages) { EW.pageUI++; load(); } };
-  $$('#eventsPager .page-dot').forEach(el => el.onclick = () => {
-    const p = Number(el.dataset.page);
-    if (p && p !== EW.pageUI) { EW.pageUI = p; load(); }
+  $('#EWPrev')?.addEventListener('click', () => {
+    if (EW.pageUI > 1) { EW.pageUI--; load(); }
+  });
+  $('#EWNext')?.addEventListener('click', () => {
+    if (EW.pageUI < EW.totalPages) { EW.pageUI++; load(); }
+  });
+  $$('#eventsPager .page-dot').forEach(el => {
+    el.addEventListener('click', () => {
+      const p = Number(el.dataset.page);
+      if (p && p !== EW.pageUI) { EW.pageUI = p; load(); }
+    });
   });
 }
 
@@ -148,7 +170,7 @@ async function load() {
   }
 }
 
-// ---------- Dropdown: FILTER ----------
+// ---------- Dropdown: FILTER (ช่วงวันที่) ----------
 window.toggleFilterDropdown = function () {
   const dropdown = $('#filterDropdownList');
   const button = $('.filter-dropdown-button');
@@ -161,40 +183,95 @@ window.selectFilter = (event, option) => {
   const button     = $('.filter-dropdown-button');
   const textEl     = $('.filter-dropdown-text');
   const datePicker = $('.date-picker-container');
+  const status     = document.getElementById('dateStatus');
 
   if (textEl) textEl.textContent = option;
   dropdown?.classList.remove('showFilter');
   button?.classList.remove('activeFilter');
 
+  const isIndex   = !!document.getElementById('homeGridAll');
+  const useIndex  = isIndex && window.ALL && typeof window.loadAll === 'function';
+  const isSearch  = !!document.getElementById('resultList');
+  const useSearch = isSearch && window.SEARCH_STATE && typeof window.searchLoad === 'function';
+
+  // "กำหนดเอง" → แค่เปิด date picker
   if (option === 'กำหนดเอง') {
     datePicker?.classList.add('show');
-    datePicker?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    // ยังไม่ยิง API จนกว่าจะกดตกลงใน date picker
+    if (status) status.textContent = '';
+    return;
+  }
+  datePicker?.classList.remove('show');
+
+  const today = new Date();
+  const toIso = d => d.toISOString().slice(0, 10);
+
+  let start = null;
+  let end   = null;
+
+  if (option === 'วันนี้') {
+    start = end = toIso(today);
+  } else if (option === 'สัปดาห์นี้') {
+    const day = today.getDay();
+    const monday = new Date(today);
+    const diff = (day === 0 ? -6 : 1 - day);
+    monday.setDate(today.getDate() + diff);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    start = toIso(monday);
+    end   = toIso(sunday);
+  } else if (option === 'เดือนนี้') {
+    const first = new Date(today.getFullYear(), today.getMonth(), 1);
+    const last  = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    start = toIso(first);
+    end   = toIso(last);
   } else {
-    datePicker?.classList.remove('show');
-    // ตัวอย่าง preset (วันนี้/สัปดาห์นี้/เดือนนี้) — ปรับตามที่ต้องการ
-    const today = new Date();
-    if (option === 'วันนี้') {
-      const s = today.toISOString().slice(0,10);
-      EW.startDate = s; EW.endDate = s;
-    } else if (option === 'สัปดาห์นี้') {
-      const first = new Date(today); first.setDate(today.getDate()-today.getDay()+1);
-      const last  = new Date(first); last.setDate(first.getDate()+6);
-      EW.startDate = first.toISOString().slice(0,10);
-      EW.endDate   = last.toISOString().slice(0,10);
-    } else if (option === 'เดือนนี้') {
-      const a = new Date(today.getFullYear(), today.getMonth(), 1);
-      const b = new Date(today.getFullYear(), today.getMonth()+1, 0);
-      EW.startDate = a.toISOString().slice(0,10);
-      EW.endDate   = b.toISOString().slice(0,10);
+    // "ทั้งหมด"
+    start = null;
+    end   = null;
+  }
+
+  // sync ลง input date
+  const sInput = document.getElementById('ew-start-date');
+  const eInput = document.getElementById('ew-end-date');
+  const mode   = document.getElementById('rangeMode');
+
+  if (sInput) sInput.value = start || '';
+  if (eInput) eInput.value = end   || '';
+  if (mode) {
+    if (option === 'วันนี้') mode.value = 'single';
+    else if (option === 'สัปดาห์นี้' || option === 'เดือนนี้') mode.value = 'range';
+  }
+
+  // อัปเดต state แล้วเรียก backend
+  if (useIndex) {
+    ALL.startDate = start;
+    ALL.endDate   = end;
+    ALL.page = 1;
+    window.loadAll();
+  } else if (useSearch) {
+    const S = window.SEARCH_STATE;
+    S.startDate = start;
+    S.endDate   = end;
+    S.page = 1;
+    window.searchLoad();
+  } else {
+    EW.startDate = start;
+    EW.endDate   = end;
+    EW.pageUI = 1;
+    load();
+  }
+
+  if (status) {
+    if (start && end) {
+      status.textContent = `✔ ใช้ตัวกรอง: ${start} ถึง ${end}`;
+      status.style.color = '#1B5E20';
     } else {
-      EW.startDate = null; EW.endDate = null;
+      status.textContent = '';
     }
-    EW.pageUI = 1; load();
   }
 };
 
-// ---------- Dropdown: CATEGORIES (สะกดเดิม) ----------
+// ---------- Categories dropdown (ของเก่า ถ้าไม่ใช้จะไม่ error) ----------
 window.togglecatagoriesDropdown = function () {
   const dropdown = $('#catagoriesDropdownList');
   const button = $('.catagories-dropdown-button');
@@ -211,13 +288,13 @@ window.selectcatagories = function (event, option) {
   $('#catagoriesDropdownList')?.classList.remove('showCatagory');
   $('.catagories-dropdown-button')?.classList.remove('activeCatagory');
 
-  // อ่าน id จาก data-id (เช่น <li data-id="2" ...>)
   const id = event?.target?.dataset?.id;
   EW.categoryIds = id ? [Number(id)] : [];
-  EW.pageUI = 1; load();
+  EW.pageUI = 1;
+  load();   // ใช้ EW path ถ้ามีหน้าไหนใช้ dropdown นี้จริง
 };
 
-// ---------- Click Outside: ปิดทั้งสอง dropdown ----------
+// ---------- Click Outside: ปิด dropdown ----------
 document.addEventListener('click', (ev) => {
   const fWrap = $('.filter-dropdown-wrapper');
   const cWrap = $('.catagories-dropdown-wrapper');
@@ -231,153 +308,203 @@ document.addEventListener('click', (ev) => {
   }
 });
 
-// ---------- Scroll target (optional) ----------
-window.addEventListener('load', () => {
-  const params = new URLSearchParams(location.search);
-  const scrollTarget = params.get('scroll');
-  if (scrollTarget) document.getElementById(scrollTarget)?.scrollIntoView({ behavior: 'smooth' });
-});
-
-// ---------- Date Picker Submit (กำหนดเอง) ----------
-window.EWDate_onSubmit = function () {
-  const from = $('#ew-from')?.value.trim() || '';
-  const to   = $('#ew-to')?.value.trim()   || '';
-  if (!from && !to) { alert('กรุณาใส่วันที่ตั้งแต่หรือถึงอย่างน้อยหนึ่งค่า'); return; }
-  EW.startDate = from || null;
-  EW.endDate   = to   || null;
-  EW.pageUI = 1;
-  load();
-};
-
-// ---------- Enhanced DateTime Picker ----------
-function formatDateTimeLocal(dateStr, timeStr) {
-  if (!dateStr) return null;
-  const date = new Date(`${dateStr}T${timeStr || '00:00'}`);
-  return date.toISOString().slice(0,16); // YYYY-MM-DDTHH:mm
-}
-
+// ---------- DateRange: apply / clear ----------
 function applyDateRange() {
-  const mode = document.getElementById('rangeMode').value;
-  const sDate = document.getElementById('ew-start-date').value;
-  const sTime = document.getElementById('ew-start-time').value;
-  const eDate = document.getElementById('ew-end-date').value;
-  const eTime = document.getElementById('ew-end-time').value;
-  const status = document.getElementById('dateStatus');
+  const modeSel = document.getElementById('rangeMode');
+  const mode    = modeSel ? modeSel.value : 'single';
+
+  const sDateInput = document.getElementById('ew-start-date');
+  const eDateInput = document.getElementById('ew-end-date');
+  const status     = document.getElementById('dateStatus');
+
+  const sDate = (sDateInput?.value || '').trim();
+  const eDate = (eDateInput?.value || '').trim();
 
   if (!sDate) {
-    status.textContent = '⚠ กรุณาเลือกวันที่เริ่มต้น';
-    status.style.color = '#E64D4F';
+    if (status) {
+      status.textContent = '⚠ กรุณาเลือกวันที่เริ่มต้น';
+      status.style.color = '#E64D4F';
+    }
     return;
   }
 
-  let start = new Date(`${sDate}T${sTime || '00:00'}`);
-  let end   = mode === 'single' ? start : new Date(`${eDate}T${eTime || '23:59'}`);
+  let start = sDate;
+  let end   = sDate;
 
-  if (mode === 'range' && (!eDate || start > end)) {
-    status.textContent = '⚠ ช่วงเวลาไม่ถูกต้อง (Start > End)';
-    status.style.color = '#E64D4F';
-    return;
+  if (mode === 'range') {
+    if (!eDate) {
+      if (status) {
+        status.textContent = '⚠ กรุณาเลือกวันที่สิ้นสุด';
+        status.style.color = '#E64D4F';
+      }
+      return;
+    }
+    if (eDate < sDate) {
+      if (status) {
+        status.textContent = '⚠ ช่วงวันที่ไม่ถูกต้อง (Start > End)';
+        status.style.color = '#E64D4F';
+      }
+      return;
+    }
+    end = eDate;
   }
 
-  // Update state
-  EW.startDate = start.toISOString().slice(0,10);
-  EW.endDate   = mode === 'range' ? end.toISOString().slice(0,10) : EW.startDate;
-  EW.pageUI = 1;
-  load();
+  const isIndex   = !!document.getElementById('homeGridAll');
+  const useIndex  = isIndex && window.ALL && typeof window.loadAll === 'function';
+  const isSearch  = !!document.getElementById('resultList');
+  const useSearch = isSearch && window.SEARCH_STATE && typeof window.searchLoad === 'function';
 
-  status.textContent = `✔ ใช้ตัวกรอง: ${EW.startDate} ถึง ${EW.endDate}`;
-  status.style.color = '#1B5E20';
+  if (useIndex) {
+    ALL.startDate = start;
+    ALL.endDate   = end;
+    ALL.page = 1;
+    window.loadAll();
+  } else if (useSearch) {
+    const S = window.SEARCH_STATE;
+    S.startDate = start;
+    S.endDate   = end;
+    S.page = 1;
+    window.searchLoad();
+  } else {
+    EW.startDate = start;
+    EW.endDate   = end;
+    EW.pageUI = 1;
+    load();
+  }
+
+  if (status) {
+    status.textContent = `✔ ใช้ตัวกรอง: ${start} ถึง ${end}`;
+    status.style.color = '#1B5E20';
+  }
 }
 
 function clearDateRange() {
-  document.getElementById('ew-start-date').value = '';
-  document.getElementById('ew-start-time').value = '';
-  document.getElementById('ew-end-date').value = '';
-  document.getElementById('ew-end-time').value = '';
-  document.getElementById('dateStatus').textContent = 'ล้างข้อมูลเรียบร้อย';
-  document.getElementById('dateStatus').style.color = '#444';
-  EW.startDate = null;
-  EW.endDate = null;
-  load();
-}
-// ---------- Enhanced DateTime Picker ----------
+  const sDateInput = document.getElementById('ew-start-date');
+  const eDateInput = document.getElementById('ew-end-date');
+  const sTimeInput = document.getElementById('ew-start-time');
+  const eTimeInput = document.getElementById('ew-end-time');
+  const status     = document.getElementById('dateStatus');
 
-// Enter ในช่องวันที่ให้ trigger submit
+  if (sDateInput) sDateInput.value = '';
+  if (eDateInput) eDateInput.value = '';
+  if (sTimeInput) sTimeInput.value = '';
+  if (eTimeInput) eTimeInput.value = '';
+
+  const isIndex   = !!document.getElementById('homeGridAll');
+  const useIndex  = isIndex && window.ALL && typeof window.loadAll === 'function';
+  const isSearch  = !!document.getElementById('resultList');
+  const useSearch = isSearch && window.SEARCH_STATE && typeof window.searchLoad === 'function';
+
+  if (useIndex) {
+    ALL.startDate = null;
+    ALL.endDate   = null;
+    ALL.page = 1;
+    window.loadAll();
+  } else if (useSearch) {
+    const S = window.SEARCH_STATE;
+    S.startDate = null;
+    S.endDate   = null;
+    S.page = 1;
+    window.searchLoad();
+  } else {
+    EW.startDate = null;
+    EW.endDate   = null;
+    EW.pageUI = 1;
+    load();
+  }
+
+  if (status) {
+    status.textContent = 'ล้างข้อมูลเรียบร้อย';
+    status.style.color = '#444';
+  }
+}
+
+// ---------- Enter ในช่อง ew-from / ew-to ----------
 document.addEventListener('keydown', (e) => {
   const a = document.activeElement;
   if (e.key === 'Enter' && a && (a.id === 'ew-from' || a.id === 'ew-to')) {
-    e.preventDefault(); window.EWDate_onSubmit();
+    e.preventDefault();
+    window.EWDate_onSubmit();
   }
 });
 
-// ---------- Search Bar ----------
-document.addEventListener('DOMContentLoaded', () => {
-  const input = $('#eventSearchInput') || $('.search-input') || $('input[type="search"]');
-  const btn   = $('#eventSearchBtn')   || $('.search-btn');
+// ---------- Global Search Bar ----------
+document.addEventListener('DOMContentLoaded', async () => {
+  const form =
+    document.getElementById('globalSearch') ||
+    document.querySelector('.search-page-searchbar');
 
-  const doSearch = () => {
-    if (!input) return;
-    EW.keyword = (input.value || '').trim();
-    EW.pageUI = 1;
-    load();
+  if (form) {
+    form.addEventListener('submit', (e) => {
+    const ipt =
+      form.querySelector('input[name="q"]') ||
+      form.querySelector('.search-input') ||
+      form.querySelector('input[type="search"]');
 
-    // อัปเดต URL ?q= (optional)
-    const url = new URL(location.href);
-    if (EW.keyword) url.searchParams.set('q', EW.keyword); else url.searchParams.delete('q');
-    history.replaceState(null, '', url);
-  };
+    const q = (ipt?.value || '').trim();
 
-  // preload จาก URL ถ้ามี ?q=
-  const urlQ = new URL(location.href).searchParams.get('q');
-  if (urlQ && input) { input.value = urlQ; EW.keyword = urlQ.trim(); }
+    // กันค่าว่าง
+    if (!q) {
+      e.preventDefault();
+      ipt?.focus();
+      return;
+    }
 
-  btn?.addEventListener('click', (e) => { e.preventDefault(); doSearch(); });
-  input?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); doSearch(); } });
-
-  // โหลดรอบแรก
-  load();
+    // ถ้า form ไม่มี action → redirect ไป searchpage.html เอง
+    if (!form.getAttribute('action')) {
+      e.preventDefault();
+      const url = new URL('/searchpage.html', location.origin);
+      url.searchParams.set('q', q);
+      url.searchParams.set('scroll', 'Content');
+      location.href = url.toString();
+      return;
+    		}
+ 		});
+	}
+	 if (window.FAV && typeof window.FAV.loadFavorites === 'function') {
+	    await window.FAV.loadFavorites();
+	 }
+	 if (window.FAV && typeof window.FAV.attachFavoriteClickHandler === 'function') {
+	    window.FAV.attachFavoriteClickHandler(document);
+	 }
 });
 
-const ids = EW.categoryIds;               // [1,3]
-const params = new URLSearchParams();
-if (ids.length) params.set('categories', ids.join(','));
-if (EW.keyword) params.set('search', EW.keyword);
-if (EW.startDate) params.set('start', EW.startDate);
-if (EW.endDate)   params.set('end', EW.endDate);
-params.set('page', String(EW.pageUI - 1));
-params.set('size', String(EW.limit));
-params.set('sort', `${EW.sort},${EW.dir}`);
+// ปุ่มค้นหาที่หน้า searchpage (onclick="search()")
+function search() {
+  const ipt =
+    document.querySelector('.search-page-searchbar input[name="q"]') ||
+    document.querySelector('#globalSearch input[name="q"]') ||
+    document.querySelector('.search-input');
 
-fetch(`/api/events/filter?${params}`, { headers:{Accept:'application/json'} });
+  if (!ipt) return;
+  const keyword = ipt.value.trim();
+  if (!keyword) {
+    ipt.focus();
+    return;
+  }
+  // ไม่ต้อง redirect ที่นี่ ปล่อยให้ form submit ตามปกติ
+}
 
-
-
-// ---------- Pagination ----------
-
-/* 
-การทำงานที่นี่เพิ่มมามี 
-- ตัวปุ่มหน้าแรกกับหน้าสุดท้าย visible 
-- แสดงหน้า 10 หน้าต่อเลขหน้า
-- แสดงเลขหน้าเฉพาะ 3 ตัวแล้วเลื่อนโดยหน้าที่ปัจจุบันอยู่ตรงกลาง
-- เพิ่ม UI บอกข้อมูลว่าอยู่หน้าไหนมีทั้งหมดกี่หน้า
-*/
-
+// ---------- Pagination เดิม (ใช้เฉพาะหน้าเก่าที่มี .Poster) ----------
 document.addEventListener("DOMContentLoaded", () => {
   const posters = document.querySelectorAll(".Poster .search-page-group");
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(posters.length / itemsPerPage);
-  let currentPage = 1;
-
   const prevBtn = document.getElementById("Previous");
   const nextBtn = document.getElementById("Next");
   const pageContainer = document.getElementById("pageNumbers");
+  const pageInfo = document.getElementById("pageInfo");
+
+  // ถ้า element ไม่ครบ แปลว่าไม่ได้ใช้ pagination แบบนี้ → ไม่ต้องทำอะไร
+  if (!posters.length || !prevBtn || !nextBtn || !pageContainer || !pageInfo) return;
+
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(posters.length / itemsPerPage);
+  let currentPage = 1;
 
   function renderPageButtons() {
     pageContainer.innerHTML = "";
     let start = Math.max(1, currentPage - 1);
     let end = Math.min(totalPages, start + 2);
 
-    // ถ้าอยู่ท้ายสุดให้เลื่อนช่วงเลขกลับ
     if (end - start < 2) {
       start = Math.max(1, end - 2);
     }
@@ -405,10 +532,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     prevBtn.style.visibility = (page === 1) ? "hidden" : "visible";
     nextBtn.style.visibility = (page === totalPages) ? "hidden" : "visible";
-
-    pageNumbers.forEach((num, i) => {
-      num.classList.toggle("active", i + 1 === page);
-    });
   }
 
   prevBtn.addEventListener("click", () => {
@@ -428,48 +551,32 @@ document.addEventListener("DOMContentLoaded", () => {
   showPage(currentPage);
 });
 
-function search() {
-  const keyword = document.getElementById('searchInput').value.trim();
-
-  // ✅ ถ้ายังไม่มี q ใน URL -> ให้ Redirect พร้อม keyword
-  if (!location.search.includes('q=')) {
-    window.location.href = 'searchpage.html?scroll=Content&q=' + encodeURIComponent(keyword);
-    return;
-  }
-  // ✅ ถ้ามี q แล้ว -> ให้ทำไฮไลท์
-  highlightKeyword(keyword);
-  goToContent();
-}
-
+// ---------- highlight ผลลัพธ์บน searchpage ----------
 function highlightKeyword(keyword) {
-  const results = document.querySelectorAll('#results .search-page-group');
-
+  if (!keyword) return;
+  const results = document.querySelectorAll('#resultList .search-page-group');
   results.forEach(item => {
     const title = item.querySelector('.search-page-name');
-
-    // รีเซ็ตข้อความก่อนเน้นคำ
-    title.innerHTML = title.textContent;
-
-    if (keyword) {
-      const regex = new RegExp(`(${keyword})`, 'gi');
-      title.innerHTML = title.textContent.replace(regex, '<span class="highlight">$1</span>');
-    }
+    if (!title) return;
+    const originalText = title.textContent;
+    const regex = new RegExp(`(${keyword})`, 'gi');
+    const highlighted = originalText.replace(regex, '<span class="highlight">$1</span>');
+    title.innerHTML = highlighted;
   });
 }
 
 function goToContent() {
   const content = document.getElementById('Content');
-  if (content) {
-    content.scrollIntoView({ behavior: 'smooth' });
-  }
+  if (content) content.scrollIntoView({ behavior: 'smooth' });
 }
 
-
-// ✅ ให้ทำงานเมื่อโหลดหน้า ถ้ามี ?q= อยู่ใน URL
+// auto-highlight ถ้ามี ?q=
 window.addEventListener('load', () => {
   const urlQ = new URL(location.href).searchParams.get('q');
-  if (urlQ) {
-    document.getElementById('searchInput').value = urlQ;
-    highlightKeyword(urlQ);
-  }
+  if (!urlQ) return;
+  const ipt =
+    document.querySelector('input[name="q"]') ||
+    document.querySelector('.search-input');
+  if (ipt) ipt.value = urlQ;
+  highlightKeyword(urlQ);
 });

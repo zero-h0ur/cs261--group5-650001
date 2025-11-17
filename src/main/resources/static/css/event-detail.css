@@ -58,15 +58,21 @@ ul{
     list-style: none;
 }
 .navbutton {
-    width: 160px;
+    width: 175px;
     height: 50px;
-    margin: 30px;
+    margin: 20px;
     text-align: center;
     align-content: center;
     text-decoration: none;
     border-radius: 24px;
     cursor: pointer;
     position: relative;
+    transition: .2s all;
+}
+.navbutton img {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
 }
 .navbutton:hover {
     background: #F68121;
@@ -134,8 +140,9 @@ ul{
 .navbutton:hover .dropdown {
     display: block;
 }
+
 button {
-    width: 242px;
+    width: 170px;
     height: 50px;
     margin-left: 50px;
     border-radius: 20px;
@@ -143,12 +150,29 @@ button {
     background-color: #2F2F2F;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+.Login_button {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    color: #FFFFFF;
+    margin-left: 0px;
+}
+.Login_button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
 
 button a {
     font-family: "Pridi";
     font-size: 20px;
     font-weight: 300;
     color: #FFFFFF;
+}
+#organizer_button {
+    margin-right: 0px;
+    width: 90px;
 }
 /*Section*/
 section {
@@ -184,6 +208,7 @@ section {
     height: 70px;
     background-color: #F68121;
     margin-top: 65px;
+    margin-left: 15px;
     float: right;
     align-content: center;
     text-align: center;
@@ -312,6 +337,38 @@ section {
     font-size: 20px;
     font-weight: 300;
 }
+.bookmark-btn {
+    width: 70px;
+    height: 70px;
+    background: none;
+    cursor: pointer;
+    border: 4px solid #E64D4F;
+    border-radius: 100%;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    float: right;
+    margin-top: 65px;
+}
+
+/* ให้ปุ่ม favorite ในหน้า detail มองเห็นตลอด */
+.container1 .bookmark-btn {
+    opacity: 1;
+}
+
+.bookmark-btn img {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+.bookmark-btn.active {
+    background-color: #E64D4F;
+    border: 4px solid #E64D4F;
+    opacity: 80%;
+}
 /*Footer*/
 footer {
     position: relative;
@@ -331,4 +388,132 @@ footer {
     right: 15%;
     bottom: 25%;
     width: 10%;
+}
+
+/* favorite Overlay */
+.favorite-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.favorite-modal-overlay.show {
+  opacity: 1;
+}
+
+.favorite-modal-overlay.fade-out {
+  opacity: 0;
+}
+
+/* Modal Content */
+.favorite-modal-content {
+  position: relative;
+  background: white;
+  padding: 40px 60px;
+  border-radius: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 400px;
+  transform: scale(0.8);
+  animation: modalPopIn 0.3s ease forwards;
+}
+
+@keyframes modalPopIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Modal Icon */
+.favorite-modal-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: iconBounce 0.5s ease;
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Modal Message */
+.favorite-modal-message {
+  font-family: 'Pridi', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #2F2F2F;
+  text-align: center;
+}
+
+/* Close Button */
+.favorite-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 36px;
+  color: #999;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.favorite-modal-close:hover {
+  color: #E64D4F;
+}
+
+/* ปรับปรุงปุ่ม favorite ให้มี effect เมื่อคลิก */
+.bookmark-btn {
+  transition: transform 0.2s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.bookmark-btn:active {
+  transform: scale(0.9);
+}
+
+.bookmark-btn:hover {
+  opacity: 0.9;
+}
+
+/* Animation เมื่อเปลี่ยนสถานะ */
+.bookmark-btn.active .bookmark-icon {
+  animation: heartBeat 0.3s ease;
+}
+
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.1);
+  }
 }

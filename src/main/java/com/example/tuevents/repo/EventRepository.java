@@ -20,8 +20,9 @@ public interface EventRepository  extends JpaRepository<Event, Long>, JpaSpecifi
     
     Page<Event> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
     
-    Page<Event> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
-            String keyword1, String keyword2, Pageable pageable);
+   /*ไม่เอาเงื่อนไขนี้
+     Page<Event> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase( String keyword1, String keyword2, Pageable pageable); 
+     */
     
 
 

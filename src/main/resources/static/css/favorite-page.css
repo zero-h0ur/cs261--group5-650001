@@ -10,7 +10,12 @@
 body {
     background: #FAFAFA;
 }
+
 /*Header*/
+.Container_header {
+    width: 100%;
+    min-height: 673px;
+}
 
 header {
     max-width: 100%;
@@ -85,10 +90,11 @@ ul {
     background: #F68121;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
 .navbutton:hover .material-icons {
     transform: rotate(180deg);
     transition: transform 0.3s ease;
-} 
+}
 
 .navbutton a {
     color: #FFFFFF;
@@ -180,6 +186,7 @@ button {
     height: 20px;
     margin-right: 5px;
 }
+
 button a {
     font-family: "Pridi";
     font-size: 20px;
@@ -265,7 +272,7 @@ button a {
     font-weight: 500;
     text-align: center;
     line-height: 45px;
-    cursor: pointer;    
+    cursor: pointer;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     transition: background-color 0.2s;
 }
@@ -274,112 +281,479 @@ button a {
     background-color: #e36f11;
 }
 
-.Headwithhand {
+.cat-rainbow {
     position: absolute;
-    height: auto;
-    width: 400px;
-    left: 0;
-    top: 35%;
+    height: 365px;
+    width: 209px;
+    left: 10%;
+    top: 40%;
 }
-.Birdmain {
+
+.book {
     position: absolute;
-    height: auto;
-    width: 350px;
+    height: 273px;
+    width: 213px;
     right: 10%;
     top: 50%;
+    transform: rotate(-5deg);
 }
+
 /*Content*/
 section {
     width: 100%;
     margin-top: 500px;
 }
-.Container_content1 {
+
+.Container_content {
     display: block;
     position: relative;
 }
 
-.search-page-contenttext1 {
+.content-text {
+    display: flex;
+    justify-content: center;
+}
+
+.search-page-text {
     font-family: "Pridi";
     font-size: 40px;
     font-weight: 600;
     display: flex;
-    justify-content: center;
+    margin: 200px;
     height: inherit;
 }
+
 .search-page-text1 {
-    margin-top: 150px;
     color: #000;
 }
+
 .search-page-text2 {
-    margin-top: 150px;
     color: #F68121;
 }
-.search-page-contenttext2 .search-page-text1 {
-    margin-top: 0;
+
+.filterbar {
+    display: flex;
+    justify-content: space-around;
 }
-.search-page-contenttext2 .search-page-text2 {
-    margin-top: 0;
+
+.favorite {
+    height: 33px;
+    width: 33px;
+    margin: 15px;
 }
+
+/*Catagories*/
+.Catagories {
+    display: flex;
+    margin-top: 400px;
+}
+
+.Catagories-text1 {
+    border: 2px solid #F68121;
+    color: #F68121;
+    border-radius: 32px;
+    width: 140px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Catagories span {
+    font-size: 20px;
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+.Catagories-item {
+    width: 135px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    transition: .2s all;
+}
+
+.Catagories-item:hover {
+    border-radius: 32px;
+    cursor: pointer;
+    color: #F68121;
+    background-color: #fefefe;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#Other-Catagories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.catagories-dropdown-button {
+    display: flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.catagories-dropdown-button.activeCatagory .material-icons {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+#catagoriesDropdownList {
+    display: none;
+}
+
+#catagoriesDropdownList.showCatagory {
+    display: block;
+}
+
+.catagories-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.catagories-dropdown-list span {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.catagories-dropdown-option {
+    display: flex;
+    position: absolute;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+}
+
+.catagories-dropdown-option a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.catagories-dropdown-option li a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+}
+
+.catagories-dropdown-option li a:hover {
+    background-color: #00000025;
+    color: #e94f46;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    cursor: pointer;
+}
+
+/*Filter*/
+.filter-dropdown-wrapper {
+    display: flex;
+    margin-right: 350px;
+    justify-content: right;
+}
+
+.Container_filter {
+    position: relative;
+}
+
+.filter-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 5px;
+    position: relative;
+}
+
+.filter-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 50px;
+    background-color: #FFFFFF;
+    max-width: 513px;
+    border-radius: 32px;
+    padding: 10px;
+    align-content: center;
+    text-align: center;
+    transition: background-color 0.2s;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+}
+
+.filter-dropdown-list span {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: left;
+    margin: 45px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-dropdown-option {
+    display: flex;
+    justify-content: center;
+}
+
+.filter-dropdown-option span {
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    font-weight: 300;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    align-content: center;
+    text-align: center;
+    margin: 2.5px;
+    transition: background-color 0.2s;
+}
+
+.filter-dropdown-option span:hover {
+    background-color: #00000025;
+    color: #e94f46;
+    width: 159px;
+    height: 58px;
+    border-radius: 32px;
+    cursor: pointer;
+}
+
+.icon-filter {
+    width: 30px;
+    height: 30px;
+}
+
+.filter-dropdown-text {
+    font-size: 20px;
+    font-family: "Pridi", serif;
+    font-weight: 400;
+    text-align: center;
+}
+
+.filter-dropdown-option span {
+    font-size: 20px;
+    font-family: "Pridi", serif;
+    font-weight: 300;
+    text-align: center;
+}
+
+#filterDropdownList {
+    display: none;
+}
+
+#filterDropdownList.showFilter {
+    display: block;
+}
+
+.filter-dropdown-button.activeFilter .material-icons {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+/* ==== EW date picker (append) ==== */
+.date-picker-container {
+    display: none;
+    justify-content: center;
+}
+
+.date-picker-container.show {
+    display: flex;
+    justify-content: center;
+}
+
+.ew-date-search {
+    margin-top: 50px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.ew-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ew-label {
+    font-family: "Pridi";
+    font-size: 16px;
+    color: #2e2e2e;
+    margin-left: 10px;
+}
+
+.ew-input-wrap {
+    display: flex;
+    justify-content: center;
+    height: 45px;
+    width: 250px;
+    text-align: center;
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    background: #fff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+    transition: transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.ew-input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-family: "Pridi";
+    font-size: 16px;
+    width: 180px;
+    text-align: center;
+}
+
+.ew-input-wrap:focus-within {
+    box-shadow: 0 2px 2px 0 #E64D4F;
+}
+
+.ew-actions {
+    display: flex;
+    align-items: center;
+}
+
+.ew-btn {
+    height: 47px;
+    width: 130px;
+    border-radius: 28px;
+    border: 2px;
+    font-family: "Pridi";
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    background: linear-gradient(180deg, #F68121, #e36f11);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.06s ease, opacity 0.08s;
+}
+
+.ew-btn:active {
+    transform: translateY(1px) scale(0.995);
+}
+
+.ew-btn:hover {
+    opacity: 0.97;
+}
+
+.ew-btn-clear {
+    padding: 6px 10px;
+    margin-left: 20px;
+    height: 47px;
+    width: 130px;
+    background-color: #fff;
+    border: 2px solid #E64D4F;
+    border-radius: 32px;
+    color: #E64D4F;
+    font-family: "Pridi", serif;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.ew-btn-clear:hover {
+    background-color: #E64D4F;
+    color: #fff;
+    box-shadow: 0px 2px 6px rgba(230, 77, 79, 0.3);
+}
+
+.ew-date-mode {
+    border: 0px solid #F68121;
+    display: flex;
+    flex-direction: column;
+}
+
+.ew-datebox {
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    padding: 5px;
+}
+
+.ew-datebox input {
+    cursor: pointer;
+}
+
+#ew-start-time {
+    border-radius: 32px;
+    background: #00000025;
+    padding: 5px;
+}
+
+#ew-end-time {
+    border-radius: 32px;
+    background: #00000025;
+    padding: 5px;
+}
+
+#rangeMode {
+    border: 2px solid #F68121;
+    border-radius: 32px;
+    background: #ffffff;
+}
+
 /*Poster*/
-.homeRec {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.PosterRecommend {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 คอลัมน์ */
-    gap: 20px; /*ช่องว่างระหว่างคอลัมน์ */
-    padding: 0 100px;
-    box-sizing: border-box; /* ป้องกัน padding กระทบ layout */
-    place-items: center;
-    margin-top: 150px;
-    width: 100%;
+.Poster_container {
+    display: block;
 }
 
-#homeEmptyRec {
-    text-align: center;
-    color: #00000075; 
-    font-size: 24px;
-    font-weight: 400;
-    margin: 40px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-}
-
-#homeEmptyAll {
-    text-align: center;
-    color: #00000075; 
-    font-size: 24px;
-    font-weight: 400;
-    margin: 40px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-}
 .Poster {
     display: grid;
-	place-content: center;
-    grid-template-columns: repeat(5, 1fr); /* 5 คอลัมน์ */
-    gap: 20px; /*ช่องว่างระหว่างคอลัมน์ */
-    row-gap: 50px;
+    grid-template-columns: repeat(5, 1fr);
+    /* 5 คอลัมน์ */
+    gap: 20px;
+    /*ช่องว่างระหว่างคอลัมน์ */
     padding: 0 100px;
-    box-sizing: border-box; /* ป้องกัน padding กระทบ layout */
+    box-sizing: border-box;
+    /* ป้องกัน padding กระทบ layout */
     place-items: center;
     margin-top: 50px;
     width: 100%;
 }
-#homenone-event {
-	font-size: 24px;
-	color: #00000075;
-	font-family: Pridi;
-	font-style: normal;
-	grid-column: 1 / -1;
-	margin-top: 150px;
-}
+
+
 /* พื้นหลังโปสเตอร์ด้านบน */
 .search-page-Poster {
     width: 247px;
@@ -387,6 +761,7 @@ section {
     object-fit: cover;
     opacity: 0.95;
 }
+
 .search-page-group {
     position: relative;
     width: 247px;
@@ -394,31 +769,31 @@ section {
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     font-family: "Pridi", sans-serif;
+    z-index: 1;
     transition: .2s all;
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
 
 }
+
 .search-page-group:hover {
     transform: scale(1.02);
     box-shadow: 0 1px 8px #dedede;
-    transition: transform 0.3s ease;
 }
 .search-page-group:hover .bookmark-btn {
     opacity: 1;
     transition: transform 0.3s ease;
 }
-
 /* ข้อความชื่ออีเว้นท์ */
 .search-page-name {
     font-size: 20px;
     font-weight: 500;
     color: #000;
     margin-left: 14px;
-    white-space: nowrap;       
-    overflow: hidden;          
-    
+    white-space: nowrap;
+    overflow: hidden;
+
 }
 
 /* วันที่ */
@@ -464,7 +839,7 @@ section {
     color: rgba(0, 0, 0, 0.5);
     font-weight: 400;
     overflow: hidden;
-    white-space: nowrap; 
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
@@ -475,7 +850,7 @@ section {
     right: 10px;
     background-color: rgb(230, 77, 79);
     color: white;
-    border: none; 
+    border: none;
     cursor: pointer;
     top: 260px;
     width: 94px;
@@ -484,12 +859,12 @@ section {
     font-family: "Pridi", sans-serif;
     font-size: 16px;
     transition: background-color 0.3s;
-    z-index: 1;
+    z-index: 4;
 }
+
 .register-btn:hover {
     background-color: rgb(200, 60, 65);
 }
-
 .bookmark-btn {
     position: absolute;
     top: 10px;
@@ -498,27 +873,16 @@ section {
     height: 35px;
     background: none;
     cursor: pointer;
+    opacity: 0;
     border: 2px solid #E64D4F;
     border-radius: 30px;
+    transition: opacity 0.3s ease;
     z-index: 3;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0; /*ซ่อนบนการ์ด */
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
-
-/* แสดงปุ่มเวลาเอาเมาส์ไปวางบนการ์ด (หน้า index / searchpage) */
-.search-page-group:hover .bookmark-btn {
-    opacity: 1;
-}
-
-/* ตอนกำลังยิง API (ใช้จาก JS: btn.classList.add('loading')) */
-.bookmark-btn.loading {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
 .bookmark-btn img {
     width: 25px;
     height: 25px;
@@ -529,425 +893,37 @@ section {
     border: 2px solid #E64D4F;
     opacity: 80%;
 }
-
-/*Middle*/
-.Middle {
-    position: relative;
-	overflow: hidden;
-}
-.Middle-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.Container_content2 {
-    display: block;
-    position: relative;
-}
-.search-page-contenttext2 {
-    font-family: "Pridi";
-    font-size: 40px;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    margin-top: 0;
-    height: inherit;
-}
-.search-page-megaphone {
-    position: absolute;
-    height: auto;
-    width: 400px;
-    left: -5%;
-    top: 15%;
-}
-.search-page-light {
-    position: absolute;
-    height: auto;
-    width: 350px;
-    right: 35%;
-    top: 50%;
-    transform: rotate(18deg);
-}
-.search-page-flower {
-    position: absolute;
-    height: auto;
-    width: 300px;
-    right: -3%;
-    top: 20%;
-    transform: rotate(-35deg);
-}
-
-.filterbar {
-    display: flex;
-    justify-content: space-around;
-}
-/*Catagories*/
-.Catagories {
-    display: flex;
-    margin-top: 148px;
-}
-.Catagories-text1 {
-    border: 2px solid #F68121;
-    color: #F68121;
-    border-radius: 32px;
-    width: 140px;
-    height: 40px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.Catagories-item {
-    width: 135px;
-    height: 40px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 5px;
-    transition: .2s all;
-}
-.Catagories-item:hover {
-    border-radius: 32px;
-    cursor: pointer;
-    color: #F68121;
-    background-color: #fefefe;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
-}
-#Other-Catagories {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.catagories-dropdown-button {
-    display: flex;
-    position: relative;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px;
-}
-.catagories-dropdown-button.activeCatagory .material-icons {
-    transform: rotate(180deg); 
-    transition: transform 0.3s ease;
-}
-#catagoriesDropdownList { 
-    display: none; 
-}
-#catagoriesDropdownList.showCatagory { 
-    display: block; 
-}
-.catagories-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 40px;
-    left: 0px;
-    background-color: #FFFFFF;
-    max-width: 513px;
-    border-radius: 32px;
-    align-content: center;
-    text-align: center;
-    transition: background-color 0.2s;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 2;
-}
-
-.catagories-dropdown-list span {
-    color: black;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: left;
-    margin: 45px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.catagories-dropdown-option {
-    display: flex;
-    position: absolute;
-    background-color: #FFFFFF;
-    max-width: 513px;
-    border-radius: 32px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-
-}
-.catagories-dropdown-option a {
-    color: black;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: left;
-    margin: 45px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.catagories-dropdown-option li a {
-    color: black;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-    font-weight: 300;
-    width: 159px;
-    height: 58px;
-    border-radius: 32px;
-    align-content: center;
-    text-align: center;
-    margin: 2.5px;
-    transition: background-color 0.2s;
-}
-.catagories-dropdown-option li a:hover {
-    background-color: #00000025;
-    color: #e94f46;
-    width: 159px;
-    height: 58px;
-    border-radius: 32px;
-    cursor: pointer;
-}
-
-/*Filter*/
-.filter-dropdown-wrapper {
-    display: flex;
-    margin-top: 148px;
-}
-.Container_filter {
-    position: relative;
-}
-.filter-dropdown-button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 5px;
-}
-.filter-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 50px;
-    background-color: #FFFFFF;
-    max-width: 513px;
-    border-radius: 32px;
-    padding: 10px;
-    align-content: center;
-    text-align: center;
-    transition: background-color 0.2s;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 2;
-}
-.filter-dropdown-list span {
-    color: black;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-    font-weight: 500;
-    text-align: left;
-    margin: 45px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.filter-dropdown-option {
-    display: flex;
-    justify-content: center;
-}
-.filter-dropdown-option span {
-    color: black;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-    font-weight: 300;
-    width: 159px;
-    height: 58px;
-    border-radius: 32px;
-    align-content: center;
-    text-align: center;
-    margin: 2.5px;
-    transition: background-color 0.2s;
-}
-.filter-dropdown-option span:hover {
-    background-color: #00000025;
-    color: #e94f46;
-    width: 159px;
-    height: 58px;
-    border-radius: 32px;
-    cursor: pointer;
-}
-.icon-filter {
-    width: 30px;
-    height: 30px;
-}
-.filter-dropdown-text {
-    font-size: 20px;
-    font-family: "Pridi", serif;
-    font-weight: 400;
-    text-align: center;
-}
-.filter-dropdown-option span {
-    font-size: 20px;
-    font-family: "Pridi", serif;
-    font-weight: 300;
-    text-align: center;
-}
-#filterDropdownList { 
-    display: none; 
-}
-#filterDropdownList.showFilter { 
-    display: block; 
-}
-.filter-dropdown-button.activeFilter .material-icons { 
-    transform: rotate(180deg); 
-    transition: transform 0.3s ease;
-}
-
-/* ==== EW date picker (append) ==== */
-.date-picker-container {
-    display: none;
-    justify-content: center;
-}
-.date-picker-container.show {
-    display: flex;
-    justify-content: center;
-}
-.ew-date-search {
-    margin-top: 50px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
-    justify-content: center;
-}
-.ew-date-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-.ew-label {
-    font-family: "Pridi";
-    font-size: 16px;
-    color: #2e2e2e;
-    margin-left: 10px;
-}
-.ew-input-wrap {
-    display: flex;
-    justify-content: center;
-    height: 45px;
-    width: 250px;
-    text-align: center;
-    border: 2px solid #F68121;
-    border-radius: 32px;
-    background: #fff;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
-    transition: transform 0.08s ease, box-shadow 0.12s ease;
-}
-.ew-input {
-    border: 0;
-    outline: 0;
-    background: transparent;
-    font-family: "Pridi";
-    font-size: 16px;
-    width: 180px;
-    height: 50px;
-    text-align: center;
-}
-.ew-input-wrap:focus-within {
-    box-shadow: 0 2px 2px 0 #E64D4F;
-}
-.ew-actions {
-    display: flex;
-    align-items: center;
-}
-.ew-btn {
-    width: 130px;
-    border-radius: 28px;
-    border: 2px;
-    font-family: "Pridi";
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    background: #F68121;
-    color: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-}
-.ew-btn:active {
-    transform: translateY(1px) scale(0.995);
-}
-.ew-btn:hover {
-    opacity: 0.97;
-    background: #e36f11;
-}
-.ew-btn-clear {
-    width: 130px;
-    border-radius: 28px;
-    border: 2px solid #E64D4F;
-    font-family: "Pridi";
-    font-size: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    background: #fff;
-    color: #E64D4F;
-    margin-left:10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
-}
-.ew-btn-clear:active {
-    transform: translateY(1px) scale(0.995);
-}
-.ew-btn-clear:hover {
-    background: #E64D4F;
-    color:#fff;
-    opacity: 0.97;
-}
-.ew-date-mode {
-    border: 0px solid #F68121;
-    display: flex;
-    flex-direction: column;
-}
-.ew-datebox {
-    border: 2px solid #F68121;
-    border-radius: 32px;
-    padding-right: 10px;
-}
-.ew-datebox input {
-    cursor: pointer;
-}
-#ew-start-time {
-    border-radius: 32px;
-    background: #00000025;
-    padding: 5px;
-}
-#ew-end-time {
-    border-radius: 32px;
-    background: #00000025;
-    padding: 5px;
-}
-#rangeMode {
-    border: 2px solid #F68121;
-    border-radius: 32px;
-    background: #ffffff;
-}
-
-
 /* Selectpage */
 .Selectpage {
     margin-top: 100px;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
 }
+
 .Selectpage i {
-  cursor: pointer;
-  font-size: 28px;
-  transition: color 0.3s;
+    cursor: pointer;
+    font-size: 28px;
+    transition: color 0.3s;
 }
+
 .Selectpage i:hover {
-  color: #F68121;
+    color: #F68121;
 }
+
 #pageNumbers {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .Selectpage .page-number {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #f8bb86; /* ส้มอ่อน */
+    background-color: #f8bb86;
+    /* ส้มอ่อน */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -959,11 +935,13 @@ section {
     transition: all 0.3s;
     cursor: pointer;
 }
+
 .Selectpage .page-number.active {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background-color: #F68121 ; /* ส้มเข้ม */
+    background-color: #F68121;
+    /* ส้มเข้ม */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -974,24 +952,28 @@ section {
 }
 
 /* ลูกศร > */
-#HomePrev {
+#Previous {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     height: 25px;
     margin: 20px;
+    transform: rotate(90deg);
     cursor: pointer;
 }
-#HomeNext {
+
+#Next {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     height: 25px;
     margin: 20px;
+    transform: rotate(270deg);
     cursor: pointer;
 }
+
 .page-info {
     text-align: center;
     margin-top: 10px;
@@ -1000,34 +982,58 @@ section {
     font-size: 16px;
     color: #00000075;
 }
-.pagenumber {
+
+/*404 page*/
+.empty-state {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    margin-top: 200px;
 }
+
+.empty-icon {
+    width: 95px;
+    height: 95px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.empty-text {
+    font-size: 36px;
+    color: #000;
+    font-family: Pridi;
+    font-style: normal;
+}
+
 /*Footer*/
 footer {
+    display: flex;
     position: relative;
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
 }
+
 .Footer-img {
     width: 100%;
     height: auto;
-    display: block;
+    display: flex;
+    overflow: hidden;
     float: inline-end;
     margin-top: -300px;
 }
+
 .Footer-tape {
     position: absolute;
     right: 15%;
     bottom: 25%;
     width: 10%;
 }
-.category-dropdown-wrapper {
-    position: relative;
-    display: inline-block;
+
+.highlight {
+    background-color: yellow;
+    font-weight: 600;
+    border-radius: 2px;
 }
 
 /* ปุ่มหลักสำหรับเปิด dropdown */
@@ -1071,14 +1077,12 @@ footer {
 .category-dropdown-list {
     display: none;
     position: absolute;
-    top: 50px;
-    left: 0;
     background-color: #FFFFFF;
     min-width: 450px;
     max-width: 550px;
     border-radius: 24px;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
+    z-index: 5;
     padding: 20px;
     animation: fadeIn 0.2s ease;
 }
@@ -1092,6 +1096,7 @@ footer {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1136,7 +1141,6 @@ footer {
     color: #fff;
     box-shadow: 0px 2px 6px rgba(230, 77, 79, 0.3);
 }
-
 
 /* Grid สำหรับ checkbox options */
 .category-options {
@@ -1211,7 +1215,7 @@ footer {
 }
 
 /* เมื่อ checkbox ถูกเลือก */
-.category-checkbox-item input:checked ~ .checkmark {
+.category-checkbox-item input:checked~.checkmark {
     background-color: #F68121;
     border-color: #F68121;
 }
@@ -1231,7 +1235,7 @@ footer {
 }
 
 /* แสดง checkmark เมื่อถูกเลือก */
-.category-checkbox-item input:checked ~ .checkmark:after {
+.category-checkbox-item input:checked~.checkmark:after {
     display: block;
 }
 
@@ -1244,7 +1248,7 @@ footer {
     transition: color 0.2s ease;
 }
 
-.category-checkbox-item input:checked ~ .category-label {
+.category-checkbox-item input:checked~.category-label {
     color: #F68121;
     font-weight: 500;
 }
@@ -1261,14 +1265,91 @@ footer {
         min-width: 320px;
         max-width: 380px;
     }
-    
+
     .category-options {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .category-label {
         font-size: 16px;
     }
+}
+
+/* ปุ่มล้างใน searchbar */
+.reset-button {
+    position: absolute;
+    right: 147px;
+    width: 45px;
+    height: 45px;
+    background-color: #fff;
+    color: #4b4b4b;
+    border: none;
+    border-radius: 24px;
+    font-size: 18px;
+    font-family: "Pridi", serif;
+    font-weight: 500;
+    line-height: 45px;
+    cursor: pointer;
+    box-shadow: 0 0 rgba(0, 0, 0, 0);
+    transition: background-color .25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset-button img {
+    width: 15px;
+    height: 15px;
+}
+
+.reset-button:hover {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+}
+
+/* กล่องว่างเปล่า */
+.favorite-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    text-align: center;
+    color: #000;
+}
+
+/* กล่องรูปดาว */
+.star-wrapper {
+    position: relative;
+    width: 250px;
+    height: 250px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* รูปดาว */
+.star-img {
+    width: 100%;
+    height: auto;
+}
+
+/* เครื่องหมาย ? บนดาว */
+.star-question {
+    position: absolute;
+    transform: translate(50%, -50%);
+    font-size: 55px;
+    font-weight: bold;
+    color: #ff0066;
+    text-shadow: 2px 2px #fff;
+}
+
+/* ข้อความไม่พบรายการที่สนใจ */
+.favorite-empty-text {
+    margin-top: 50px;
+    font-size: 32px;
+    font-weight: 400;
+    font-family: "Pridi";
 }
 
 /* favorite Overlay */
@@ -1364,37 +1445,4 @@ footer {
 
 .favorite-modal-close:hover {
   color: #E64D4F;
-}
-
-/* ปรับปรุงปุ่ม favorite ให้มี effect เมื่อคลิก */
-.bookmark-btn {
-  transition: transform 0.2s ease, opacity 0.3s ease, background-color 0.3s ease;
-}
-
-.bookmark-btn:active {
-  transform: scale(0.9);
-}
-
-.bookmark-btn:hover {
-  opacity: 0.9;
-}
-
-/* Animation เมื่อเปลี่ยนสถานะ */
-.bookmark-btn.active .bookmark-icon {
-  animation: heartBeat 0.3s ease;
-}
-
-@keyframes heartBeat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.2);
-  }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.1);
-  }
 }

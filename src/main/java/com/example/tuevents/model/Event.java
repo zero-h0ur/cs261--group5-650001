@@ -2,19 +2,37 @@ package com.example.tuevents.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import lombok.*;
 
-
 @Entity
-@Table(name = "event")
+@Table(
+    name = "event",
+    indexes = {
+    	@Index(name = "idx_event_category_id", columnList = "category_id"),
+        @Index(name = "idx_event_starts_at_ends_at", columnList = "starts_at, ends_at"),
+        @Index(name = "idx_event_title", columnList = "title")
+    }
+)
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
     private Long eventId;
 
+    @NotBlank
+    @Column(name = "title", nullable = false, length = 200)
     private String title;
+    
     @Lob
     @Column(name = "description", length = 255)
     private String description;
@@ -23,10 +41,17 @@ public class Event {
     @Temporal(TemporalType.DATE)
     @Column(name = "start_date")
     private Date startDate;
+    
+ // คอลัมน์ใหม่จาก US4
+    @Column(name = "starts_at", nullable = false)
+    private LocalDateTime startsAt;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "end_date")
     private Date endDate;
+    
+    @Column(name = "ends_at")
+    private LocalDateTime endsAt;
     //End US4
 
     private String time;
@@ -44,7 +69,7 @@ public class Event {
     
     // เพิ่ม field ตาม US5
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
     
     @Column(name = "active", nullable = false)
@@ -57,6 +82,13 @@ public class Event {
         if (detail == null) detail = "";
         if (imageUrl == null) imageUrl = "";
         // active true โดยค่าเริ่มต้น
+        calculateDatetimeFields();
+    }
+    
+    @PreUpdate
+    public void preUpdate() {
+        // เวลาอัปเดตก็ให้คำนวณอีกครั้ง
+        calculateDatetimeFields();
     }
     
     public Event() {}
@@ -80,8 +112,43 @@ public class Event {
     // เพิ่ม field ตาม US5   
        this.category = category;
     }
-
     
+    public void calculateDatetimeFields() {
+        // ตรวจสอบว่ามีข้อมูลวัตถุดิบครบ
+        LocalDate start;
+        LocalDate end;
+
+        if (startDate instanceof java.sql.Date) {
+            start = ((java.sql.Date) startDate).toLocalDate();
+        } else if (startDate instanceof java.util.Date) {
+            start = Instant.ofEpochMilli(startDate.getTime())
+                           .atZone(ZoneId.systemDefault())
+                           .toLocalDate();
+        } else {
+            throw new IllegalArgumentException("Unsupported startDate type: " + startDate.getClass());
+        }
+
+        if (endDate instanceof java.sql.Date) {
+            end = ((java.sql.Date) endDate).toLocalDate();
+        } else if (endDate instanceof java.util.Date) {
+            end = Instant.ofEpochMilli(endDate.getTime())
+                         .atZone(ZoneId.systemDefault())
+                         .toLocalDate();
+        } else {
+            throw new IllegalArgumentException("Unsupported endDate type: " + endDate.getClass());
+        }
+
+        LocalTime localTime = LocalTime.parse(time);
+
+        this.startsAt = LocalDateTime.of(start, localTime);
+        this.endsAt = LocalDateTime.of(end, localTime);
+    }
+    
+	//Start Task4 : US6
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+    private List<UserFavorite> favorites = new ArrayList<>();
+    //End Task4 : US6
+
     // --- getters/setters ---
     public Long getEventId() { return eventId; }
     public void setEventId(Long eventId) { this.eventId = eventId; }

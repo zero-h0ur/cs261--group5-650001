@@ -51,14 +51,14 @@ public class EventService {
         return repo.findAll(spec, pageable);
     }
 
-    // ---------- SEARCH ----------
+    // ---------- แก้ไข SEARCH ----------
     public Page<Event> search(String keyword, Pageable pageable) {
         if (keyword == null || keyword.trim().isEmpty()) {
             return repo.findAll(pageable);
         }
-        String k = keyword.trim();
-        return repo.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(k, k, pageable);
+        return repo.findByTitleContainingIgnoreCase(keyword.trim(), pageable);
     }
+
 
     // ---------- DATE RANGE ----------
     public Page<Event> findByDateRange(LocalDate start, LocalDate end, Pageable pageable) {
@@ -92,23 +92,49 @@ public class EventService {
     }
 
     // ---------- FILTER (ออปชันรวมหลายเงื่อนไข) ----------
-    public Page<Event> filter(String categoriesCsv, String keyword, LocalDate start, LocalDate end, Pageable pageable) {
-        if (start != null && end != null && start.isAfter(end)) {
-            LocalDate t = start; start = end; end = t;
-        }
-        Date s = (start != null) ? java.sql.Date.valueOf(start) : null;
-        Date e = (end   != null) ? java.sql.Date.valueOf(end)   : null;
+    public Page<Event> filter(String categoriesCsv, String keyword,
+            LocalDate start, LocalDate end,
+            Pageable pageable) {
 
-        List<Long> ids = parseIds(categoriesCsv);
+if (start != null && end != null && start.isAfter(end)) {
+LocalDate t = start;
+start = end;
+end   = t;
+}
 
-        Specification<Event> spec = Specification.anyOf(
-                EventSpecifications.hasCategories(ids),
-                EventSpecifications.titleOrDescriptionContains(keyword),
-                EventSpecifications.dateOverlaps(s, e)
-        );
-        return repo.findAll(spec, pageable);
-    }
+Date s = (start != null) ? java.sql.Date.valueOf(start) : null;
+Date e = (end   != null) ? java.sql.Date.valueOf(end)   : null;
 
+List<Long> ids = parseIds(categoriesCsv);
+
+Specification<Event> spec = null;
+
+// 1) category
+if (ids != null && !ids.isEmpty()) {
+spec = Specification.where(EventSpecifications.hasCategories(ids));
+}
+
+// 2) keyword -> title อย่างเดียว
+if (keyword != null && !keyword.isBlank()) {
+String kw = keyword.trim().toLowerCase();
+Specification<Event> kwSpec = (root, query, cb) ->
+  cb.like(cb.lower(root.get("title")), "%" + kw + "%");
+
+spec = (spec == null) ? Specification.where(kwSpec) : spec.and(kwSpec);
+}
+
+// 3) date range
+if (s != null || e != null) {
+Specification<Event> dateSpec = EventSpecifications.dateOverlaps(s, e);
+spec = (spec == null) ? Specification.where(dateSpec) : spec.and(dateSpec);
+}
+
+if (spec == null) {
+return repo.findAll(pageable);
+}
+return repo.findAll(spec, pageable);
+}
+    
     private List<Long> parseIds(String csv) {
         if (csv == null || csv.isBlank()) return Collections.emptyList();
         return Arrays.stream(csv.split(","))
