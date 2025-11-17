@@ -252,6 +252,46 @@
       toggleFavoriteByButton(btn);
     });
   }
+  
+  async function addFavorite(eventId) {
+      const id = Number(eventId);
+      if (!id) return false;
+
+      try {
+        const res = await fetch(`${API_BASE}/favorites/${encodeURIComponent(id)}`, {
+          method: 'POST'
+        });
+        if (res.status === 201 || res.status === 409) {
+          setFavoriteLocal(id, true);
+          return true;
+        }
+        console.warn('[FAV] addFavorite failed status', res.status);
+        return false;
+      } catch (err) {
+        console.error('[FAV] addFavorite error', err);
+        return false;
+      }
+    }
+
+    async function removeFavorite(eventId) {
+      const id = Number(eventId);
+      if (!id) return false;
+
+      try {
+        const res = await fetch(`${API_BASE}/favorites/${encodeURIComponent(id)}`, {
+          method: 'DELETE'
+        });
+        if (res.status === 204 || res.status === 404) {
+          setFavoriteLocal(id, false);
+          return true;
+        }
+        console.warn('[FAV] removeFavorite failed status', res.status);
+        return false;
+      } catch (err) {
+        console.error('[FAV] removeFavorite error', err);
+        return false;
+      }
+    }
 
   // ✅ export ให้หน้าอื่นใช้
   window.FAV = {
@@ -260,7 +300,9 @@
     renderBookmarkButton,
     attachFavoriteClickHandler,
     setButtonUI,
-    showFavoriteModal  // ← export เพิ่มเผื่อต้องการเรียกใช้จากภายนอก
+    showFavoriteModal,  // ← export เพิ่มเผื่อต้องการเรียกใช้จากภายนอก
+	addFavorite,
+	removeFavorite
   };
   
 })();

@@ -318,20 +318,16 @@
     window.SEARCH_STATE = STATE;
     window.searchLoad   = load;
 
-    // โหลดครั้งแรก
-    load();
-  });
-    document.addEventListener('click', e => {
-  const btn = e.target.closest('.bookmark-btn');
-  if (!btn) return;
-
-  e.preventDefault();
-  const icon = btn.querySelector('.bookmark-icon');
-  const isActive = btn.classList.toggle('active');
-
-  // เปลี่ยนรูปภาพตอนคลิก
-  icon.src = isActive
-    ? 'Resourse/icon/fav-button-active.png'
-    : 'Resourse/icon/fav-button.png';
-  });
+ 
+	
+	(async () => {
+	      if (window.FAV && typeof window.FAV.loadFavorites === 'function') {
+	        await window.FAV.loadFavorites();
+	      }
+	      if (window.FAV && typeof window.FAV.attachFavoriteClickHandler === 'function') {
+	        window.FAV.attachFavoriteClickHandler(document);
+	      }
+	      load();
+	    })();
+  }); 
 })();
