@@ -1314,7 +1314,8 @@ footer {
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: 100px;
   z-index: 10000;
   opacity: 0;
   transition: opacity 0.3s ease;

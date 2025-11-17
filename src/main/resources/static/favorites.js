@@ -49,17 +49,8 @@
     message.className = 'favorite-modal-message';
     message.textContent = isAdded ? 'เพิ่มรายการที่สนใจแล้ว' : 'นำรายการที่สนใจออก';
     
-    // สร้างปุ่มปิด
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'favorite-modal-close';
-    closeBtn.textContent = '×';
-    closeBtn.onclick = () => {
-      modalOverlay.classList.add('fade-out');
-      setTimeout(() => modalOverlay.remove(), 300);
-    };
     
     // ประกอบ modal
-    modalContent.appendChild(closeBtn);
     modalContent.appendChild(icon);
     modalContent.appendChild(message);
     modalOverlay.appendChild(modalContent);
