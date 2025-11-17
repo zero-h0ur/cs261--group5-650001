@@ -252,4 +252,6 @@ console.log('[home-events] loaded');
       loadAll();
     })();
   });
+  window.ALL = ALL;
+    window.loadAll = loadAll;
 })();
