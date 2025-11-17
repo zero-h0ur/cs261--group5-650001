@@ -390,9 +390,7 @@ footer {
     width: 10%;
 }
 
-/* เพิ่ม CSS นี้ใน event-detail.css */
-
-/* Modal Overlay */
+/* favorite Overlay */
 .favorite-modal-overlay {
   position: fixed;
   top: 0;
@@ -475,8 +473,8 @@ footer {
   font-size: 36px;
   color: #999;
   cursor: pointer;
-  width: auto;
-  height: auto;
+  width: 35px;
+  height: 35px;
   margin: 0;
   padding: 0;
   line-height: 1;

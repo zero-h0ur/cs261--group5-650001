@@ -173,4 +173,5 @@
     attachFavoriteClickHandler,
     setButtonUI,      // <— สำคัญ ใช้ในหน้า detail
   };
+  
 })();
