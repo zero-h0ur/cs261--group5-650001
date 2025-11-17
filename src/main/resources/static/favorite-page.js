@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const API_BASE = '/api';
   const PAGE_SIZE = 10; // ให้ตรงกับ DEFAULT_SIZE ใน FavoriteController
 
-  const $  = (s, root = document) => root.querySelector(s);
+  const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
 
   // state ของหน้า favorite
@@ -132,13 +132,13 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     const start = pick(ev.startDate, ev.start_date, ev.start, ev.dateStart);
-    const end   = pick(ev.endDate,   ev.end_date,   ev.end,   ev.dateEnd);
+    const end = pick(ev.endDate, ev.end_date, ev.end, ev.dateEnd);
     const dateText = (start && end)
       ? `${fmtDate(start)} - ${fmtDate(end)}`
       : fmtDate(start || end);
 
     const timeText = pick(ev.time, ev.startTime, ev.start_time, '-');
-    const title    = pick(ev.title, '(ไม่มีชื่อกิจกรรม)');
+    const title = pick(ev.title, '(ไม่มีชื่อกิจกรรม)');
     const location = pick(ev.location, '-');
 
     return `
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // ดึงข้อมูลจาก /api/favorites?page=...&size=...&sort=createdAt,desc
   async function fetchFavoritePage(page1Based, size) {
     const page0 = Math.max(0, (page1Based || 1) - 1);
-    const sz    = size || PAGE_SIZE;
+    const sz = size || PAGE_SIZE;
 
     const params = new URLSearchParams({
       page: String(page0),
@@ -196,10 +196,10 @@ document.addEventListener("DOMContentLoaded", function () {
         totalElements: data.length
       };
     }
-    const items        = Array.isArray(data.content) ? data.content : [];
-    const page0        = Number.isFinite(data.number) ? Number(data.number) : 0;
-    const totalPages   = Number.isFinite(data.totalPages) ? Number(data.totalPages) : 1;
-    const total        = Number.isFinite(data.totalElements) ? Number(data.totalElements) : items.length;
+    const items = Array.isArray(data.content) ? data.content : [];
+    const page0 = Number.isFinite(data.number) ? Number(data.number) : 0;
+    const totalPages = Number.isFinite(data.totalPages) ? Number(data.totalPages) : 1;
+    const total = Number.isFinite(data.totalElements) ? Number(data.totalElements) : items.length;
 
     return {
       items,
@@ -211,13 +211,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderPager(pageMeta) {
     const pagerEl = $('#searchPager');
-    const infoEl  = $('#searchPageInfo');
+    const infoEl = $('#searchPageInfo');
     if (!pagerEl || !infoEl) return;
 
     const current = pageMeta.page;
-    const total   = pageMeta.totalPages;
+    const total = pageMeta.totalPages;
 
-    FAV_PAGE.page       = current;
+    FAV_PAGE.page = current;
     FAV_PAGE.totalPages = total;
 
     if (total <= 1) {
@@ -286,14 +286,25 @@ document.addEventListener("DOMContentLoaded", function () {
         await window.FAV.loadFavorites();
       }
 
-      const raw  = await fetchFavoritePage(FAV_PAGE.page, FAV_PAGE.size);
+      const raw = await fetchFavoritePage(FAV_PAGE.page, FAV_PAGE.size);
       const page = normalizePage(raw);
 
       resultList.innerHTML = '';
 
       if (!page.items.length) {
+
+        const filterBox = document.querySelector(".filter-dropdown-wrapper");
+        if (filterBox) filterBox.style.display = "none";
+
         emptyState.style.display = 'block';
-        emptyState.textContent = 'ยังไม่มีรายการที่สนใจ';
+        emptyState.innerHTML = `
+        <div class="favorite-empty">
+            <div class="star-wrapper">
+                <img src="Resourse/png/TU EVENT (2) 1.png" alt="star" class="star-img">
+            </div>
+            <p class="favorite-empty-text">ไม่พบรายการที่สนใจ</p>
+        </div>
+      `;
         renderPager(page); // เคลียร์ pager
         return;
       }
