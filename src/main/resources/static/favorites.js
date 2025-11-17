@@ -4,6 +4,90 @@
   const FAVORITES = new Set();
   let loaded = false;
 
+  // =====================================================
+  // ฟังก์ชันสร้าง Modal Popup
+  // =====================================================
+  function showFavoriteModal(isAdded) {
+    // ลบ modal เก่าถ้ามี
+    const existingModal = document.querySelector('.favorite-modal-overlay');
+    if (existingModal) {
+      existingModal.remove();
+    }
+
+    // สร้าง modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'favorite-modal-overlay';
+    
+    // สร้าง modal content
+    const modalContent = document.createElement('div');
+    modalContent.className = 'favorite-modal-content';
+    
+    // สร้างไอคอน
+    const icon = document.createElement('div');
+    icon.className = 'favorite-modal-icon';
+    
+    if (isAdded) {
+      // ไอคอน checkmark สีเขียว
+      icon.innerHTML = `
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#4CAF50" stroke="#fff" stroke-width="2"/>
+          <path d="M17 30L26 39L43 22" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+    } else {
+      // ไอคอน X สีแดง
+      icon.innerHTML = `
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="28" fill="#E64D4F" stroke="#fff" stroke-width="2"/>
+          <path d="M20 20L40 40M40 20L20 40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      `;
+    }
+    
+    // สร้างข้อความ
+    const message = document.createElement('div');
+    message.className = 'favorite-modal-message';
+    message.textContent = isAdded ? 'เพิ่มรายการที่สนใจแล้ว' : 'นำรายการที่สนใจออก';
+    
+    // สร้างปุ่มปิด
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'favorite-modal-close';
+    closeBtn.textContent = '×';
+    closeBtn.onclick = () => {
+      modalOverlay.classList.add('fade-out');
+      setTimeout(() => modalOverlay.remove(), 300);
+    };
+    
+    // ประกอบ modal
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(icon);
+    modalContent.appendChild(message);
+    modalOverlay.appendChild(modalContent);
+    
+    // เพิ่ม modal เข้า body
+    document.body.appendChild(modalOverlay);
+    
+    // เพิ่ม animation เข้า
+    setTimeout(() => modalOverlay.classList.add('show'), 10);
+    
+    // ปิดอัตโนมัติหลัง 1.5 วินาที
+    setTimeout(() => {
+      modalOverlay.classList.add('fade-out');
+      setTimeout(() => modalOverlay.remove(), 300);
+    }, 1500);
+    
+    // คลิกที่ overlay ก็ปิดได้
+    modalOverlay.onclick = (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.classList.add('fade-out');
+        setTimeout(() => modalOverlay.remove(), 300);
+      }
+    };
+  }
+
+  // =====================================================
+  // Original Functions
+  // =====================================================
   function pickId(ev) {
     return ev.eventId ?? ev.event_id ?? ev.id ?? null;
   }
@@ -37,7 +121,7 @@
       console.log('[FAV] loaded favorites:', Array.from(FAVORITES));
     } catch (err) {
       console.error('[FAV] loadFavorites failed', err);
-      loaded = true; // กันลูปโหลดซ้ำรัว ๆ
+      loaded = true;
     }
   }
 
@@ -63,7 +147,7 @@
     const card = btn.closest('.search-page-group');
     let eventId = btn.dataset.eventId || card?.dataset.eventId;
 
-    // สำรอง: ลอง parse จาก href ถ้ามี
+    // สำรอง: ลองparse จาก href ถ้ามี
     if (!eventId && card) {
       const link = card.querySelector('a[href*="event-detail.html"]');
       if (link) {
@@ -132,10 +216,14 @@
     // success
     if (method === 'POST' && res.status === 201) {
       setFavoriteLocal(eventId, true);
+      // ✅ แสดง modal เมื่อเพิ่มสำเร็จ
+      showFavoriteModal(true);
       return;
     }
     if (method === 'DELETE' && res.status === 204) {
       setFavoriteLocal(eventId, false);
+      // ✅ แสดง modal เมื่อลบสำเร็จ
+      showFavoriteModal(false);
       return;
     }
 
@@ -171,7 +259,8 @@
     isFavorite,
     renderBookmarkButton,
     attachFavoriteClickHandler,
-    setButtonUI,      // <— สำคัญ ใช้ในหน้า detail
+    setButtonUI,
+    showFavoriteModal  // ← export เพิ่มเผื่อต้องการเรียกใช้จากภายนอก
   };
   
 })();
